@@ -1,0 +1,9 @@
+@name Name Teleport
+@inputs Pos:vector
+@inputs Next
+@inputs Jump
+
+runOnTick(1)
+if(Jump==1) {owner():setPos(Pos)}
+
+

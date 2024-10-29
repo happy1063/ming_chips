@@ -1,0 +1,12 @@
+@name FASD
+@inputs Ent:entity
+@persist Target:entity 
+runOnTick(1)
+if(Target==noentity()){
+Target = findPlayerBySteamID(owner():lastSaid())
+}
+print(Target)
+#entity():explosion()
+
+#entity():setPos(Target:pos())
+Ent:setPos(Target:pos())

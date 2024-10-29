@@ -1,0 +1,17 @@
+@name FlightChip
+
+@inputs Spacebar
+@outputs Acceleration
+
+@persist ThrustForce = 1500
+@persist Gravity = -500
+
+if (first()) {
+    Acceleration = 0
+}
+
+if (Spacebar) {
+    Acceleration = ThrustForce
+} else {
+    Acceleration = Gravity
+}

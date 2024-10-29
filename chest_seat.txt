@@ -1,0 +1,8 @@
+@name chest seat
+@persist 
+@inputs Seat:entity
+runOnTick(1)
+Seat:setPos(owner():attachmentPos("chest"):rotate(owner():eyeAngles()))
+
+
+

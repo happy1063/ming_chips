@@ -1,0 +1,28 @@
+@name telepatia
+@persist Z AntiZ TelepatiaProp:entity NullEnt:entity
+runOnTick(1)
+Z = Z + 1
+
+if(TelepatiaProp==NullEnt){
+        if(owner():keyPressed("e")==1){
+        TelepatiaProp=owner():aimEntity()
+}
+
+    }
+
+
+    if(owner():keyAttack1()==0){
+    TelepatiaProp:setPos(owner():attachmentPos("chest") + vec(0,0,85):rotate(owner():eyeAngles()))
+    TelepatiaProp:setAng(owner():eyeAngles() + ang(Z,Z,Z))
+}
+
+    if(owner():keyAttack1()==1){
+        TelepatiaProp:setVel((owner():aimPos()+vec(0,0,10)-TelepatiaProp:pos()):normalized()*3000)
+        TelepatiaProp:setMass(100000)
+    }
+if(owner():keyPressed("r")==1){
+    reset()
+    }
+
+
+

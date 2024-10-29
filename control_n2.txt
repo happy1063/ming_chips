@@ -1,0 +1,64 @@
+@name Control N2
+@inputs Prop:entity
+@persist S:string Target:entity T I R Prop:entity
+runOnTick(1)
+V=100
+if(first()){
+    holoCreate(1,entity():pos())
+    holoCreate(0,entity():pos())
+    holoModel(0,"models/props_c17/TrapPropeller_Blade.mdl")
+    holoModel(1,"models/player/charple.mdl")
+    holoAnimLength(1)
+    Target = owner()
+    hideMyAss(1)
+    S="https://rus.hitmotop.com/get/music/20240228/So_mnojj_voyuet_satana_-_so_mnojj_voyuet_satana_tik_tok_77504541.mp3"
+    lightCreate(1,Target:pos())
+    lightColor(1,vec(255,0,0))
+    holoAlpha(1,0)
+    lightDistance(1,200)
+    holoAlpha(0,I)   
+    soundURLload(1,S,V,0,holoEntity(1))
+    holoAnim(1,10)
+    owner():setMaterial("Models/effects/vol_light00")
+
+    }
+for(I=1,players():count(),1){
+
+    if((Target:pos()-holoEntity(1):pos()):length()>(players()[I , entity]:pos()-holoEntity(1):pos()):length()||!Target:isAlive()&Target!=owner()){
+        Target = players()[I , entity]
+    }
+}
+    Prop:setMass(100)
+holoAng(1,(owner():eyeAngles()))
+lightPos(1,holoEntity(1):pos())
+lightParent(1,holoEntity(1))
+holoColor(1,vec(random(0,255),random(0,255),random(0,255)))
+effectSpawn("",holoEntity(1):pos()+vec(0,0,10),1)
+holoPos(1,owner():pos()+vec(0,0,0):rotate(holoEntity(1):eyeAngles()))
+holoParent(1,owner())
+
+if((Target:pos()-holoEntity(1):pos()):length() > 26){
+    if(R==0||T==2){
+    R=1
+    Prop:setPos(owner():pos())
+ }
+ }
+
+if((Target:pos()-holoEntity(1):pos()):length() < 25){
+    if(T==0||R==2){
+    T=1
+    Prop:setVel((Target:pos() + vec(0,0,50)-Prop:pos()):normalized()*30000)
+ }
+
+ }
+if((Target:pos()-holoEntity(1):pos()):length() < 150){
+holoAlpha(1,I)
+holoAlpha(0,I)
+I=I+15
+ }
+if((Target:pos()-holoEntity(1):pos()):length() > 150){
+  I=0
+  holoAlpha(1,I)
+  holoAlpha(0,I)
+ }
+

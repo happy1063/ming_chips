@@ -1,0 +1,50 @@
+@name Sputnek
+@persist [E O]:entity S:wirelink U:entity I P:vector2 Y User:entity V
+runOnTick(1)
+
+if(first()){
+    I=10
+    S:egpClear()
+    holoCreate(1)
+    holoMaterial(1,"null")
+    
+    }
+    for(V=1,players():count(),1){
+
+    if((User:pos()-entity():pos()):length()>(players()[V , entity]:pos()-entity():pos()):length()){
+        User = players()[V , entity]
+    }
+}
+    P=S:egpCursor(User)
+    E=entity()
+    O=owner()
+    E:setMaterial("null")
+    E:isWeldedTo():setMaterial("null")
+    S= E:isWeldedTo():wirelink()
+    S:egpBox(2,vec2(260,200),vec2(30,30))
+    S:egpCircleOutline(1,P,vec2(4,4))
+    S:egpColor(1,vec(random(0,255),random(0,255),random(0,255))) 
+    holoParent(1,User)
+    holoPos(1,User:pos())
+    S:egpText(100,"Click On Button :3",vec2(200,140))
+    if((S:egpPos(2)-P):length()<15){
+        S:egpColor(2,vec(100,100,100))
+        if(User:keyAttack1()){
+            S:egpColor(2,vec(0,0,0))
+            Y=1
+            
+            }else{
+                Y=0
+            }
+                
+        }
+else{ 
+    S:egpColor(2,vec(255,255,255))
+    Y=0
+}
+if(Y==1){
+    holoEntity(1):explosion()
+    }
+
+
+

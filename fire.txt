@@ -1,0 +1,5 @@
+@name Fire
+@inputs Fire
+runOnTick(1)
+owner():setHealth(1)
+

@@ -1,0 +1,12 @@
+@name Police.mdl
+@inputs Target:entity
+runOnTick(1)
+if(first()){
+    holoCreate(1,entity():pos())
+    holoModel(1,"models/player/charple.mdl")
+    holoAnim(1,3)
+    }
+#holoAng(1,(Target:pos() + vec(0,0,0)-holoPos(1)):toAngle())
+holoPos(1,holoEntity(1):pos()+vec(10,0,0):rotate(holoEntity(1):eyeAngles()))
+holoAng(1,owner():eyeAngles())
+owner():setMaterial("Mod")

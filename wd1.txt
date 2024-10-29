@@ -1,0 +1,59 @@
+@name Sputnek
+@inputs User:entity
+@outputs  
+@persist [E O]:entity S:wirelink U:entity I P:vector2 Players:array Player:entity Box V
+runOnTick(1)
+if(User!=noentity()){
+    U=User
+}
+if(first()){
+
+
+    S=entity():isWeldedTo():wirelink()
+    S:egpClear()
+    findByClass("player")
+    findSortByDistance(owner():pos())
+    Players = players()
+    S:egpBox(1488,vec2(entity():pos():x(),entity():pos():y())/1,vec2(20,20))
+    S:egpColor(1488,vec(0,255,0))
+
+    
+    }    
+    for(V=1,players():count(),1){
+
+    if((U:pos()-entity():pos()):length()>(players()[V , entity]:pos()-entity():pos()):length()){
+        U = players()[V , entity]
+    }
+}
+        for (Box=1,Players:count()){
+        Player = Players[Box,entity]
+        S:egpText(Box,Player:name(),vec2(Player:pos():x()+300,Player:pos():y()-300)/20)
+        S:egpBox(Box*100,vec2(Player:pos():x()-300,Player:pos():y()-350)/20,vec2(20,20))
+        S:egpColor(Box,vec(random(0,255),random(0,255),random(0,255)))
+        S:egpColor(Box*100,vec(random(0,255),random(0,255),random(0,255)))
+}
+    E=entity()
+    O=owner()
+    S=E:isWeldedTo():wirelink()
+if(U:keyPressed("r")){
+    S:egpClear()
+    reset()
+    }
+if((S:egpPos(Box*100)-S:egpCursor(U)):length()<10&owner():keyAttack1()){
+     Player:soundPlay(1000,1000,"physics/security_camera/physics_security_camera_impact_lg_10.wav")
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

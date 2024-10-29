@@ -1,0 +1,18 @@
+@name APOVL
+@inputs Bomb1:entity Bomb2:entity R
+@persist Noent:entity
+@outputs Bomb1spawn Bomb2spawn
+runOnTick(1)
+if(R==1&Bomb1:isValid()==1){
+    Bomb1spawn=1
+    }
+
+if(Bomb1:isValid()==0){
+    Bomb1spawn=0
+    }
+#if(Bomb2:isValid()){
+#   Bomb1spawn=1
+#   }
+print(Bomb1spawn)
+
+#print(Bomb2spawn)

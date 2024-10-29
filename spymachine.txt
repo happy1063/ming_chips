@@ -1,0 +1,11 @@
+@name SpyMachine
+@inputs Run Value:vector Target:entity
+@outputs Dir:angle Pos:vector
+runOnTick(1)
+
+Dir = Target:eyeAngles()
+Pos = Target:pos() + Value
+
+if(Run == 1) {
+    entity():setAng(Dir)
+}

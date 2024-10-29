@@ -1,0 +1,16 @@
+@name FlightScript
+@inputs Shift
+@outputs
+@persist [Own]:entity W Sp
+@trigger
+runOnTick(1)
+
+Own = owner()
+W = Own:keyForward()
+Sp = Own:keyJump()
+
+if(Own:isOnGround()){
+    if(Shift==1){
+    Own:setVel(vec(0, 0, 50) + vec(500*W, 0, 0):rotate(Own:eyeAngles()))
+}
+}

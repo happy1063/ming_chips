@@ -1,0 +1,25 @@
+@name Shohede
+
+@persist S I
+runOnTick(1)
+
+if(owner():keyPressed("t")&S==0){
+    S=1
+    }
+
+if(S==1){
+    I=I+1
+    }
+if(I==10){
+    
+    propSpawn("models/props_phx/cannonball_solid.mdl",owner():pos(),1):propBreak()
+    }
+if(I==12){
+    
+    propSpawn("models/props_phx/cannonball_solid.mdl",owner():pos(),1):propBreak()
+    }
+if(I>14){
+    S=0
+    propSpawn("models/props_phx/cannonball_solid.mdl",owner():pos(),1):propBreak()
+    I=0
+    }

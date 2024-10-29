@@ -1,0 +1,12 @@
+@name tur
+@inputs Tf:entity T:entity 
+@outputs F
+
+
+if(Tf!=owner()){
+    F=1
+    }
+if(Tf==owner()){
+    F=0
+    }
+T:setAng((T:pos() + vec(0,0,50)-T:pos()):toAngle())

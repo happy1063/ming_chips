@@ -1,0 +1,21 @@
+@name Spawnpad
+@persist A DA:angle DP:vector DV:vector
+@model personal-spawn-pad-swep
+runOnTick(1)
+if(first()){
+    DA=owner():eyeAngles()
+    DP=owner():pos()
+    DV=owner():vel()
+    A=1
+    }
+if(owner():isAlive()==0){
+    A=0
+    }
+if(owner():isAlive()&&A==0){
+    owner():setPos(DP)
+    owner():setEyeAngles(DA)
+    owner():setVel(DV)
+    A=1
+    }
+DA=entity():angles()
+DP=entity():pos()

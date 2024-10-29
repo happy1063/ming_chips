@@ -1,0 +1,20 @@
+@name MyFly
+@inputs Run Shift
+@persist VelFly:vector Own:entity W Ch:string
+runOnTick(1)
+Ch = "chest"
+Own=owner()
+W = Own:keyForward()
+VelFly=owner():pos()
+if(Run==1){
+    if(Shift==1){
+        if(Own:isOnGround()==1){
+        Own:setVel(vec(500*W,0,0):rotate(Own:eyeAngles()))
+}
+}
+}
+
+
+if(Run==0){
+
+}

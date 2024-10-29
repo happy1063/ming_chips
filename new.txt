@@ -1,0 +1,9 @@
+@name nEW
+@inputs Raketa:entity Enable Target:entity TargetFinder:entity
+runOnTick(1)
+if(Enable==1){
+Raketa:setVel((Target:pos() + vec(0,0,100)-Raketa:pos()):normalized()*300)
+Raketa:setAng((Target:pos() + vec(0,0,100)-Raketa:pos()):toAngle())
+}
+
+TargetFinder:setPos(Raketa:pos())

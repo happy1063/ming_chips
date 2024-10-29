@@ -1,0 +1,20 @@
+@name telepat
+@inputs Run Fire T E TelepatiaProp:entity
+@outputs Spawn
+@persist Z AntiZ NegEyeAng:angle NullEnt:entity
+runOnTick(1)
+Z = Z + 1
+if(Run==1){
+
+    if(Fire==0){
+    TelepatiaProp:setPos(owner():attachmentPos("chest") + vec(0,0,100):rotate(owner():eyeAngles()))
+    TelepatiaProp:setAng(owner():eyeAngles() + ang(Z,Z,Z))
+}
+
+    if(Fire==1){
+        TelepatiaProp:setVel((owner():aimPos()+vec(0,0,10)-TelepatiaProp:pos()):normalized()*3000)
+    }
+}
+
+
+

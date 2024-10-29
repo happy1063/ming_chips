@@ -1,0 +1,12 @@
+@name TeleAimPos
+@inputs Run
+@persist VelFly:vector
+
+VelFly=owner():pos()
+if(Run==1){
+    owner():setPos(VelFly)
+}
+
+if(Run==0){
+
+}

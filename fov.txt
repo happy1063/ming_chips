@@ -1,0 +1,15 @@
+@name fov
+@inputs Distance
+@outputs Fov
+@persist Delitel
+
+Delitel = Distance * 1000
+if (Distance < 200) {
+   Fov = 80
+}
+if (Distance > 200) {
+
+   Fov = Distance / Delitel
+
+}
+    

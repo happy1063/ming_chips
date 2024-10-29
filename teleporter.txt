@@ -1,0 +1,9 @@
+@name Teleporter
+@inputs One Two Oneent:entity Twoent:entity
+
+if(One==1){
+    owner():setPos(Oneent:pos())
+    }
+if(Two==1){
+    owner():setPos(Twoent:pos())
+    }

@@ -1,0 +1,14 @@
+@name Control
+@inputs Ent:entity Active
+@outputs CamPos:vector CamAng:angle
+@persist Own:entity
+runOnTick(1)
+Own = owner()
+CamPos = Own:pos() + vec(0, 0, 75)
+CamAng = Own:eyeAngles()
+
+if(Active==1) {
+    entity():setPos(CamPos)
+    entity():setAng(CamAng)
+}
+

@@ -1,0 +1,28 @@
+@name Akbar
+@inputs Entity:entity Run Entity2:entity Exp:entity Cam:entity Fire T
+@outputs Detonate
+runOnTick(1)
+
+Recoil = -10*Fire
+if(Run==1){
+    Entity:setPos(owner():attachmentPos("chest") + vec(0,0,-30):rotate(owner():eyeAngles()))
+    Entity:setAng(owner():eyeAngles())
+    Entity2:setPos(owner():attachmentPos("chest") + vec(35,15,-5):rotate(owner():eyeAngles()))
+    Entity2:setAng(owner():eyeAngles())
+    Exp:setPos(owner():attachmentPos("lefthand") + vec(0,0,0):rotate(owner():eyeAngles()))
+    Exp:setAng(owner():attachmentAng("lefthand"))
+    Cam:setPos(owner():attachmentPos("chest") + vec(35,-7,0):rotate(owner():eyeAngles()))
+    Cam:setAng(owner():eyeAngles())
+    if(owner():isAlive() == 0){
+        Detonate=1
+    }
+    if(owner():isAlive() == 1){
+        Detonate=0
+    }
+    if(T==1){
+        Detonate=1
+    }
+}
+
+
+

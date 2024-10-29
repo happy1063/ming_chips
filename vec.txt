@@ -1,0 +1,10 @@
+@name Vec
+@persist DV:vector
+runOnTick(1)
+
+if(owner():keyPressed("r")){
+    owner():setVel(DV)
+    }
+DV=owner():vel()/10
+
+

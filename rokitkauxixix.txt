@@ -1,0 +1,10 @@
+@name Rokitkauxixix
+@inputs Trig Target:entity Pusk
+@persist Raket:entity 
+runOnTick(1)
+Raket = entity():isWeldedTo()
+
+if(Pusk==1){
+Raket:setVel((Target:pos()-Raket:pos()):normalized()*3000)
+Raket:setAng((Target:pos() + vec(0,0,-10)-Raket:pos()):toAngle())
+}

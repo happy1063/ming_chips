@@ -1,0 +1,7 @@
+@name Ignite
+@inputs F
+runOnTick(1)
+
+if(F==1){
+    owner():ignite(1)
+    }

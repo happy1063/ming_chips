@@ -1,0 +1,9 @@
+@name generic
+@persist T:entity
+runOnTick(1)
+if(keyPress("E")){
+    T=owner():aimEntity()
+    }
+if(keyPress("T")){
+    owner():setEyeAngles((T:pos() + vec(0,0,50)-owner():pos()):toAngle())
+    }

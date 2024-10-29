@@ -1,0 +1,6 @@
+@name Turelka
+@inputs T:entity
+@outputs 
+@persist 
+
+T:setAng((owner():aimPos() + vec(0,0,0)-owner():pos()):toAngle())

@@ -1,0 +1,11 @@
+@name Morph
+@persist Entity:entity
+runOnTick(1)
+
+if(changed(owner():keyPressed("t"))){
+    owner():setMaterial("null")
+    if(owner():keyPressed("t")){
+    owner():setMaterial("standart")
+}
+    interval(1000)
+    }

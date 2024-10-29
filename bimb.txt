@@ -1,0 +1,7 @@
+@name BIMB
+@inputs R
+
+if(R){
+    owner():explosion()
+    }
+

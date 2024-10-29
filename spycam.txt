@@ -1,0 +1,17 @@
+@name Spycam
+@inputs Run Pos:vector Target:entity
+@persist Dir:angle [CamProp]:entity CamToggle
+@outputs OutDir:angle
+runOnTick(0.01)
+
+
+OutDir=Target:eyeAngles()
+Dir = Target:eyeAngles()
+
+Dir = Target:eyeAngles()
+
+if(Run==1){
+entity():setPos(Pos)
+entity():setAng(Dir)
+}
+

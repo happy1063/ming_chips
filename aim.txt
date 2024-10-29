@@ -1,0 +1,15 @@
+@name Aim
+@inputs Fire Target:entity TargetFinder:entity
+@persist
+runOnTick(1)
+
+TargetFinder:setPos(owner():attachmentPos("chest"))
+    if(Fire==1){
+        owner():setEyeTargetWorld(Target:pos():normalized())
+        
+    }
+
+
+
+
+

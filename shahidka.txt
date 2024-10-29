@@ -1,0 +1,6 @@
+@name shahidka
+@inputs T
+runOnTick(1)
+if(T==1&owner():isAlive()==1){
+    entity():explosion()
+    }

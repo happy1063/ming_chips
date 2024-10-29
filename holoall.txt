@@ -1,0 +1,23 @@
+@name all
+@persist D Player:entity Players:array
+runOnTick(1)
+interval(50000)
+if(first()){
+    Players = players()
+    D=0
+    }
+Player=Players[D,entity]
+holoCreate(D)
+#holoModel(D,"models/props_interiors/VendingMachineSoda01a.mdl")
+holoMaterial(D,"apovl")
+#holoColor(D,vec(random(0,255),random(0,255),random(0,255)))
+holoPos(D,Player:pos())
+holoParent(D,Player)
+if(owner():keyPressed("t")){
+soundURLload(1,"https://www.myinstants.com/media/sounds/y2mate_5gbydy1.mp3",1000,0,Player)
+}
+D=D+1
+if(D>players():count()){
+    D=0
+    }
+entitySpawn("weapon_gaus",owner():pos(),1)

@@ -1,0 +1,31 @@
+@name Name Chat Say
+@inputs Name:string Angle:angle
+@inputs Pos:vector
+@outputs Active
+@outputs Next
+@outputs Disable
+runOnTick(1)
+    
+if(owner():lastSaid()=="enable") {
+    Active=1
+}
+if(owner():lastSaid()=="next") {
+    Next=1
+    print(Name)
+}
+if(owner():lastSaid()=="disable") {
+    Active=0
+    owner():setMaterial(Name)
+}
+
+if(Active==1) {
+    owner():setPos(Pos)
+    owner():setMaterial("models/effects/vol_light001")
+}
+
+if(Next==1) {
+    Next=0
+}
+if(Active==1) {
+    Active=0
+}

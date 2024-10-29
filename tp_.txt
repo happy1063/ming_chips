@@ -1,0 +1,12 @@
+@name SetPos 
+@inputs Active S Pos:vector Entity:entity CorectPos:vector
+@model models/bull/gates/microcontroller1.mdl
+runOnTick(1)
+
+if(Active==1&S==0){
+    Entity:setPos(Pos+CorectPos)
+    S=1
+    }
+if(Active==0){
+    S=0
+}

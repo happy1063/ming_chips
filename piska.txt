@@ -1,0 +1,26 @@
+@name GDSAGASD
+@inputs 
+@outputs 
+@persist B
+@trigger 
+@strict
+interval(100)
+
+if(first()){
+holoCreate(0)
+holoParent(0,owner():weapon())
+holoPos(0,owner():weapon():pos()-owner():massCenterL())
+holoAng(0,owner():weapon():toWorld(ang(0,0,0)))
+}
+holoModel(0,"models/sasamin/oneshot/niko_pm.mdl")
+
+if(owner():keyPressed("x")&&changed(owner():keyPressed("x"))){
+    B = B == 0 ? 1 : 0
+}
+if(B){
+    owner():setMaterial("null")
+    holoAlpha(0,255)
+}else{
+    owner():setMaterial("")
+    holoAlpha(0,0)
+}

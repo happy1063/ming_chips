@@ -1,0 +1,38 @@
+@name turretGun
+@inputs Entity:entity Run Entity2:entity Entity3:entity Entity4:entity Fire Krutilka
+@outputs OutFire
+@persist Recoil Axic
+runOnTick(1)
+
+if(Run==1){
+    Entity:setPos(owner():attachmentPos("chest") + vec(35,-15,-5):rotate(owner():eyeAngles()))
+    Entity:setAng(owner():eyeAngles() + ang(Recoil+Axic,Axic,Axic))
+    Entity2:setPos(owner():pos() + vec(35,15,46):rotate(owner():eyeAngles()))
+    Entity2:setAng(owner():eyeAngles())
+    Entity3:setPos(owner():pos() + vec(35,7,46):rotate(owner():eyeAngles()))
+    Entity3:setAng(owner():eyeAngles())
+    Entity4:setPos(owner():pos() + vec(35,-7,46):rotate(owner():eyeAngles()))
+    Entity4:setAng(owner():eyeAngles())
+    if(Fire==1){
+        Recoil = Recoil - 0.1
+        OutFire=1
+        }
+    if(Fire==0){
+         OutFire=0
+        Recoil = 0
+        }
+    if(Krutilka==0){
+        Axic=0
+        }
+    if(Krutilka==1){
+        Axic = Axic - 5
+        Recoil = 0
+        }
+}
+if(Run==0){
+    OutFire=0
+    Entity:setPos(owner():attachmentPos("chest") + vec(-10,-15,-15):rotate(owner():eyeAngles() + ang(0,0,0)))
+    Entity:setAng(ang(90,0,-90))
+    }
+
+

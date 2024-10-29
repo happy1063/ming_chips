@@ -1,0 +1,5 @@
+@name Hacral
+@inputs Chair:entity
+runOnTick(1)
+
+Chair:killPod()

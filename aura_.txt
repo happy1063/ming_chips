@@ -1,0 +1,12 @@
+@name Aura 
+@persist E:entity O:entity
+runOnTick(1)
+if(first()){
+    E=entity()
+    O=owner()
+    }
+if((O:pos()-E:pos()):length()<100){
+    O:setVel(vec(-100,0,0))
+}
+E:setPos(E:pos()+vec(2,0,0):rotate(E:eyeAngles()))
+E:setAng((O:pos() + vec(0,0,0)-E:pos()):toAngle())

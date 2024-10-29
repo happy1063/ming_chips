@@ -1,0 +1,11 @@
+@name Quest
+@persist H:vector
+V=100
+runOnChat(1)
+
+soundURLpause(10)
+soundURLload(1,owner():lastSaid(),V,0,owner())
+
+if(owner():lastSaid()=="stop"){
+    soundStop(1)
+}

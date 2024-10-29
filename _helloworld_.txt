@@ -1,0 +1,9 @@
+@name Aim
+@inputs Run DirAng:angle DirVector:vector Target:entity
+@outputs Owner:entity
+runOnTick(1)
+DirAng=Target:pos()
+Owner==owner()
+if(Run==1) {
+    owner():setEyeAngles(DirAng)
+}

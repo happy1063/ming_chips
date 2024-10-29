@@ -1,0 +1,30 @@
+@name Entity
+@inputs Run Fire T Entity:entity Reset
+@persist Weapon:entity
+
+runOnTick(1)
+if(first()){
+Weapon=owner():weapon()
+holoCreate(1)
+holoScale(0.1)
+}
+holoModel(1,Entity:model())
+if(owner():weapon()==Weapon){
+    holoParentAttachment(1,owner(),"eyes")
+    holoPos(1,owner():attachmentPos("eyes"))
+    holoAng(1,owner():attachmentAng("eyes") + ang(0,0,45))
+    holoMaterial(1, "apovl")
+    owner():weapon():setMaterial("Models/effects/vol_light001")
+}
+
+
+if(Reset==1){
+    reset()
+    }
+if(owner():weapon()!=Weapon){
+    holoMaterial(1, "Models/effects/vol_light001")
+    owner():weapon():setMaterial("apovl")
+    }
+
+
+

@@ -1,0 +1,8 @@
+@name Forcer
+@inputs Gimb:entity Targ:entity
+@outputs Pos:vector 
+runOnTick(1)
+
+Gimb:setModel("models/hunter/blocks/cube025x025x025.mdl")
+
+Pos = Targ:pos()

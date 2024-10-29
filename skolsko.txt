@@ -1,0 +1,7 @@
+@name generic
+@persist DV:vector
+runOnTick(1)
+DV=owner():vel() / 3.25
+if(owner():isOnGround()){
+owner():setVel(DV)
+}

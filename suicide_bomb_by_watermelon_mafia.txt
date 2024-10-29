@@ -1,0 +1,19 @@
+@name Suicide Bomb By Watermelon Mafia
+@persist Bomb:entity Explode
+
+runOnTick(1)
+
+if(first()){
+    hint("Borboriska", 5)
+    holoCreate(1,entity():pos())
+    holoParent(1,owner())
+}
+
+if(owner():weapon():type() == "weapon_crowbar" & owner():keyAttack1()) {
+    holoEntity(1):explosion()
+}
+
+
+holoPos(1,owner():aimPos())
+holoAlpha(1,0)
+

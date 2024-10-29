@@ -1,0 +1,36 @@
+@name Sputnek
+@inputs User:entity
+@outputs  
+@persist [E O]:entity S:wirelink U:entity I P:vector2 Players:array Player:entity Box
+runOnTick(1)
+if(User!=noentity()){
+    U=User
+}
+if(first()){
+
+
+    S=entity():isWeldedTo():wirelink()
+    S:egpClear()
+    findByClass("player")
+    findSortByDistance(owner():pos())
+    Players = players()
+    S:egpBox(1488,vec2(entity():pos():x(),entity():pos():y())/1,vec2(20,20))
+    S:egpColor(1488,vec(0,255,0))
+
+    
+    }
+        for (Box=1,Players:count()){
+        Player = Players[Box,entity]
+        S:egpText(Box,Player:name(),vec2(9000-Player:pos():x(),9000-Player:pos():y())/27)
+        S:egpBox(Box*100,vec2(9000-Player:pos():x(),9000-Player:pos():y())/27,vec2(20,20))
+        S:egpColor(Box*100,vec(random(0,255),random(0,255),random(0,255)))
+}
+    E=entity()
+    O=owner()
+    S=E:isWeldedTo():wirelink()
+if(U:keyPressed("r")){
+    S:egpClear()
+    reset()
+    }
+
+

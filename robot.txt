@@ -1,0 +1,15 @@
+@name Robot
+@inputs Run Shift
+@persist VelFly:vector Own:entity W Ch:string 
+@outputs EntDir:vector EntDir:vector
+runOnTick(1)
+Ch = "chest"
+Ent=entity()
+W = Own:keyForward()
+
+VelFly=owner():pos()
+if(Run==1){
+        Ent:setPos(Ent:pos() + vec(2*W,0,10):rotate(Ent:eyeAngles()))
+}
+
+

@@ -1,0 +1,9 @@
+@name CamTest
+@inputs Target:entity On
+@outputs 
+@persist 
+
+if(On==1){
+    Target:spectateEntity()
+}
+

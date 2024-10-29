@@ -1,0 +1,22 @@
+@name Kiev
+@inputs Raketa:entity Enable Station:entity Target:entity Detonated P M
+@outputs Detonate
+@persist Targ Vertical
+runOnTick(1)
+if(first()){
+    Vertical = 150
+    }
+if(Detonated==1){
+    Detonate=1
+    interval(10)
+    Raketa:setPos(Station:pos()+vec(0,0,500))
+    Raketa:setAng(ang(-90,-90,-90))
+    }
+if(Enable==1){
+Raketa:setVel((Target:pos() + vec(0,0,100)-Raketa:pos()):normalized()*3000)
+Raketa:setAng((Target:pos() + vec(0,0,100)-Raketa:pos()):toAngle())
+}
+if(Enable!=1){
+    Raketa:setPos(Station:pos()+vec(0,0,Vertical))
+    Raketa:setAng(ang(-90,-90,-90))
+    }

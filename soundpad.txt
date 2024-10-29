@@ -1,0 +1,17 @@
+@name SoundPad
+@inputs Play 
+@persist Url:string
+V=100
+runOnChat(1)
+soundURLpause(10)
+
+if(Play==1){
+     hideChat(1)
+     Url=owner():lastSaid()
+     hint("Meow",1)
+     soundURLload(1,"https://www.myinstants.com/media/sounds/meow-1.mp3",V,0,owner())
+}
+if(Play==0){
+     hideChat(0)
+
+}

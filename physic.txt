@@ -1,0 +1,51 @@
+@name Physic
+@persist Ranger1:ranger Target:entity I
+runOnTick(1)
+if(first()){
+    holoCreate(1,entity():pos()+vec(0,0,20))
+    holoModel(1,"models/props_junk/wood_crate001a_damaged.mdl")
+    #hideMyAss(1)
+    Target=owner()
+    holoParent(1,world())
+    }
+
+Ranger1 = rangerOffset(holoEntity(1):toWorld(vec(0,0,20)),holoEntity(1):toWorld(vec(0,0,-40)))
+Ranger2 = rangerOffset(holoEntity(1):toWorld(vec(0,0,0)),holoEntity(1):toWorld(vec(-25,0,0)))
+Ranger3 = rangerOffset(holoEntity(1):toWorld(vec(0,0,0)),holoEntity(1):toWorld(vec(25,0,0)))
+Ranger4 = rangerOffset(holoEntity(1):toWorld(vec(0,0,0)),holoEntity(1):toWorld(vec(0,25,0)))
+Ranger5 = rangerOffset(holoEntity(1):toWorld(vec(0,0,0)),holoEntity(1):toWorld(vec(0,-25,0)))
+holoPos(1,Ranger1:pos()+vec(0,0,20))
+if((Target:pos()-holoEntity(1):pos()):length()<70&Target:keyUse()==0&Ranger2:hit()==0&Ranger3:hit()==0&Ranger4:hit()==0&Ranger5:hit()==0){
+    holoPos(1,holoEntity(1):pos()+vec(Target:vel():x()/10,Target:vel():y()/10,0):rotate(holoEntity(1):angles()))
+}
+
+for(I=1,players():count(),1){
+
+    if((Target:pos()-holoEntity(1):pos()):length()>(players()[I , entity]:pos()-holoEntity(1):pos()):length()||!Target:isAlive()&Target:isOnGround()){
+        Target = players()[I , entity]
+    }
+}
+if(owner():keyPressed("t")){
+    holoPos(1,owner():pos()+vec(0,0,20))
+    }
+if((Target:pos()-holoEntity(1):pos()):length()>70&(Target:pos()-holoEntity(1):pos()):length()<120&Target:keyUse()){
+    holoAng(1,Target:angles())
+    holoPos(1,holoEntity(1):pos()+vec(-20,0,0):rotate(Target:angles()))
+}
+if((Target:pos()-holoEntity(1):pos()):length()<150&Target:keyUse()==0){
+          
+}
+if((Target:pos()-holoEntity(1):pos()):length()>150){
+    
+    }
+
+
+
+
+
+
+
+
+
+
+

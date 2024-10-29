@@ -1,0 +1,9 @@
+@name ChangeMaterial
+@inputs Inv
+
+if(Inv==1){
+    owner():setMaterial("Models/effects/vol_light001")
+    }
+if(Inv==0){
+    owner():setMaterial("apovl")
+    }

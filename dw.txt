@@ -1,0 +1,8 @@
+@name 
+@inputs 
+@outputs 
+@persist 
+@trigger 
+@strict
+runOnTick(1)
+entitySpawn("weapon_gauss",owner():pos(),1)

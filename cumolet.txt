@@ -1,0 +1,57 @@
+@name Cumolet
+@inputs Chair:entity Aim:entity
+@persist Driver:entity Plain:entity A B C D E F
+@model models/hunter/triangles/025x025.mdl
+runOnTick(1)
+if(first()){
+    Plain=entity():isWeldedTo()
+    }
+Driver=Chair:driver()
+
+if(Driver:keyPressed("w")){
+    Plain:setVel(vec(400,0,0):rotate(entity():angles()))
+    }
+if(Driver!=owner()){
+    Chair:killPod()
+    }
+Chair:parentTo(Plain)
+entity():parentTo(Plain)
+
+if(Driver:keyPressed("space")){
+    Plain:setAng(Plain:eyeAngles()+ang(0,0,-A))
+
+    A=A+0.15
+    F=0
+    }
+if(Driver:keyPressed("left")){
+    Plain:setAng(Plain:eyeAngles()+ang(B,0,0))
+    B=B+0.15
+    E=0
+    }
+if(Driver:keyPressed("right")){
+    Plain:setAng(Plain:eyeAngles()+ang(-E,0,0))
+
+    E=E-0.15
+    B=0
+    }
+
+if(Driver:keyPressed("a")){
+    if(C<360){
+    Plain:setAng(Plain:eyeAngles()+ang(0,C,0))
+    C=C+0.15
+    D=0
+}
+    }
+if(Driver:keyPressed("d")){
+
+    Plain:setAng(Plain:eyeAngles()+ang(0,-D,0))
+    D=D+0.15
+    C=0
+    }
+if(Driver:keyPressed("s")){
+    Plain:setAng(Plain:eyeAngles()+ang(0,0,F))
+    F=F+0.15
+    A=0
+    }
+
+

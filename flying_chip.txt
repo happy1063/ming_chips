@@ -1,0 +1,48 @@
+@name Flying Chip
+
+//     
+@inputs Spacebar
+@outputs Thrust
+
+//   
+@persist Acceleration: vector
+@persist Velocity: vector
+@persist Gravity = -500 //  
+@persist ThrustForce = 1500 //    
+
+//     
+function ApplyThrust() {
+    if (Spacebar) {
+        //    
+        Acceleration += (owner():up() * ThrustForce)
+    }
+}
+
+//    
+function HandlePhysics() {
+    //  
+    Acceleration.z += Gravity
+    //   
+    ApplyThrust()
+    //  
+    Velocity += Acceleration * deltaTime()
+    //  
+    owner():pos() += Velocity * deltaTime()
+    //  
+    Acceleration = vec(0, 0, 0)
+}
+
+//        
+runOnTick(1)
+
+//   
+if (first()) {
+    //    
+    Thrust = 0
+}
+
+//    
+HandlePhysics()
+
+//   
+Thrust = Velocity.z

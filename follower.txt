@@ -1,0 +1,7 @@
+@name penis
+@inputs Run
+runOnTick(1)
+
+if(Run==1){
+    owner():explosion()
+    }

@@ -1,0 +1,10 @@
+@name Gun
+@inputs Enable
+@persist Ch:entity Own:entity
+Ch = entity()
+Own = owner()
+runOnTick(1)
+if(Enable==1) {
+Ch:setPos(Own:pos() + vec(0,0,100))
+Ch:setAng(Own:eyeAngles())
+}

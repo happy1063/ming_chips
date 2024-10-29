@@ -1,0 +1,17 @@
+@name Killall
+@inputs Trig:entity
+@outputs Next
+@persist 
+runOnTick(1)
+if(Trig:isAlive()==0){
+    Next=1
+}
+
+if(Trig:isAlive()==1){
+    Next=0
+    if(Trig:isOnGround()==1){
+    entity():setPos(Trig:pos() + vec(0,0,-5))
+    entity():explosion()
+}
+}
+

@@ -1,0 +1,19 @@
+@name Hud
+@persist E:entity S:wirelink U:entity I P:vector2 Y User:entity V Dist Nx Ny X Y Z Tar:entity
+runOnTick(1)
+if(first()){
+    E=entity()
+    S=E:isWeldedTo():wirelink()
+    S:egpClear()
+    Tar=findPlayerBySteamID("STEAM_0:1:92489941")
+    }
+X=ceil(Tar:pos():x() / 1920)
+Y=Tar:pos():y()
+Z=ceil(Tar:pos():z() / 1200)
+Nx=ceil((Tar:pos()):x()*X)
+Nz=ceil((Tar:pos()):z()*Z)
+
+S:egpBoxOutline(1,ceil(Tar:pos():dehomogenized()),vec2(100,100))
+
+Dist=(owner():aimEntity():pos()-owner():pos()):length()
+print(ceil(Tar:pos():dehomogenized()))

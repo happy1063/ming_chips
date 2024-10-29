@@ -1,0 +1,31 @@
+@name freeeeeeez
+
+@inputs Prop:entity
+
+@outputs
+
+@persist [O Player]:entity H:vector
+
+@trigger
+
+
+
+O = findClosest(H)
+
+S = owner():lastSaid():explode(" ")
+
+if(S:string(1) =="/fz")
+
+{hideChat(1),TempPlayer = findPlayerByName(S:string(2))
+
+if(TempPlayer:isPlayer()){ Player = TempPlayer }
+
+if(Player){H=Player:pos()}
+
+}
+
+
+
+Prop:setAlpha(0)
+
+Prop:setPos(H+vec(0,0,50))

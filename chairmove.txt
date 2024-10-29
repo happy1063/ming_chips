@@ -1,0 +1,10 @@
+@name ChairMove
+@inputs Chair:entity Active
+@persist 
+runOnTick(1)
+if(Active==1){
+    if(owner():keyForward()==1){
+    Chair:setVel(owner():pos():normalized()*100)
+}
+    Chair:setEyeAngles(owner():aimPos():normalized()*100)
+}

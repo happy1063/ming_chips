@@ -1,0 +1,12 @@
+@name Prop Push
+@inputs Target:entity G
+@persist Prop:entity F R:vector
+runOnTick(1)
+if(first()){
+    Prop = propSpawn("models/hunter/blocks/cube025x025x025.mdl",entity():pos(),1)
+    Prop:setMaterial("Models/effects/vol_light001")
+    Prop:setMass(10000)
+    }
+    if(Target:vel()!=vec(0,0,0)){
+    Prop:setVel((Target:pos() + vec(0,0,30)-Prop:pos()):normalized()*30000)
+}

@@ -1,0 +1,29 @@
+@name monster1.mdl
+@inputs Target:entity Tf:entity
+@persist S:string
+runOnTick(1)
+V=100
+if(first()){
+    holoCreate(1,entity():pos())
+    holoModel(1,"models/player/hostage/hostage_04.mdl")
+    holoAnim(1,10)
+    S="https://ve43.aadika.xyz/download/4EViD2Wiumg/mp3/128/1713717239/d6d9bcffda87378103fa1ebe3a6ca39aaa9ac0290990216bf6f3505327aecc53/1?f=Y2mate.mx"
+    }
+holoAng(1,(Target:pos() + vec(0,0,0)-holoPos(1)):toAngle())
+
+owner():setMaterial("Mod")
+
+if((Target:pos()-holoEntity(1):pos()):length() > 25){
+    holoPos(1,holoEntity(1):pos()+vec(5,0,0):rotate(holoEntity(1):eyeAngles()))
+ }
+
+S="https://www.myinstants.com/media/sounds/999-social-credit-siren.mp3"
+Tf:setPos(holoEntity(1):pos())
+if((Target:pos()-holoEntity(1):pos()):length() < 27){
+    S="https://zvukogram.com/index.php?r=site/download&id=43479"
+
+ }
+if(changed(S)){
+    soundURLload(1,S,V,0,holoEntity(1))
+
+}

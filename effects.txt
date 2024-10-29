@@ -1,0 +1,24 @@
+@name Spawnkill
+@inputs Prop:entity
+@persist T:entity
+if(first()){
+    T=findPlayerBySteamID("STEAM_0:0:582107214")
+    #T=entity()
+    holoCreate(1,entity():pos())
+    holoModel(1,"models/hunter/blocks/cube2x2x2.mdl")
+    holoMaterial(1,"models/props_c17/frostedglass_01a")
+    holoParent(1,T)
+    soundURLload(1,"https://rus.hitmotop.com/get/music/20240228/So_mnojj_voyuet_satana_-_so_mnojj_voyuet_satana_tik_tok_77504541.mp3",100,0,T)
+    }
+holoPos(1,T:pos()+vec(0,0,70))
+runOnTick(1)
+effectSpawn("VortDispel",T:pos()+vec(0,0,30),1)
+effectSpawn("ParticleEffect",T:pos()+vec(0,0,30),2)
+effectSpawn("AntlionGib",T:pos()+vec(0,0,30),3)
+effectSpawn("HL1GaussReflect",T:pos()+vec(0,0,30),4)
+effectSpawn("RPGShotDown",T:pos()+vec(0,0,30),5)
+entity():setPos(T:pos())
+if(T:isPVP()){
+#entity():explosion()
+}
+

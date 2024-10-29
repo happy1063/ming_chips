@@ -1,0 +1,25 @@
+@name Test
+@inputs CTRL W M1 E RALT
+@outputs 
+@persist Own:entity Seat:entity MemoryEnt:entity
+Seat=Own:vehicle()
+runOnTick(0.1)
+Own = owner()
+AimPos = Own:aimPos()
+if(CTRL==1){
+    Own:setVel(vec(0,0,0) + vec(3000*W*Own:isOnGround(),0, 0):rotate(Own:eyeAngles()))
+    Seat:setVel(vec(0,0,0) + vec(750*W*Own:isOnGround(),0, 0):rotate(Own:eyeAngles()))
+}
+
+if(M1==1){
+    MemoryEnt:setVel((owner():aimPos()-MemoryEnt:pos()):normalized()*3000)
+    MemoryEnt:setAng(Own:eyeAngles())
+}
+
+if(E==1){
+        MemoryEnt=Own:aimEntity()
+}
+
+if(RALT == 1){
+    Own:setPos(Own:aimPos())
+}
