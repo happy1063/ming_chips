@@ -1,0 +1,95 @@
+@name 
+@persist P:vector IsPushing Pr:array Pos:vector AntiPhysGun:vector PhysGun AntiPhys:entity
+runOnTick(1) 
+if(first()){
+    AntiPhys=propSpawn("models/hunter/blocks/cube4x4x4.mdl",entity():pos(),1)
+    AntiPhys:noDraw(1)
+    Pos=owner():pos()
+    AntiPhysGun=owner():pos()
+    cameraCreate(1)
+    function aim(){
+    for(I=1,players():count()){
+    if((players()[I,entity]:isUserGroup("operator")||players()[I,entity]:isUserGroup("admin"))&(players()[I,entity]:aimEntity()==AntiPhys||players()[I,entity]:aimEntity()==owner()||players()[I,entity]:aimPos():distance(vec(owner():pos():x(),owner():pos():y(),players()[I,entity]:aimPos():z()))<100)&players()[I,entity]:weapon():type()=="weapon_physgun"){
+        return 1
+        }
+    }
+    return 0
+}
+    }
+AntiPhys:propFreeze(1)
+AntiPhys:noDraw(1)
+if(!first()){
+owner():noCollideAll(1)
+if(owner():pos():distance(Pos)>600){
+    owner():setPos(Pos)
+    }
+IsPushing=0
+timer("d",100)
+if((owner():vel():length()<900||owner():inNoclip())&IsPushing==0&owner():isAlive()){
+    P=owner():pos()
+    }
+if(clk("d")){
+    findByClass("prop_physics")
+    Pr=findToArray()
+    }
+for(I=1,Pr:count()){
+    if(Pr[I,entity]:pos():distance(owner():pos())<100+Pr[I,entity]:height()&Pr[I,entity]:vel():length()>700&Pr[I,entity]:owner()!=owner()&owner():vehicle():isValid()){
+        IsPushing=1
+        print(Pr[I,entity]:owner())
+        }
+    }
+if((owner():vel():length()>900&!owner():inNoclip())|IsPushing==1){
+    owner():setPos(P+vec(random(-1,1),random(-1,1),0))
+    owner():setVel(-owner():vel())
+    }
+if(owner():isAlive()){
+Pos=owner():pos()
+}
+}
+if(!owner():inNoclip()){
+    owner():playerUnFreeze()
+    }
+if(owner():playerIsRagdoll()){
+    owner():playerRagdoll()
+    }
+if(!aim()&PhysGun==0){
+    AntiPhys:setPos(owner():pos())
+    }
+if(!aim()){
+    AntiPhys:setPos(vec(0,0,0))
+    owner():noDraw(0)
+    owner():setMaterial(" ")
+    }
+if(aim()){
+    print(1)
+    stoptimer("gun")
+    AntiPhys:setPos(owner():pos())
+    timer("gun",5000)
+    PhysGun=1
+    }
+if(clk("gun")){
+    PhysGun=0
+    }
+if(!owner():aimEntity():isValid()||owner():aimEntity():model()!="models/props_building_details/storefront_template001a_bars.mdl"||owner():aimEntity():owner():isValid()){
+    cameraPos(1,owner():shootPos())
+    cameraToggle(1,0)
+    }
+if(owner():aimEntity():isValid()&owner():aimEntity():model()=="models/props_building_details/storefront_template001a_bars.mdl"&!owner():aimEntity():owner():isValid()){
+    owner():noDraw(1)
+    owner():setMaterial("null")
+    owner():selectWeapon("none") 
+    cameraAng(1,owner():eyeAngles())  
+    cameraToggle(1,1) 
+    if(owner():keyPressed("w")){
+        cameraPos(1,cameraPos(1)+vec(50,0,0):rotate(owner():eyeAngles()))
+        }
+    if(owner():keyPressed("s")){
+        cameraPos(1,cameraPos(1)+vec(-50,0,0):rotate(owner():eyeAngles()))
+        } 
+    if(owner():keyPressed("a")){
+        cameraPos(1,cameraPos(1)+vec(0,50,0):rotate(owner():eyeAngles()))
+        } 
+    if(owner():keyPressed("d")){
+        cameraPos(1,cameraPos(1)+vec(0,-50,0):rotate(owner():eyeAngles()))
+        }        
+    }

@@ -1,0 +1,31 @@
+@name mine
+@persist A:entity Cur:entity Pos:vector Exp
+runOnTick(1)
+if(first()){
+    A=propSpawn("models/props_c17/lampShade001a.mdl",entity():pos()+vec(0,0,5),1)
+}
+
+for(I=1,players():count()){
+    Cur=players()[I,entity]
+    if(Cur:pos():distance(A:pos())<200){
+       if(Exp==0){ 
+        Exp=1
+        particleGravity(vec(0,0,0))
+        A:soundPlay(1,100,"weapons/wheatley/sphere_firing_powerup_01.wav")
+        particle(1.5,110,150,"effects/tp_eyefx/tp_eyefx",vec(255,255,255),A:pos()+vec(0,0,70),vec(0,0,0),0)
+        particle(1.5,0,110,"models/effects/portalrift_sheet",vec(255,255,255),A:pos()+vec(0,0,70),vec(0,0,0),0)
+        timer(A:id():toString(),1500)
+}
+        }
+    }
+    if(clk(A:id():toString())){
+        Exp=0
+            for(I=1,16){
+        effectSpawn("ManhackSparks",A:pos(),1)
+    }
+        A:setModel("models/hunter/blocks/cube075x075x075.mdl")
+        A:explosion()
+        A:soundPlay(1,1000,"phx/explode05.wav")
+        A:propDelete()
+        selfDestruct()
+    }

@@ -1,0 +1,42 @@
+@name 
+@persist I IsMove E:entity Ep:vector Arp:array Ara:array S Ea:angle
+interval(10)
+if(first()){
+    E=entity():isWeldedTo()
+    Ep=entity():isWeldedTo():pos()
+    Ea=entity():isWeldedTo():angles()
+    entity():setMaterial("null")
+    S=0
+    }
+if(S==0){
+I=I+1
+Arp:pushVector(E:pos())
+Ara:pushAngle(E:angles())
+}
+if(E:pos()!=Ep&(E:vel():length()<5||E:pos():distance(Ep)>3000)){
+   S=1
+    }
+if(S==1){
+    I=I-1
+    if(Arp[I,vector]!=vec(0,0,0)&Ara[I,angle]!=ang(0,0,0)){
+    E:propFreeze(1)
+    E:setPos(Arp[I,vector])
+    E:setAng(Ara[I,angle])
+}
+}
+if(I==1&E:pos()==Ep){
+    S=0
+    I=0
+    E:propFreeze(0)
+    Arp:clear()
+    Ara:clear()
+    Arp:pushVector(Ep)
+    Ara:pushAngle(Ea)
+    E:setPos(Ep)
+    E:setAng(Ea)
+    reset()
+    }
+if(I==0){
+    E:propFreeze(0)
+    reset()
+    }

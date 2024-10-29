@@ -1,0 +1,41 @@
+@name stolb
+@inputs 
+@outputs 
+@persist Speed Angle X Y Z Dist B:entity Height R Time Red Green S Zf
+@trigger 
+@strict
+runOnTick(1)
+if(first()){
+
+    }
+
+Speed=300
+Angle=Angle+Speed
+Dist=50
+Height=100
+R=60
+Time=Time+10
+Red = sin(Time)
+Green = cos(Time)
+
+    Zf=Zf+10
+if(owner():keyPressed("r")){
+    Zf=0
+    }
+    
+for(I=0,7,1){
+ 
+        holoCreate(I)
+   holoMaterial(I,"null")
+    if(I!=7&S!=1){
+        holoEntity(I):setTrails(20,0,1000000000000,"trails/smoke",vec(255,25,25),255,255,0)
+        }
+    if(I==7){
+        S=1
+}
+if(holoEntity(I):isValid()){
+    holoPos(I,vec(entity():pos():x()+cos(Angle-(I*R))*Dist,entity():pos():y()+sin(Angle-(I*R))*Dist,entity():pos():z()+0+Zf+cos(Angle)*Dist)) #cos(Angle-10)+sin(Angle-(I*20))*Dist)
+
+}
+    }
+

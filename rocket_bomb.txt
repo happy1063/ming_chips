@@ -1,0 +1,23 @@
+@name 
+@inputs 
+@outputs 
+@persist E:array T:entity Tar:entity Target:entity B:entity Ammo A:array
+@strict 
+runOnTick(1)
+if(first()){
+setOwner(noentity())
+    }
+timer("d",100)
+if(clk("d")){
+findByClass("rpg_missile")
+E=findToArray()
+for(I=1,E:count()){
+    Ent=E[I,entity]
+    if(E[I,entity]:getMaterial()!="1"){
+   # E[I,entity]:
+    E[I,entity]:setMaterial("1")
+    }
+}
+    }
+
+

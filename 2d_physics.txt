@@ -1,0 +1,37 @@
+@name 2d physics
+@inputs Egp:wirelink 
+@persist Center:vector2 Scale:vector2 Gravity Vel:array Time:array Count CurI AirP Pos:vector2 Hit:array
+runOnTick(1)
+
+if (first()) {
+    Center = Egp:egpSize() / 2
+    Scale = Egp:egpSize()
+    Egp:egpClear()
+    Egp:egpBox(1, Center, Scale)
+    Count = 10
+    AirP = 0.05
+    Gravity = 1
+    for (I = 2, Count + 1) {
+        CurI = I - 1
+        Egp:egpCircle(I, Center, vec2(50, 50))
+        Egp:egpColor(I, vec(0, 0, 0))
+        Vel[I, vector2] = vec2(randint(-10, 10), randint(-10, 10))
+    }
+}
+
+for (I = 2, Count + 1) {
+    if(Hit[I,number]==0){
+    Vel[I, vector2] = Vel[I, vector2] / (AirP + 1) + vec2(0, 0)+vec2(0,Egp:entity():vel():z())
+    Pos =  Egp:egpPos(I) + Vel[I, vector2]
+
+    #     
+    if (Pos:x() < 0 || Pos:x() > Scale:x()) {
+        Vel[I, vector2] = vec2(0,0)
+    }
+    if (Pos:y() < 0 || Pos:y() > Scale:y()) {
+        Vel[I, vector2] = vec2(0,0)
+    }
+
+    Egp:egpPos(I, Pos)
+}
+}

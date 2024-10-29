@@ -1,0 +1,69 @@
+@name GOD
+@persist D:vector A:angle V:vector W:string Attacker:entity Spawned Damage Gived ProtectionCode:string Protection:entity
+runOnTick(1)
+if(first()){
+    Protection=spawnExpression2(vec(0,0,0),ang(0,0,0),"")
+ #   hideMyAss(1)
+    noDuplications()
+    }
+ if(owner():isAlive()&owner():weapon():isValid()){
+A=owner():eyeAngles()
+D=owner():pos()
+V=owner():vel()
+if(Gived==0){
+W=owner():weapon():type()
+}
+} 
+if(!owner():isAlive()&Spawned<2&lastDeathAttacker(owner()):isValid()&lastDeathAttacker(owner())!=owner()){
+    spawn()
+    owner():setPos(D)
+    owner():setEyeAngles(A)
+    owner():setVel(V)
+    timer("give",100)
+    Gived=1
+    Spawned=Spawned+1
+    timer("spawned",500)
+}
+if(owner():weapon():isValid()){
+    owner():weapon():setClip1(0)
+    owner():weapon():setClip2(0)
+    }
+if(clk("give")){
+    Gived=0
+    owner():giveWeapon(W)
+    owner():selectWeapon(W)
+    }
+if(clk("spawned")){
+    Spawned=0
+    }
+for(I=1,players():count()){
+    Attacker=players()[I,entity]:getAttacker()
+    Damage=players()[I,entity]:getDamage()
+    if(Attacker:isValid()&Attacker==owner()&players()[I,entity]!=owner()&players()[I,entity]:isPVP()&!players()[I,entity]:isInSafezone()&Damage!=0&owner():isPVP()&!owner():isInSafezone()){
+        hint("GOD DISABLED!",1000)
+        Protection:remove()
+        owner():takeDamage(1000000)
+        selfDestruct()
+        }
+    }
+if(!Protection:isValid()){
+        hint("GOD DISABLED!",1000)
+        owner():takeDamage(1000000)
+        selfDestruct()
+    }
+
+
+
+  
+    
+         
+
+
+
+
+
+
+
+
+
+

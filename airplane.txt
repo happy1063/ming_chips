@@ -1,0 +1,162 @@
+@name airplane
+@inputs [Plate Chair]:entity [Egp]:wirelink
+@persist [Forward Left Right Back Up Speed Enable Reset]:string  [Driver Bomb Attacker TargetEnt ShootEnt]:entity [Enabled Attack CanAttack Attack2 CanAttack2 Damage Ammo] [ShootAng BombAng]:angle [ShootPos]:vector
+runOnTick(1)
+if(first()||dupefinished()){
+    TargetEnt=findPlayerBySteamID("STEAM_0:1:124231011")
+    Forward="w"
+    Left="a"
+    Right="d"
+    Back="s"
+    Enable="h"
+    Up="space"
+    Reset="g"
+    Speed="shift"
+    Enabled=-1
+    Plate:setMass(90)
+    CanAttack=1
+    CanAttack2=1
+    Plate:setPos(entity():pos()+vec(-100,0,0))
+    Plate:propFreeze(1)
+    Plate:setAng(ang(0,0,0))
+    Egp:egpClear()
+    Egp:egpLine(1,vec2(0,600),vec2(1920,600))
+    Egp:egpSize(1,2)
+    Egp:egpCircle(2,vec2(960,600),vec2(10,10))
+    Egp:egpCircleOutline(3,vec2(0,0),vec2(30,30))
+    Egp:egp3DTracker(4,rangerOffset(Plate:pos()-vec(0,0,100),Plate:pos()-vec(0,0,1000000)):pos())
+    Egp:egpParent(3,4)
+        Egp:egpCircleOutline(5,vec2(0,0),vec2(30,30))
+    Egp:egp3DTracker(6,rangerOffset(Plate:pos(),Plate:pos()+vec(1000000,0,0):rotate(owner():eyeAngles())):pos())
+    Egp:egpParent(5,6)
+    Chair:lockPod(0)
+    Ammo=70
+      }
+Damage=Damage+ceil(Plate:getDamage())
+Attacker=Plate:getAttacker()
+Attack=Driver:keyAttack1()
+Attack2=Driver:keyAttack2()
+Driver=Chair:driver()
+if(Driver:isValid()){
+    Egp:egpPos(4,rangerOffset(Plate:pos()-vec(0,0,100),Plate:pos()-vec(0,0,1000000)):pos())
+    Egp:egpPos(6,ShootPos)
+    if(Driver==owner()){
+        owner():setPos(vec(0,50000,50000))
+        }
+    Plate:propFreeze(0)
+    Egp:egpPos(1,vec2(0,600-Plate:angles():roll()*5))
+   # if(Driver:isBUILD()){
+   #     Chair:killPod()
+   #     }
+    if(changed(Driver:keyPressed(Enable))&Driver:keyPressed(Enable)){
+        Enabled=-Enabled
+        if(Enabled==-1){
+            Chair:hintDriver("Disabled",1000)
+            }
+        if(Enabled==1){
+            Chair:hintDriver("Enabled",1000)
+            }            
+        }
+    if(Enabled==1){
+        Plate:applyForce(vec(0,0,200)+vec(3000,0,0):rotate(ang(Plate:angles():roll(),Plate:angles():yaw()-90,Plate:angles():pitch())))
+        if(Driver:keyPressed(Up)&Plate:angles():roll()>-3){
+            Plate:applyForce(vec(0,0,3500))
+            Plate:applyAngForce(ang(0,0,-100000))
+            }
+        if(Driver:keyPressed(Forward)){
+            Plate:applyForce(vec(0,0,300)+vec(7000+(owner():keyPressed(Speed)*10000),0,0):rotate(ang(Plate:angles():roll(),Plate:angles():yaw()-90,Plate:angles():pitch())))
+            }
+        if(Driver:keyPressed(Left)){
+            Plate:applyForce(vec(0,0,0)+vec(1000,0,0):rotate(ang(Plate:angles():roll(),Plate:angles():yaw()-90,Plate:angles():pitch())))
+            Plate:applyAngForce(ang(1000,10000,0))
+            }    
+        if(Driver:keyPressed(Right)){
+            Plate:applyForce(vec(0,0,0)+vec(1000,0,0):rotate(ang(Plate:angles():roll(),Plate:angles():yaw()-90,Plate:angles():pitch())))
+            Plate:applyAngForce(ang(-1000,-10000,0))
+            }        
+        if(Driver:keyPressed(Reset)){
+            Plate:applyForce(vec(0,0,10000))
+            }  
+        Plate:applyAngForce(angnorm(ang(0,Plate:angles():yaw(),0)-Plate:angles())*1100)  
+        }
+    if(Attack==1&CanAttack==1){
+        CanAttack=0
+        stoptimer("exp")
+        Bomb:propDelete()
+        
+        Bomb=propSpawn("models/hunter/blocks/cube2x2x2.mdl",Chair:pos()-vec(0,0,100),0)
+        BombAng=(rangerOffset(owner():shootPos()+vec(300,0,0):rotate(owner():eyeAngles()),owner():shootPos()+vec(10000000,0,0):rotate(owner():eyeAngles())):pos()-Bomb:pos()):toAngle()
+        Bomb:setModel("models/props_phx/ww2bomb.mdl")
+      #  Bomb:setTrails(10,10,10,"trails/smoke")
+        Bomb:noCollideAll(1)
+        timer("exp",2000)
+        }
+    if(!owner():keyAttack2()){
+        rangerFilter(Plate)
+        rangerFilter(Chair)
+        ShootPos=rangerOffset(owner():shootPos(),owner():shootPos()+vec(1000000,0,0):rotate(owner():eyeAngles())):pos()
+for(I=1,players():count()){
+    #&players()[I,entity]:isPVP()
+    if(players()[I,entity]:pos():distance(ShootPos)<ShootEnt:pos():distance(ShootPos)&players()[I,entity]!=Driver&players()[I,entity]:isValid()&players()[I,entity]:pos():distance(ShootPos)<500){
+        ShootEnt=players()[I,entity]
+        }
+    }
+    }
+    if(owner():keyAttack2()&Attack2==1&CanAttack2==1&Ammo>0){
+        if(!ShootEnt:isValid()){
+        ShootAng=(ShootPos-Plate:pos()):toAngle()
+    }
+    if(ShootEnt:isValid()){
+        ShootAng=(ShootEnt:pos()-Plate:pos()):toAngle()
+        ShootPos=ShootEnt:pos()
+    }
+    
+        CanAttack2=0
+        Ammo=Ammo-2
+        Plate:soundPlay(500,1000,"weapons/ar2/fire1.wav")
+        Plate:shootTo(Plate:pos(),vec(1,0,0):rotate(ShootAng),0.02,12,40,"Tracer")
+        Plate:shootTo(Plate:pos(),vec(1,0,0):rotate(ShootAng),0.02,12,40,"Tracer")
+        Plate:shootTo(Plate:pos(),vec(1,0,0):rotate(ShootAng),0.02,12,40,"Tracer")
+        Plate:shootTo(Plate:pos(),vec(1,0,0):rotate(ShootAng),0.02,12,40,"Tracer")
+        Plate:shootTo(Plate:pos(),vec(1,0,0):rotate(ShootAng),0.02,12,40,"Tracer")
+        Plate:shootTo(Plate:pos(),vec(1,0,0):rotate(ShootAng),0.02,12,40,"Tracer")
+        timer("attack2",250)
+        }
+    }
+if(Ammo==0){
+    timer("reload",3000)
+    }
+if(clk("reload")){
+    Ammo=70
+    }
+if(Damage>100){
+    Chair:killPod()
+    Chair:lockPod(1)
+    Plate:setPos(entity():pos()+vec(-100,0,0))
+    Plate:propFreeze(1)
+    Plate:setAng(ang(0,0,0))
+    timer("unlock",5000)
+    Damage=0
+    }
+if(clk("unlock")){
+    Chair:lockPod(0)
+    }
+if(clk("attack2")){
+    CanAttack2=1
+    }
+if(Bomb:isValid()){
+    Bomb:applyForce(vec(0,0,-10000000000000))
+    Bomb:setAng(BombAng)
+    if(rangerOffset(Bomb:pos()-vec(0,0,75),Bomb:pos()-vec(0,0,150)):hit()||clk("exp")){
+        Bomb:explosion()
+        Bomb:explosion()
+        Bomb:propDelete()
+        timer("d",3000)
+        }
+    }
+if(!Driver:isValid()){
+  #  Enabled=-1
+}
+if(clk("d")){
+    CanAttack=1
+    }

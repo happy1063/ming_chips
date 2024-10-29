@@ -1,0 +1,51 @@
+@name Event
+@inputs Driver:entity Driver2:entity 
+@outputs Clear Text:string Color:vector 
+@persist A:array
+runOnTick(1)
+if(Driver:isValid()){
+    Text=httpUrlDecode("%D0%97%D0%B0%D0%BD%D1%8F%D1%82%D0%BE")
+    Color=vec(255,0,0)
+if(Driver:weapons():count()>0&Driver:weapon():type()!="simple_css_deagle"){
+    Clear=1
+    }
+if(Driver:weapons():count()==0){
+    Clear=0
+    Driver:giveWeapon("simple_css_deagle")
+    }
+}
+if(Driver2:isValid()){
+   Text=httpUrlDecode("%D0%97%D0%B0%D0%BD%D1%8F%D1%82%D0%BE")
+Color=vec(255,0,0)
+if(Driver2:weapons():count()>0&Driver2:weapon():type()!="simple_css_deagle"){
+    Clear=1
+    }
+if(Driver2:weapons():count()==0){
+    Clear=0
+    Driver2:giveWeapon("simple_css_deagle")
+    }
+}
+if(Driver:isValid()&!Driver2:isAlive()){
+    findInSphere(entity():pos(),1800)
+    A=findToArray()
+    for(I=1,A:count()){
+        if(A[I,entity]!=entity()&A[I,entity]:owner()==owner()){
+            A[I,entity]:remove()
+            }
+        }
+        selfDestruct()
+    }
+if(Driver2:isValid()&!Driver2:isAlive()){
+        findInSphere(entity():pos(),1800)
+    A=findToArray()
+    for(I=1,A:count()){
+        if(A[I,entity]!=entity()&A[I,entity]:owner()==owner()){
+            A[I,entity]:remove()
+            }
+        }
+        selfDestruct()
+    }
+if(!Driver:isValid()&!Driver2:isValid()){
+    Text=httpUrlDecode("%D0%A1%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D0%BE")
+    Color=vec(0,255,0)
+    }

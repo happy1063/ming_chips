@@ -1,0 +1,81 @@
+@name   
+@inputs Egp:wirelink Reset
+@persist Color:vector Index1 Index2 Pos:array Scale:vector2 Gravity:vector2 A Scale1 Count Pos1:vector2 Zero
+runOnTick(1)
+
+if (Egp:entity():isValid()) {
+    if (first()) {
+        Count = 8
+
+        Scale = Egp:egpSize()  #  
+        Scale1 = 16
+        Egp:egpClear()
+        Gravity = vec2(0, Scale1)
+        Zero=0
+        
+        function number collide(A:array, V:vector2, D:number) {
+            for (I = 1, A:count()) {
+                if (A[I, vector2] == V && I != D) {
+                    return 1
+                }
+            }
+            return 0
+        }
+        
+        #  
+        for (Index1 = 1, Count) {
+            for (Index2 = 1, Count) {
+                Color = vec(255, 255, 0)
+                holoCreate(Index1 * Count + Index2)
+                holoScaleUnits(Index1 * Count + Index2,vec(Scale1,Scale1,Scale1))
+                Egp:egpBox(Index1 * Count + Index2, vec2(Index1 * Scale1 + randint(0,4)*32, Index2 * Scale1), vec2(Scale1, Scale1))
+                Egp:egpColor(Index1 * Count + Index2,Color)
+            }
+        }
+    }
+}
+
+if (ops()<3000) {   
+    for (I = 1, (Count + 1) * Count) {
+        Pos[I, vector2] = Egp:egpPos(I)
+    }
+
+    #   
+    for (I = 1, (Count + 1) * Count) {
+        A = Zero
+        
+        Pos1 = ceil(Egp:egpPos(I))
+        local NewPos = Pos1 + Gravity
+        holoPos(I,entity():pos()+vec(100,0,0)+vec(Pos1:x(),0,Pos1:y()))
+        #     
+        if ((collide(Pos, Pos1, I) && !collide(Pos, Pos1 + vec2(Zero, Scale1), I)) || Pos1:y() >= Scale:y()) {
+            Egp:egpPos(I, vec2(Pos1:x(), Scale:y() - Scale1))  #    ,    
+        } else {
+            if (NewPos:y() < Scale:y() && NewPos:y() > Zero && NewPos:x() > Zero && NewPos:x() < Scale:x()) {
+                if (!collide(Pos, NewPos, I)) {
+                    Egp:egpPos(I, NewPos)
+                    A = 1
+                }
+            }
+        }
+        
+        #     ,   
+        if (A == Zero) {
+            local DiagLeft = NewPos + vec2(-Scale1, Zero)
+            local DiagRight = NewPos + vec2(Scale1, Zero)
+            local Rand =randint(0,1)
+            if(Rand==1){
+            if (DiagLeft:x() > Zero && DiagLeft:x() < Scale:x() && DiagLeft:y() < Scale:y() && !collide(Pos, DiagLeft, I)) {
+                Egp:egpPos(I, DiagLeft)
+                A = 1
+            }
+        }
+        if(Rand==0){
+            if (DiagRight:x() > Zero && DiagRight:x() < Scale:x() && DiagRight:y() < Scale:y() && !collide(Pos, DiagRight, I)) {
+                Egp:egpPos(I, DiagRight)
+                A = 1
+            }
+        }
+        }
+    }
+}

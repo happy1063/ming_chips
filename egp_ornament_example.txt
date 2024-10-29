@@ -1,0 +1,31 @@
+@name EGP Ornament Example
+@inputs EGP:wirelink
+@outputs
+@persist
+@trigger
+
+if (first()) {
+    # ,  EGP 
+    if (!EGP) {
+        error("EGP  !")
+        return
+    }
+
+    #  
+    EGP:egpClear()
+
+    #  
+    EGP:egpText(1, "", vec2(256, 50))
+    EGP:egpAlign(1, 1, 1) #  
+
+    #    
+    for (I = 0, 10) {
+        EGP:egpLine(10 + I, vec2(256 - I * 10, 100), vec2(256 + I * 10, 150))
+        EGP:egpLine(20 + I, vec2(256 - I * 10, 150), vec2(256 + I * 10, 100))
+    }
+
+    #     
+    for (I = 1, 30) {
+        EGP:egpColor(I, vec(255, 255, 255))
+    }
+}

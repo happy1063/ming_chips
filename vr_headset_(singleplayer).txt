@@ -1,0 +1,334 @@
+@name Vr Headset (Singleplayer)
+@inputs 
+@outputs 
+@persist I MaxI [Ply E Z Plane]:entity Rainbow On Am Fall PZ Sin BeatStart
+@trigger
+@model 
+runOnTick(1)
+if(duped()){reset()}
+if(first())
+{           
+    #debug/debugportals
+    #debug/debugdecalwireframe
+    #vgui/ico_box1
+    #vgui/ico_box2
+    #vgui/ico_box12
+    #vgui/ico_box13
+    #vgui/ico_box14
+    #vgui/ico_box3
+    #vgui/ico_box4
+    #vgui/ico_box10
+    #vgui/ico_box11
+    #vgui/ico_box5
+    #vgui/ico_box6
+    #vgui/ico_box7
+    #vgui/ico_box8
+    #vgui/ico_box9
+    #vgui/common/message_dialog_warning
+    #vgui/common/message_dialog_error
+    #vgui/common/message_dialog
+    #vgui/icon_con_grey
+    #vgui/icon_con_high
+    #vgui/icon_con_low
+    #vgui/icon_con_medium
+
+
+    E = entity()
+    E:setAlpha(0)
+    
+    Z = holoCreate(0)
+    holoAlpha(0,0)
+    ### Model ###
+    function void c(IND,MOD:string,COL:vector,SCL:vector,POS:vector,CLIP1:vector,CLIP2:vector,ANG:angle) { 
+        
+        holoCreate(IND)
+        holoModel(IND,MOD)
+        holoColor(IND,COL)
+        holoScale(IND,SCL)
+        holoPos(IND,E:toWorld(POS))
+        holoAng(IND,E:toWorld(ANG))
+        holoParent(IND,Z)
+        
+        if(CLIP2 != vec(0)){
+            holoClipEnabled(IND,1,1)
+            holoClip(IND,CLIP1,CLIP2,0)
+        }
+    }
+
+    I++ c(I,"hq_rcube",vec(50),vec(1,0.5,0.5),vec(0,-5,0),vec(0,1,0),vec(0,-1,0),ang(0))
+    I++ c(I,"hq_rcube",vec(255),vec(1,0,0.5),vec(0,-4,0),vec(0,1,0),vec(0,-1,0),ang(0)) holoDisableShading(I,1)
+    I++ c(I,"hq_stube_thin",vec(50),vec(1.01,0.51,0.02),vec(0,-4,0),vec(0),vec(0),ang(0,0,90))
+    I++ c(I,"hq_torus_thin",vec(50),vec(1,0.9,1),vec(0,0,1),vec(0),vec(0,-1,0),ang(0,90,-90))
+    I++ c(I,"hq_torus_thin",vec(50),vec(1,0.7,1),vec(2,0,0),vec(0),vec(-0.2,-1,0),ang(0,115,0))
+    I++ c(I,"hq_torus_thin",vec(50),vec(1,0.7,1),vec(-2,0,0),vec(0),vec(0.2,-1,0),ang(0,-115,0))
+    I++ c(I,"hq_sphere",vec(50),vec(0.2,0.12,0.2),vec(0,5.7,0),vec(0),vec(0),ang(0))
+    I++ c(I,"hq_sphere",vec(255),vec(-7),vec(0,0,1),vec(0),vec(0,0,0),ang(0)) holoVisible(I,players(),0) holoDisableShading(I,1)
+    I++ c(I,"hq_sphere",vec(255),vec(-7),vec(0,0,1),vec(0),vec(0,0,0),ang(0)) holoParent(I,E) holoParent(8,holoEntity(I)) holoMaterial(I,"debug/debugportals") holoVisible(I,players(),0)
+    
+    
+    ### The area that you spawn at when you pick up the headset ###
+    
+    I = 11      #Main plane, the black square you spawn at
+    holoCreate(I)
+    holoScale(I,vec(50,50,0.1))
+    holoAng(I,ang(0))
+    holoMaterial(I,"debug/debugportals")
+    holoColor(I,vec(0))
+    holoAlpha(I,254)
+    Plane = holoEntity(11)
+    
+    for(X=0,2){        #floaty parkour squares!
+    I++
+    holoCreate(I)
+    holoScale(I,vec(10,10,0.1))
+    holoAng(I,ang(0))
+    holoMaterial(I,"debug/debugportals")
+    holoPos(I,Plane:toWorld(vec(0,(X+1)*-500,0)))
+    holoParent(I,Plane)
+    holoColor(I,vec(0))
+    holoAlpha(I,254)
+    } 
+
+    
+    I++   #Special moving plate
+    holoCreate(I)
+    holoMaterial(I,"debug/debugportals")
+    holoColor(I,vec(0))
+    holoScale(I,vec(10,10,0.01))
+    holoPos(I,Plane:toWorld(vec(400,0,0)))
+    holoAng(I,ang(0))
+    
+    I++   #Special moving plate 2
+    holoCreate(I)
+    holoMaterial(I,"debug/debugportals")
+    holoColor(I,vec(0))
+    holoScale(I,vec(10,10,0.01))
+    holoPos(I,Plane:toWorld(vec(600,0,0)))
+    holoAng(I,ang(0))
+    
+    I++   #Beatsaber plate
+    holoCreate(I)
+    holoMaterial(I,"debug/debugportals")
+    holoColor(I,vec(0,0,255))
+    holoScale(I,vec(20,25,0.01))
+    holoAlpha(I,254)
+    holoPos(I,Plane:toWorld(vec(-420,0,0)))
+    holoAng(I,ang(0))
+    holoParent(I,holoEntity(11))
+    
+    for(X=0,3){
+        I++   #Blocks
+        holoCreate(I)
+        holoMaterial(I,"vgui/common/message_dialog_error")
+        holoModel(I,"hq_rcube")
+        holoScaleUnits(I,vec(55,55,55))
+        holoPos(I,Plane:toWorld(vec(0,0,100)))
+        holoAng(I,ang(0))
+        holoParent(I,holoEntity(11))
+    }
+    
+    ######## Holo helpers #########
+    
+    I++   
+    holoCreate(I)
+    holoScale(I,vec(0,2,2))
+    holoMaterial(I,"vgui/common/message_dialog_warning")
+    holoColor(I,vec(0))
+    holoAlpha(I,254)
+    
+    #####################
+    
+    MaxI = I
+    for(I=11,MaxI){holoVisible(I,players(),0)}      #nobody can see the inside vr holos without being in VR!
+    
+    On = 1 
+    holoEntity(9):soundPlay(5,0,"d3_breen.core_rift_wind1")
+    soundVolume(5,0)
+    
+    holoParent(0,E)
+    setName("Vr Headset (Singleplayer)" + toChar(0))
+    
+    ### Functions ###
+    
+    function number checkPlate(Ent:entity,LengX,LengY,LengZ) {
+        if(Fall != 0){
+            PX = Ent:toLocal(Ply:pos()):x()
+            PY = Ent:toLocal(Ply:pos()):y()
+            PZ = Ent:toLocal(Ply:pos()):z()
+            if((PX > LengX | PX < -LengX | PY > LengY | PY < -LengY | PZ < -10) & PZ < LengZ){return 1}
+            else{return 0}
+        }
+        else{return 0}
+    }
+    
+    function number isOnPlate(Ent:entity,LengX,LengY,LengZ) {
+            PX = Ent:toLocal(Ply:pos()):x()
+            PY = Ent:toLocal(Ply:pos()):y()
+            PZ = Ent:toLocal(Ply:pos()):z()
+            if(PX < LengX & PX > -LengX & PY < LengY & PY > -LengY & PZ > -10 & PZ < LengZ){return 1}
+            else{return 0}
+    }
+    
+    function void updateVis() {
+            for(X=1,7){holoVisible(X,Ply,0)}                #turns all of the headset holos invis so they dont see it infront of their face
+            for(X=11,MaxI){holoVisible(X,Ply,1)}            #makes the inside vr holos visible, exept for the players holo         
+    }
+    
+    rangerPersist(1)        
+    rangerFilter(players())
+    rangerFilter(E)
+}
+
+if(!Ply:isValid())      #if nobody is wearing the headset, search for players to wear it
+{
+    for(I=1,players():count()){
+        if(changed(players()[I,entity]:keyUse()) & players()[I,entity]:keyUse() & players()[I,entity]:aimEntity() == E & (players()[I,entity]:pos() + vec(0,0,60)):distance(E:pos()) < 100)
+        {
+            
+            #When the person presses E on the headset, all of this runs 1 time
+            
+            Ply = players()[I,entity] 
+            hint(Ply:name() + " is now wearing the headset!",5)
+            holoPos(9,Ply:attachmentPos("anim_attachment_head"))          #positions the blinder holos on the player wearing the headset
+            holoAng(9,Ply:attachmentAng("anim_attachment_head"))           #angles it
+            holoParentAttachment(9,Ply,"anim_attachment_head")             #parents it to the head
+            holoVisible(9,Ply,1)                                       #makes both blinder holos visible to Ply
+            holoVisible(8,Ply,1)
+            
+            holoPos(0,holoEntity(8):toWorld(vec(0,3,-1)))          #positions the headset parent holo to the blinder area and turns it around
+            holoAng(0,holoEntity(8):toWorld(ang(180,0,-90)))
+            holoParent(0,holoEntity(8))                        #parents it to the head
+            
+            Ra = rangerOffset(61,Ply:pos() + vec(0,0,60),vec(0,0,-1))   #determines where all the holos should be, using this rangers position
+            
+            holoPos(11,Ra:position() + vec(0,0,1)) #teleports main area to the headsets area
+            
+            updateVis()          
+            
+            Rainbow = 0
+            Am = 0
+            
+            holoEntity(0):soundPlay(0,0,"PropJeep.AmmoOpen")        #sound effects
+            timer("pitch",50)
+            
+            holoAng(11,ang(0))
+            holoColor(9,vec(255)) 
+            holoColor(8,vec(255))
+        }
+    }
+    
+}
+
+if(Ply:isValid())
+{
+
+    ###################################################
+    
+    if(Ply:isValid())
+    {
+        #Just the aimpos thing
+        
+        holoPos(MaxI,Ply:aimPos())
+        holoAng(MaxI,Ply:aimNormal():toAngle())
+        
+        ####### Falling code ###########
+        
+        Fall = 2
+        if(BeatStart == 0 & Am < 10){
+            Fall = checkPlate(Plane,310,310,1)      #checks main plate
+            for(X=11,16){
+                Fall = checkPlate(holoEntity(X),60,60,1)    #checks the other plates and moving plates
+            }
+            Fall = checkPlate(holoEntity(17),120,165,1)
+        }
+        elseif(Am >= 10){Fall = 1}
+
+        if(Fall == 1 | Am > 10){
+            Am+=0.2         #if not on plates, make plates go up to create the illusion of falling, while also adding sound effects and color
+            holoPos(11,holoEntity(11):pos() + vec(0,0,Am)) 
+            soundVolume(5,Am/10) 
+            soundPitch(5,random(99,100))
+            holoColor(9,vec(255-Am*5))      
+            holoColor(8,vec(255-Am*5))
+        }
+        if(Am > 300*0.2){holoPos(11,Ply:pos()) Am = 0 Rainbow = 0 Fall = 0 soundVolume(5,0) holoColor(9,vec(255)) holoColor(8,vec(255))}
+        
+        Sin++
+        if(isOnPlate(holoEntity(15),60,60,1) == 1){         #isOnPlate is a custom function, determines if your on a plate or not
+            holoPos(11,holoEntity(15):toWorld(vec(-400,sin(-Sin)*200,0)))
+            holoPos(16,Plane:toWorld(vec(600,sin(-Sin)*200,0)))
+        }
+        elseif(isOnPlate(holoEntity(16),60,60,1) == 1){
+            holoPos(11,holoEntity(16):toWorld(vec(-600,sin(Sin)*200,0)))
+            holoPos(15,Plane:toWorld(vec(400,sin(Sin)*200,0)))
+        }
+        else{
+            holoPos(15,Plane:toWorld(vec(400,sin(Sin)*200,0)))
+            holoPos(16,Plane:toWorld(vec(600,sin(-Sin)*200,0)))
+        }
+        
+        ########## Beatsaber section ############
+        
+        if(changed(isOnPlate(holoEntity(17),120,170,100))){
+            if(isOnPlate(holoEntity(17),120,170,100) == 1){
+                holoColor(17,vec(0,230,0)) 
+                BeatStart = 1
+                for(X=18,21){
+                    holoPos(X,holoEntity(17):toWorld(vec(-round(random(7,10))*100,round(random(-1,1))*100,round(random(0,1))*75)))
+                    holoAlpha(X,254)
+                }
+            }
+            else{holoColor(17,vec(0,0,230)) BeatStart = 0 for(X=18,21){holoAlpha(X,0)}}
+        }
+        
+        if(BeatStart == 1){
+            for(X=18,21){
+                if(holoEntity(X):pos():distance(Ply:pos()+vec(0,0,30/(Ply:isCrouch()+1))) < 60){
+                    BeatStart = 0 
+                    holoColor(17,vec(230,0,0))
+                    for(C=18,21){holoAlpha(C,0)}
+                }
+                if(holoEntity(X):toLocal(holoEntity(17):pos()):x() < -100){
+                    holoPos(X,holoEntity(17):toWorld(vec(-round(random(7,10))*100,round(random(-1,1))*100,round(random(0,1))*75)))
+                }
+                else{holoPos(X,holoEntity(X):pos()+vec(10,0,0))}
+            }
+        }
+        
+        ###############################
+        ### Applyforce stuff ###
+        E:applyForce((Ply:pos()+vec(0,0,120)-E:pos())*(E:mass()*35)-E:vel()*E:mass())
+        E:applyTorque((250*E:toLocal(rotationVector(quat(ang(0,Ply:angles():yaw(),0))/quat(E))+E:pos())-25*E:angVelVector())*E:inertia())
+    }
+}
+
+if(Ply & ((changed(Ply:isAlive()) & !Ply:isAlive() & !first()) | (changed(Ply:keyReload()) & Ply:keyReload() & !first()) | Ply:inVehicle()))
+{   
+    Ra = rangerOffset(10000,Ply:pos()+vec(0,0,60),vec(0,0,-1))      #ranger that determines the headsets position when you die, or press reload
+    holoVisible(9,Ply,0)
+    holoVisible(8,Ply,0)        #the blinder holos
+    for(I=1,7){holoVisible(I,players(),1)}      #the headset holos, become visible for players
+    for(I=11,MaxI){holoVisible(I,Ply,0)}  #all the inside vr holos, become invis to "ply"
+    #E:setPos(Ra:position()+vec(0,0,7))    #sets pos of headset
+    #E:setAng(ang(0,Ply:angles():yaw()+90,0))
+    Ply = noentity()        #makes ply the noentity
+    
+    holoUnparent(9)        #unparents 9 and then parents it to entity
+    holoPos(9,E:toWorld(vec(0,2,-6)))      #puts the holo at entity's pos and parents it
+    holoAng(9,E:toWorld(ang(180,0,-90)))
+    holoParent(9,E)
+    
+    holoEntity(0):soundPlay(1,0,"PropJeep.AmmoClose") #sound effects
+    timer("pitch",50)   #sound effects for pitch
+    soundVolume(5,0)
+}
+
+if(changed(players():count())){updateVis()}
+
+if(clk("pitch")){   #just the timer to make the sounds work, because wire sounds are gay and sometimes dont play  >:/
+    if(Ply){soundPitch(0,random(99,100))}
+    else{soundPitch(1,random(99,100))}
+}
+
+
+##[antidupe]#entity():remoteSetCode(getCode():explode("#[antidupe]#")[1,string]+"#"+toChar(0))

@@ -1,0 +1,62 @@
+@name usp
+@persist Ammo Reloading ReloadTime Damage Recoil ShootDelay Spray AmmoCount ShootSound:string B:effect Start:vector End:vector Del
+runOnTick(1)
+if(first()){
+    holoCreate(1,owner():attachmentPos("anim_attachment_RH"))
+    holoModel(1,"models/weapons/w_pist_usp_silencer.mdl")
+    holoParentAttachment(1,owner(),"anim_attachment_RH")
+    holoAng(1,owner():attachmentAng("anim_attachment_RH"))
+    holoAlpha(1,0)
+    ShootSound="weapons/usp/usp1.wav"
+    Ammo=12
+    AmmoCount=12
+    ShootDelay=150
+    ReloadTime=1000
+    Damage=5
+    Spray=0.05
+    Recoil=0.5
+    }
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_pistol"){
+    holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(2,0,-2):rotate(owner():attachmentAng("anim_attachment_RH")))
+    #holoAng(1,owner():attachmentAng("anim_attachment_RH"))
+    owner():weapon():setClip1(0)
+    holoAlpha(1,255)
+    owner():weapon():noDraw(1)
+    if(owner():keyAttack1()&Del==0&Ammo>0&Reloading==0){
+    timer("del",ShootDelay)
+        Ammo--
+    Start=holoPos(1)
+    End=owner():aimPos()
+    owner():viewPunch(ang(-Recoil,0,0))
+    holoEntity(1):emitSound(ShootSound)
+    holoEntity(1):shootTo(holoEntity(1):pos(),(owner():aimPos()-holoEntity(1):pos()):normalized(),Spray,0,Damage,"Tracer")
+    Del=1
+}
+if(Ammo<0){
+    Ammo=0
+    }
+    if(Ammo>AmmoCount){
+    Ammo=AmmoCount
+    }
+if(owner():keyReload()&Reloading==0&Ammo<AmmoCount){
+    Reloading=1
+    holoEntity(1):emitSound("weapons/m4a1/m4a1_clipout.wav")
+    timer("reload",ReloadTime)
+    }
+if(clk("reload")){
+    Ammo=AmmoCount
+    Reloading=0
+    holoEntity(1):emitSound("weapons/m4a1/m4a1_clipin.wav")
+    }
+    }
+if(!owner():isAlive()){
+    Ammo=20
+    }
+if(clk("del")){
+Del=0
+}
+if(owner():weapon():isValid()&owner():weapon():type()!="weapon_pistol"){
+    holoAlpha(1,0)
+    Reloading=0
+    owner():weapon():noDraw(0)
+    }

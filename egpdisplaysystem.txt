@@ -1,0 +1,85 @@
+@name 
+@inputs Egp:wirelink User:entity  
+@persist Scale:vector2 Frame:string Weapon:string A Pos:array SwitchOnMain 
+runOnTick(1)
+if(first()){
+    Scale=Egp:egpSize()
+    Egp:egpClear()
+    Egp:egpText(1,"",Scale/2)
+    Egp:egpSize(1,50)
+    Egp:egpAlign(1,1)
+    A=1
+    function number find(A:array,Vec2:vector2){
+        for(I=1,A:count()){
+            if(Vec2:x()<A[I,vector2]:x()+18&Vec2:x()>A[I,vector2]:x()-18&Vec2:y()>A[I,vector2]:y()-18&Vec2:y()<A[I,vector2]:y()+18){
+                return 1
+                }
+            }
+        return 0
+        }
+}
+if(Egp:egpCursor(owner())==vec2(-1,-1)){
+Frame="no_user"
+Egp:egpSetText(1," ")
+Egp:egpPos(1,Scale/2)
+Egp:egpRemove(2)
+if(owner():weapon():type()=="weapon_empty_hands"){
+#    owner():selectWeapon(Weapon)
+    }
+for(I=2,A){
+    Egp:egpRemove(I)
+    }
+A=1
+Weapon=owner():weapon():type()
+
+}
+if(Egp:egpCursor(owner()):x()>0){
+if(Frame=="no_user"||SwitchOnMain==1){
+for(I=2,A){
+    Egp:egpRemove(I)
+    }
+Frame="system"
+SwitchOnMain=0
+Egp:egpBox(2,Scale/2,vec2(80,40))
+Egp:egpAlign(2,1)
+Egp:egpSetText(1," * ")
+}
+if(Frame!="no_user"){
+Egp:egpPos(1,Egp:egpCursor(owner())+vec2(0,-20))
+#owner():giveWeapon("weapon_empty_hands")
+#owner():selectWeapon("weapon_empty_hands")
+}
+if(Frame=="system"){
+    if(Egp:egpCursor(owner()):x()<Scale:x()/2+40&Egp:egpCursor(owner()):x()>Scale:x()/2-40&Egp:egpCursor(owner()):y()<Scale:y()/2+20&Egp:egpCursor(owner()):y()>Scale:y()/2-20){
+        if(owner():keyAttack1()){
+        Frame="paint"
+    }
+    Egp:egpColor(2,vec(150,150,150))
+        }
+    else{
+        Egp:egpColor(2,vec(255,255,255))
+        }
+    }
+if(Frame=="paint"){
+    Egp:egpRemove(2)
+    if(owner():keyAttack1()){
+    if(!find(Pos,Egp:egpCursor(owner())+vec2(0,-20))){
+    A=A+1
+    Egp:egpBox(A,Egp:egpCursor(owner()),vec2(20,20))
+    Egp:egpAlign(A,1)
+    if(Egp:egpPos(A):length()<10){
+    print(Egp:egpPos(A))
+}
+   if(Egp:egpPos(A)!=vec2(0,0)){
+Pos:pushVector2(Egp:egpCursor(owner())+vec2(0,-20))
+}
+}
+}
+if(owner():keyPressed("e")){
+    for(I=2,A){
+    Egp:egpRemove(I)
+    }
+    SwitchOnMain=1
+    }
+}
+}

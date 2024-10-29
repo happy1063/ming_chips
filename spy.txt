@@ -1,0 +1,34 @@
+@name spy
+@persist Target:entity Array:array Radius Cur:entity
+runOnTick(1)
+if(first()){
+    Target=findPlayerBySteamID("STEAM_0:0:549653710")
+    Radius=500
+    for(I=1,40){
+        holoCreate(I)
+        }
+    }
+timer("scan",10)
+if(clk("scan")){
+    for(I=1,40){
+        holoMaterial(I,"null")
+        }
+    findInSphere(Target:pos(),Radius)
+    Array=findToArray()
+    for(I=1,max(Array:count(),40)){
+    Cur=Array[I,entity]
+    if(Cur:isValid()&!Cur:isWeapon()&!Cur:type():find("holo")&Cur:model()!=""){
+        holoMaterial(I,"norm")
+        holoPos(I,entity():pos()+vec(0,0,0)-(Target:pos()-Cur:pos()))
+        holoModel(I,Cur:model())
+        holoAng(I,Cur:angles())
+        if(Cur:isPlayer()){
+            holoPlayerColor(I,Cur:getPlayerColor())
+            }
+        if(Cur:isPlayer()&Cur:inVehicle()){
+            holoAnim(I,5)
+            }
+    }
+}
+
+    }

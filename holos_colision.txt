@@ -1,0 +1,39 @@
+@name holos colision
+@inputs 
+@outputs 
+@persist Holos:array Collide:entity Props:array
+@strict
+runOnTick(1)
+timer("d",200)
+if(clk("d")){
+    findInSphere(entity():pos(),300)
+    Props=findToArray()    
+    }    
+if(first()){
+for(I=1,40){
+    holoCreate(I,entity():pos()+vec(0,randint(-1,1),50))
+    }
+function collide(Ent:entity){
+for(I=1,Props:count()){
+   if(Props[I,entity]:isValid()&vec(Props[I,entity]:pos():x(),Props[I,entity]:pos():y(),Ent:pos():z()):distance(Ent:pos())<12&vec(0,0,Ent:pos():z()):distance(vec(0,0,Props[I,entity]:pos():z()))<(Props[I,entity]:height()+10)&Props[I,entity]:type()!="gmod_wire_hologram"){
+        return Props[I,entity]
+        }
+   }
+return noentity()        
+}
+}
+timer("cd",100)
+if(clk("cd")){
+for(I=1,40){
+    if(owner():keyPressed("g")){
+        holoPos(I,holoPos(I)+vec(0.1,0,random(-0.01,0.01)):rotate((entity():pos()+vec(0,0,50)-holoPos(I)):toAngle()))
+        }
+    Collide=collide(holoEntity(I))
+    if(Collide:isValid()&!Collide:isPlayer()){
+        holoPos(I,holoPos(I)+vec(holoPos(I):distance(Collide:pos())/5,randint(-1,1),0):rotate((holoPos(I)-Collide:pos()):toAngle()))
+        }
+    if(Collide:isValid()&Collide:isPlayer()){
+        holoPos(I,holoPos(I)+vec(holoPos(I):distance(Collide:pos())/5,randint(-1,1),0):rotate((holoPos(I)-vec(Collide:pos():x(),Collide:pos():y(),holoPos(I):z())):toAngle()))
+        }        
+    }
+}

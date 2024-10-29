@@ -1,0 +1,33 @@
+@name 
+@persist A:entity Count CountA:array
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoColor(1,vec(255,250,0))
+    holoDisableShading(1,1)
+    holoScaleUnits(1,vec(10,10,100000))
+    holoMaterial(1,"models/debug/debugwhite")
+    }
+timer("update",100)
+if(clk("update")){
+    findByClass("npc_zombie")
+    CountA=findToArray()
+    }
+    for(I=1,CountA:count()){
+        if(!CountA[I,entity]:isValid()||!CountA[I,entity]:isAlive()){
+            CountA:removeEntity(I)
+            }
+        }
+timer("Spawn",randint(CountA:count()*2000,CountA:count()*10000+10000))
+if(clk("Spawn")){
+    Count=randint(1,3)
+    for(I=1,Count){
+        A=entitySpawn("npc_zombie",2)
+        A:noCollideAll(1)
+   #     A:setMaxHealth(500)
+   #     A:setHealth(randint(100,500))
+        A:npcSetTarget(players()[randint(1,players():count()),entity])
+        A:npcGoWalk(vec(-1835.766724,3045.423096,-319.968750))
+
+        }
+    }

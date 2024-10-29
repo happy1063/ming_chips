@@ -1,0 +1,24 @@
+@name e2 commands
+@inputs A
+@persist E:entity Y S
+runOnChat(1)
+if(first()){
+    E=spawnExpression2(vec(0,0,0),ang(0,0,0),entity():model())
+    }
+if(chatClk(owner())){
+if(owner():lastSaid():explode("")[1,string]=="#"){
+    E:remoteSetCode("
+@persist I O:entity This:entity
+if(first()){
+I=0
+O=owner()
+This=owner():aimEntity()
+}
+"+owner():lastSaid():sub(2))
+}
+E:setName("current command: "+owner():lastSaid():sub(2))
+if(E:getName()=="current command: "+owner():lastSaid():sub(2)){
+    hint("succes",1)
+    }
+}
+

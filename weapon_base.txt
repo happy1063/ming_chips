@@ -1,0 +1,51 @@
+@name Weapon Base
+@persist Number Weapons:array Tracers:array Damages:array Sprays:array Models:array ModelsOffsetsVector:array ModelsOffsetsAngles:array Delays:array Ammos:array ReloadTimes:array
+function number canCreate(A:string){
+    for(I=1,Weapons:count()){
+        if(A==Weapons[I,string]){
+            return 0
+            }
+        }
+    return 1
+    }
+function number haveWeapon(){
+    for(I=1,Weapons:count()){
+    if(owner():weapon():type()==Weapons[I,string]){
+    return I
+}
+}
+return 0
+    }
+function on(){
+    runOnTick(1)
+    Number=haveWeapon()
+    if(Number>0){
+    owner():weapon():setAlpha(0)
+    setViewModelVisibility(1)
+    holoEntity(1):setModel(Models[Number,string])
+    holoAng(1,owner():attachmentAng("anim_attachment_RH")+ModelsOffsetsAngles[Number,angle])
+    holoPos(1,owner():attachmentPos("anim_attachment_RH")+ModelsOffsetsVector[Number,vector])
+    holoParentAttachment(1,owner(),"anim_attachment_RH")
+    holoAlpha(1,255)
+    }
+    else{
+        setViewModelVisibility(0)
+        owner():weapon():setAlpha(255)
+        holoAlpha(1,0)
+        }
+    }
+function createWeapon(N:string,Tracer:string,Damage,Spray,Model:string,MdlOffsetV:vector,MdlOffsetAngle:angle,Delay,Ammo,ReloadTime){
+    if(canCreate(N)){
+    Weapons:pushString(N)
+    Tracers:pushString(Tracer)
+    Damages:pushNumber(Damage)
+    Sprays:pushNumber(Spray)
+    Models:pushString(Model)
+    ModelsOffsetsVector:pushVector(MdlOffsetV)
+    ModelsOffsetsAngles:pushAngle(MdlOffsetAngle)
+    Delays:pushNumber(Delay)
+    Ammos:pushNumber(Ammo)
+    ReloadTimes:pushNumber(ReloadTime)
+}
+    }
+

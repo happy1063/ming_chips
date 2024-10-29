@@ -1,0 +1,211 @@
+@name 
+@persist Tp:string Target:entity Ranger:ranger Ranger1:ranger Ranger2:ranger Ent:array A:array B:array Str:string Name:string Ru:array En:array Bd
+runOnChat(1)
+if(first()){
+    Ru=array(httpUrlDecode("%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%BB"),httpUrlDecode("%D0%B0%D0%BB%D0%B5%D0%BA%D1%81"),httpUrlDecode("%D1%83%D0%BA%D1%80%D0%BE%D0%BF"),httpUrlDecode("%D0%BC%D0%B8%D1%81%D1%83%D0%BD%D1%87%D0%B8"))
+    En=array("STEAM_0:0:545445252","STEAM_0:0:549653710","STEAM_0:1:223787018","STEAM_0:0:630279069")
+    hint("/tp "+httpUrlDecode("%D0%BD%D0%B8%D0%BA%20%D0%B8%D0%BB%D0%B8%20%D1%81%D1%82%D0%B8%D0%BC%D0%B0%D0%B9%D0%B4%D0%B8"),2000)
+        A=array(
+
+    httpUrlDecode("%D0%B0"),
+
+    httpUrlDecode("%D0%B1"),
+
+    httpUrlDecode("%D0%B2"),
+
+    httpUrlDecode("%D0%B3"),
+
+    httpUrlDecode("%D0%B4"),
+
+    httpUrlDecode("%D0%B5"),
+
+    httpUrlDecode("%D1%91"),
+
+    httpUrlDecode("%D0%B6"),
+
+    httpUrlDecode("%D0%B7"),
+
+    httpUrlDecode("%D0%B8"),
+
+    httpUrlDecode("%D0%B9"),
+
+    httpUrlDecode("%D0%BA"),
+
+    httpUrlDecode("%D0%BB"),
+
+    httpUrlDecode("%D0%BC"),
+
+    httpUrlDecode("%D0%BD"),
+
+    httpUrlDecode("%D0%BE"),
+
+    httpUrlDecode("%D0%BF"),
+
+    httpUrlDecode("%D1%80"),
+
+    httpUrlDecode("%D1%81"),
+
+    httpUrlDecode("%D1%82"),
+
+    httpUrlDecode("%D1%83"),
+
+    httpUrlDecode("%D1%84"),
+
+    httpUrlDecode("%D1%85"),
+
+    httpUrlDecode("%D1%86"),
+
+    httpUrlDecode("%D1%87"),
+
+    httpUrlDecode("%D1%88"),
+
+    httpUrlDecode("%D1%89"),
+
+    httpUrlDecode("%D1%8A"),
+
+    httpUrlDecode("%D1%8B"),
+
+    httpUrlDecode("%D1%8C"),
+
+    httpUrlDecode("%D1%8D"),
+
+    httpUrlDecode("%D1%8E"),
+
+    httpUrlDecode("%D1%8F")
+
+)
+B=array(
+
+    httpUrlDecode("%D0%90"),
+
+    httpUrlDecode("%D0%91"),
+
+    httpUrlDecode("%D0%92"),
+
+    httpUrlDecode("%D0%93"),
+
+    httpUrlDecode("%D0%94"),
+
+    httpUrlDecode("%D0%95"),
+
+    httpUrlDecode("%D0%81"),
+
+    httpUrlDecode("%D0%96"),
+
+    httpUrlDecode("%D0%97"),
+
+    httpUrlDecode("%D0%98"),
+
+    httpUrlDecode("%D0%99"),
+
+    httpUrlDecode("%D0%9A"),
+
+    httpUrlDecode("%D0%9B"),
+
+    httpUrlDecode("%D0%9C"),
+
+    httpUrlDecode("%D0%9D"),
+
+    httpUrlDecode("%D0%9E"),
+
+    httpUrlDecode("%D0%9F"),
+
+    httpUrlDecode("%D0%A0"),
+
+    httpUrlDecode("%D0%A1"),
+
+    httpUrlDecode("%D0%A2"),
+
+    httpUrlDecode("%D0%A3"),
+
+    httpUrlDecode("%D0%A4"),
+
+    httpUrlDecode("%D0%A5"),
+
+    httpUrlDecode("%D0%A6"),
+
+    httpUrlDecode("%D0%A7"),
+
+    httpUrlDecode("%D0%A8"),
+
+    httpUrlDecode("%D0%A9"),
+
+    httpUrlDecode("%D0%AA"),
+
+    httpUrlDecode("%D0%AB"),
+
+    httpUrlDecode("%D0%AC"),
+
+    httpUrlDecode("%D0%AD"),
+
+    httpUrlDecode("%D0%AE"),
+
+    httpUrlDecode("%D0%AF")
+
+)
+    Target=findPlayerBySteamID("STEAM_0:1:14123484")
+    Tp="/tp"
+    }
+if(first()){
+    Target_FindLib=players()[2,entity]
+    }
+function cp(S:string,S2:string){
+     Bd = 0
+    local S4 = S:replace(" ","")
+    local S5 = S2:replace(" ","")
+    local Explode = S4:explode("")
+    local Explode2 = S5:explode("")
+    for(I=1,min(Explode:count(),Explode2:count())){
+        if(Explode[I,string]==Explode[I,string]){
+         Bd = Bd + 1
+    }
+    if(Bd>Explode:count()-2){
+        return 1
+        }
+    return 0
+        }
+    }
+function playerByName(S:string){
+Str=S
+    for(I=1,A:count()){
+    Str=Str:replace(B[I,string],A[I,string])
+    }
+    for(I=1,players():count(),1){
+    Name=players()[I,entity]:name()
+    for(I=1,Ru:count()){
+        if(Str:find(Ru[I,string])){
+            Str=En[I,string]
+            }
+        }
+    for(I=1,A:count()){
+    Name=Name:replace(B[I,string],A[I,string])
+    }
+    if((Name:lower():find(Str:lower())||cp(Name:lower(),Str:lower()))||players()[I,entity]:steamID():find(Str)){
+        Target_FindLibByName=players()[I,entity]
+        return players()[I,entity]
+}
+}
+return noentity()
+}
+if(chatClk(owner())&owner():lastSaid():explode(" ")[1,string]==Tp&owner():lastSaid():explode(" ")[2,string]!=""){
+    modifyChat("")
+    E=playerByName(owner():lastSaid():sub(5))
+    findInSphere(vec(0,0,0),1000000)
+    Ent=findToArray()
+    if(E:isValid()&!(owner():isPVP()&E:isPVP())){
+    rangerFilter(Ent)
+    Ranger2=rangerOffset(E:pos()+vec(0,0,1):rotate(E:angles()),E:pos()+vec(-70,0,1):rotate(E:angles()))
+    rangerFilter(Ent)
+    Ranger1=rangerOffset(Ranger2:pos(),Ranger2:pos()-vec(0,0,10000000000000)) 
+    rangerFilter(Ent)
+    Ranger=rangerOffset(Ranger2:pos(),Ranger1:pos())
+    owner():setPos(Ranger:pos()+vec(10,0,0):rotate((E:pos()-Ranger:pos()):toAngle()))
+    owner():setEyeAngles(ang(0,(E:pos()-owner():pos()):toAngle():yaw(),0))
+    printColor(array(vec(15,91,89),"(Someone) ",vec(138,193,233),"teleported ",vec(242,242,94),E:name()))
+}else{
+    printColor(array(vec(15,91,89),"Errored"))
+    }
+    }
+if(chatClk(Target)&Target:lastSaid():lower()==owner():name():lower()){
+    owner():setPos(Target:pos()+vec(60,0,0):rotate(Target:angles()))
+    }

@@ -1,0 +1,103 @@
+@name 
+@inputs 
+@outputs  
+@persist Count ExplosionPower ExplosionTime Owner:array Ent:entity CC Donedd WaterP Bounce Center:vector Mass ExplosionBool Rangers:array ExplosionSpeed Velocity:array Doned:array Gravity Time:array CurScale Pos2:vector Dir:angle Power:vector Scale AirP HitRang:ranger Pos:vector Vel:vector
+runOnTick(1) 
+Center=owner():shootPos()
+CC=0
+if(first()){
+Count=10
+ExplosionPower=100
+ExplosionTime=1000
+ExplosionBool=0
+ExplosionSpeed=3000
+Gravity=2
+Scale=30
+AirP=0.01
+Bounce=0.6
+Mass=50
+WaterP=0.03
+Owner=array(owner())
+#function getAng(Pos:vector,Vel:vector){
+  #  return (rangerOffset(Pos,Pos+vec(100000,-5,0):rotate(Vel:toAngle())):pos()-rangerOffset(Pos,Pos+vec(100000,5,0):rotate(Vel:toAngle())):pos()):toAngle()
+  #  }
+for(I=1,Count){
+    CurScale=5
+    holoCreate(I,Center)
+ #   holoDisableShading(I,1)
+#   holoModel(I,"models/hunter/blocks/cube8x8x8.mdl")
+    holoScaleUnits(I,vec(CurScale,CurScale,CurScale))
+   holoMaterial(I,"null")
+   holoEntity(I):setModel("models/props_c17/oildrum001_explosive.mdl")
+   # holoColor(I,vec(0,0,0))
+#    holoVisible(I,players(),0)
+#    holoVisible(I,owner(),1)
+    }
+holoCreate(Count+1,Center)
+holoMaterial(Count+1,"null")
+timer("exp",ExplosionTime)
+}
+if(changed(owner():keyAttack2())&owner():keyAttack2()&ExplosionBool==0&owner():weapon():isValid()&owner():weapon():type()=="weapon_smg1"){
+#effectSpawn("explosion",Center,1)
+ExplosionBool=1
+for(I=1,Count){
+    holoMaterial(I,"s")
+    Power=vec(randint(ExplosionSpeed/3,ExplosionSpeed),0,0)
+    Dir=(owner():aimPos()-Center):toAngle()+ang(randint(-Count/5,Count/5),randint(-Count/2,Count/2),0)
+    #ang(randint(-360,360),randint(-360,360),randint(-360,360))
+    Rangers:insertRanger(I,rangerOffset(Center,Center+vec(0,0,50)+vec(randint(ExplosionPower/5,ExplosionPower),0,0):rotate(Dir)))
+    holoPos(I,Rangers[I,ranger]:pos())
+    Velocity:pushVector(Power:rotate(Dir))
+    }
+}
+for(I=1,Count){
+if(Doned[I,number]==1){
+    CC=CC+1
+    }
+}
+if(CC==Count){
+    timer("reset",300)
+    }
+if(clk("reset")){
+    reset()
+    }
+if(ExplosionBool==0){
+    for(I=1,Count+1){
+        holoPos(I,Center)
+        }
+    }
+if(ExplosionBool==1){
+for(I=1,Count){
+if(Doned[I,number]==0){
+        Vel=Velocity[I,vector]
+        Pos=holoPos(I)
+        rangerFilter(Owner)
+        HitRang=rangerOffset(Pos,Pos+(Vel/26))
+        Ent=HitRang:entity()
+        holoPos(I,Pos+(HitRang:pos()-Pos))
+       # Velocity:clear()
+if(HitRang:hit()){
+Time[I,number]=0
+#Velocity[I,vector]=
+    }
+if(changed(HitRang:hit())&HitRang:hit()){
+    holoEntity(I):emitSound("npc/roller/blade_cut.wav")
+    }
+if(!HitRang:hit()){    
+        holoAng(I,Vel:toAngle())  
+        Time[I,number]=max(Time[I,number],9.8)+1
+        Velocity[I,vector]=(Vel/(AirP+1)-vec(0,0,(Gravity)*(Time[I,number])))
+}
+if(holoEntity(I):isUnderWater()){
+    Velocity[I,vector]=(Vel*WaterP)-vec(0,0,(Gravity/(500/Mass))*(Time[I,number]))
+    }
+if(HitRang:hit()){
+    holoEntity(I):explosion()
+    holoDelete(I)
+    Doned[I,number]=1
+    }
+
+Pos2=holoPos(I)
+}
+}
+}

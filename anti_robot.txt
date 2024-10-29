@@ -1,0 +1,28 @@
+@name anti robot 
+@persist A:array
+runOnTick(1)
+timer("d",100)
+if(first()||clk("d")){
+findByClass("gmod_wire_expression2")
+A=findToArray()}
+for(I=1,A:count()){
+    if(A[I,entity]:isValid()&A[I,entity]:owner():isAlive()&A[I,entity]:owner():isPVP()&(A[I,entity]:getName():find("Drone-Control")||A[I,entity]:getName():find("N.M.B.4")||A[I,entity]:getName():find("Badger's helicopter"))&A[I,entity]:owner():vehicle():isValid()){
+        holoCreate(I,A[I,entity]:pos())
+        holoDisableShading(I,1)
+        holoInvertModel(I,1)
+        holoParent(I,A[I,entity])
+        holoScale(I,vec(30,30,30))
+        holoColor(I,vec(0,0,0))
+        timer(A[I,entity]:owner():name(),500)
+        if(clk(A[I,entity]:owner():name())&owner():isPVP()){
+            holoEntity(I):explosion()
+            }
+        if(owner():isPVP()){
+        owner():weapon():shootTo(A[I,entity]:owner():shootPos(),vec(0,0,-1),0,0,1000000,"")
+    }
+     #   concmd("ulx psay "+A[I,entity]:owner():name()+" udali robota ebanovo")
+        }
+        else{
+        holoDelete(I)
+        }
+}

@@ -1,0 +1,46 @@
+@name marhmelov
+@persist T:entity E:entity Bukvi:array STEAMID:string
+runOnTick(1)
+if(first()){
+    STEAMID="STEAM_0:1:779520393"
+    T=findPlayerBySteamID(STEAMID)
+    concmd("")
+    Bukvi=array(
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
+    "O", "P", "", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+    "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+)
+    E=propSpawn("models/hunter/blocks/cube4x4x4.mdl",T:shootPos(),1)
+    holoCreate(1)
+    holoInvertModel(1,1)
+    holoScale(1,vec(5,5,5))
+    holoDisableShading(1,1)
+    E:parentTo(T)
+    E:noCollideAll(1)
+    E:setAlpha(0)
+    E:noDraw(1)
+ #   One:setTrails(600,0,10000000,"trails/smoke",vec(255,0,0),1000,0,0)
+  #  Two:setTrails(600,0,10000000,"trails/smoke",vec(0,0,255),1000,0,0)
+ #   Three:setTrails(600,0,10000000,"trails/smoke",vec(255,255,255),1000,0,0)
+    A=players()
+    A:removeEntity(owner():id())
+    }
+holoPos(1,T:shootPos())
+holoVisible(1,players(),0)
+holoVisible(1,T,1)
+timer("d",10)
+if(clk("d")){
+#concmd("ulx psay "+T:name():explode(" ")[1,string]+" SKIBIDI BAGUETE")
+}
+E:setPos(T:shootPos())
+if(!E:isValid()){
+    concmd("stopsound")
+    selfDestruct()
+    }
+if(!T:isValid()){
+    timer("target",100)
+    }
+if(clk("target")){
+T=findPlayerBySteamID(STEAMID)
+    }

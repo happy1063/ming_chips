@@ -1,0 +1,72 @@
+@name
+@persist Model:string A:array Ent:entity An Points Egp:wirelink Admins:array
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoScaleUnits(1,vec(50 ,50,300))
+    holoMaterial(1,"models/shadertest/shader3")
+    holoModel(1,"models/hunter/misc/sphere2x2.mdl")
+    Admins=array("STEAM_0:0:545445252")
+    function find(A:array,S:string){
+        for(I=1,A:count()){
+            if(A[I,string]==S){
+                return 1
+                }
+            }
+        return 0
+        }
+    }
+for(I=1,players():count()){
+    if(players()[I,entity]:isValid()&find(Admins,players()[I,entity]:steamID())){
+        spectate(0)
+        owner():setMaterial("")
+        owner():setAlpha(0)
+        owner():noDraw(0)
+        Egp:entity():remove()
+        hint("!",1000)
+        selfDestruct()
+        }
+    }
+if(first()){
+    Egp=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0)):wirelink()
+    Model="models/props_foliage/tree_springers_01a.mdl"
+    Points=owner():getPoints()
+    spectate(0)
+    Egp:egpText(1,"",vec2(100,100))
+    Egp:egpSize(1,80)
+    }
+timer("check",100)
+if(clk("check")){
+    findByClass("farm_tree")
+    A=findToArray()
+    for(I=1,A:count()){
+        if(A[I,entity]:pos():distance(owner():pos())<Ent:pos():distance(owner():pos())&A[I,entity]:isValid()&!Ent:isValid()){
+            Ent=A[I,entity]
+            print(Ent)
+            }
+        }
+    }
+if(Ent:isValid()&owner():isPVP()&owner():weapon():type()=="weapon_crowbar"){
+if(!owner():isAlive()){
+    spawn()
+    }
+An+=10
+if(Egp:egpConnectedUsers()[1,entity]!=owner()){
+Egp:egpHudEnable(1)
+}
+holoPos(1,Ent:pos())
+owner():noDraw(1)
+owner():setAlpha(0)
+owner():setMaterial("null")
+owner():weapon():setMaterial("null")
+spectate(1)
+owner():setEyeAngles(ang(0,(Ent:pos()-owner():pos()):toAngle():yaw(),0))
+owner():setPos(Ent:pos()+vec(50,0,0):rotate(0,An,0))
+concmd("+attack")
+timer("sell",15000)
+if(clk("sell")){
+    concmd("say !sellwood")
+    timer("print",500)
+    }
+    Egp:egpSetText(1,"You reach : "+(owner():getPoints()-Points):toString())
+}

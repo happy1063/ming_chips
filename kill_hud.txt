@@ -1,0 +1,65 @@
+@name 
+@persist EgpEnt:entity Egp:wirelink Kills Deaths Kd Target:entity Time
+runOnTick(1)
+if(first()){
+    EgpEnt=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0))
+    Egp=EgpEnt:wirelink()
+    Egp:egpClear()
+    Egp:egpText(1,"K1",vec2(50,200))
+    Egp:egpText(2,"K2",vec2(50,250))
+    Egp:egpText(3,"K3",vec2(50,300))
+    Egp:egpText(4,"K4",vec2(50,350))
+    Egp:egpSize(1,50)
+    Egp:egpSize(2,50)
+    Egp:egpSize(3,50)
+    Egp:egpSize(4,50)
+    Egp:egpSize(5,10)
+    Egp:egpColor(1,vec(255,100,100))
+    Egp:egpColor(2,vec(255,50,255))
+    Egp:egpColor(3,vec(100,255,100))
+    Egp:egpColor(4,vec(255,148,148))
+    Egp:egpBox(5,vec2(0,0),vec2(4000,4000))
+    Egp:egpColor(5,vec(0,0,0))
+    Egp:egpText(6,"K5",vec2(950,500))
+    Egp:egpColor(6,vec(255,255,255))
+    Egp:egpHudEnable(1)
+    }
+Kills=owner():frags()
+if(Kills<0){
+    Kills=0
+    }
+Egp:egpSetText(6,"Delay: "+(2-Time):toString())
+Deaths=owner():deaths()
+Kd=(Kills-Deaths)/100
+Egp:egpSetText(1,"Kills: "+Kills:toString())
+Egp:egpSetText(2,"Deaths: "+Deaths:toString())
+Egp:egpSetText(3,"K/D: "+Kd:toString())
+if(!owner():aimEntity():isValid()){
+    Egp:egpAlpha(4,0)
+    }
+if(owner():aimEntity():isValid()){
+    Egp:egpAlpha(4,255)
+    Egp:egpSetText(4,"Id: "+owner():aimEntity():id():toString())
+    }
+if(changed(Kills)){
+    owner():emitSound("phx/hmetal1.wav",100,100)
+    }
+if(!owner():isAlive()){
+    Egp:egpAlpha(5,255)
+    Egp:egpAlpha(6,255)
+    timer("time",1000)
+    if(clk("time")){
+    Time=Time+1
+    }
+    if(Time==2){
+        spawn()
+        }
+    }
+if(owner():isAlive()){
+    Egp:egpAlpha(5,0)
+    Egp:egpAlpha(6,0)
+    Time=0
+    }
+if(!EgpEnt:isValid()){
+    selfDestruct()
+    }

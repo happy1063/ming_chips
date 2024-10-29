@@ -1,0 +1,6 @@
+@name Protect
+@inputs Seat:entity
+runOnTick(1)
+if(Seat:driver()!=owner()){
+    Seat:ejectPod()
+    }

@@ -1,0 +1,24 @@
+@name phys
+@persist Velocity D:array
+runOnTick(1)
+if(first()){
+    function getAng(Vec:vector,Ang:angle,Ignore:array){
+        rangerFilter(Ignore)
+        R1=rangerOffset(Vec+vec(-5,5,0):rotate(Ang),Vec+vec(1000000,5,0):rotate(Ang))
+        rangerFilter(Ignore)
+        R2=rangerOffset(Vec+vec(-5,-5,0):rotate(Ang),Vec+vec(1000000,-5,0):rotate(Ang))
+        rangerFilter(Ignore)
+        R3=rangerOffset(Vec+vec(-5,0,5):rotate(Ang),Vec+vec(1000000,0,5):rotate(Ang))
+        rangerFilter(Ignore)
+        R4=rangerOffset(Vec+vec(-5,0,-5):rotate(Ang),Vec+vec(1000000,0,-5):rotate(Ang))
+        return ceil((R4:pos()-R3:pos()):toAngle()) 
+        #ceil((R2:pos()-R1:pos()):toAngle()) +
+        }
+    }
+timer("d",500)
+if(clk("d")){
+    findInSphere(vec(0,0,0),500000)
+    D=findToArray()
+    print(ceil(getAng(owner():shootPos(),ang(0,0,0),D)))
+    }
+

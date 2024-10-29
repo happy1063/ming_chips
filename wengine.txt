@@ -1,0 +1,210 @@
+
+
+@name WEngine
+
+@persist KEY_START:string KEY_GAS:string KEY_BRAKE:string 
+@persist RPM_IDLE RPM_MAX RPM_AFTER GEARS:table THROTTLE BRAKING_FORCE
+@persist KEY_GEARUP:string KEY_GEARDOWN:string RPM_SMOOTH_COEF
+@persist GEAR0_THROTTLE UNITS:string ROT_FORWARD:vector GEAR0_RPM_SMOOTH_COEF
+@persist ROT_DIRECTION:array RPM_RANDOMNESS BASE_UP TRANSMISSION_TYPE
+@persist VOLUME_MIN VOLUME_MAX PITCH_MIN PITCH_MAX SOUND_PATH:string
+@persist GEAR_CHANGE_TIME KEY_CLUTCH:string GEAR0_AFTERFORCE 
+
+@persist Started AverageSpeed Rpm Gear_change_timer Turbo Auto_gasbrake
+
+@inputs BASE:entity WHEELS:array CHAIR:entity In_gas In_brake In_start In_gearup In_geardown In_clutch
+@outputs Out_rpm Out_gear Out_kph
+
+if (dupefinished()) {
+    reset()
+}
+
+if (first()) {
+    #
+        KEY_START = "r"
+        KEY_GAS = "w"
+        KEY_BRAKE = "s"
+        KEY_GEARUP = "mouse_left"
+        KEY_GEARDOWN = "mouse_right"
+        KEY_CLUTCH = "lalt"
+        
+        RPM_IDLE = 1000 
+        RPM_MAX = 8900
+        RPM_AFTER = 2500
+        RPM_SMOOTH_COEF = 2
+        RPM_RANDOMNESS = 32
+        
+        THROTTLE = 1700
+        GEAR0_THROTTLE = 32
+        GEAR0_AFTERFORCE = 4
+        GEAR0_RPM_SMOOTH_COEF = 32
+        BRAKING_FORCE = 120
+        
+        GEAR_CHANGE_TIME = 5
+        
+        ROT_FORWARD = vec(0, 1, 0)
+        ROT_DIRECTION = array(1, -1)
+        BASE_UP = -1
+        
+        GEARS = table(
+            -1 = array(1, 30),
+            1 = array(1.2, 30),
+            2 = array(1, 60),
+            3 = array(0.8, 90),
+            4 = array(0.7, 120),
+            5 = array(0.7, 150)
+        )
+        TRANSMISSION_TYPE = 0 # 0-manual 1-auto
+        
+        VOLUME_MIN = 0.55
+        VOLUME_MAX = 1.5
+        PITCH_MIN = 50
+        PITCH_MAX = 125
+        SOUND_PATH = "vehicles/tdmcars/charger2012/charger2012_low.wav"
+        
+        UNITS = "km/h"
+        
+        function number curve(Rpm) {
+            return clamp(Rpm / RPM_MAX, 0.65, 1)
+        }
+    #
+    
+    Started = 0
+    Out_gear = 0
+    Out_rpm = 0
+    Out_kph = 0
+    AverageSpeed = 0
+    Rpm = 0
+    Turbo = 0
+    Auto_gasbrake = 0
+    
+    rangerPersist(1)
+    foreach (I, Wheel:entity = WHEELS) {
+        rangerFilter(Wheel)
+    }
+    rangerFilter(array(BASE, CHAIR))
+    
+    BASE:soundPlay("snd", 0, SOUND_PATH, 0)
+}
+
+runOnTick(1)
+    timer("sndreset", 5000)
+    if (clk("sndreset")) {
+        BASE:soundPlay("snd", 0, SOUND_PATH, 0)
+    }
+    
+    Driver = CHAIR:driver()
+    
+    Key_start = Driver:keyPressed(KEY_START) | In_start
+    
+    if (changed(Key_start) & Key_start) {
+        Started = !Started
+    }
+    
+    if (Started) {
+        Key_gas = Driver:keyPressed(KEY_GAS) | In_gas
+        Key_brake = Driver:keyPressed(KEY_BRAKE) | In_brake
+        Key_clutch = Driver:keyPressed(KEY_CLUTCH) | In_clutch
+        
+        if (TRANSMISSION_TYPE == 0) {
+            Key_gearup = Driver:keyPressed(KEY_GEARUP) | In_gearup
+            Key_geardown = Driver:keyPressed(KEY_GEARDOWN) | In_geardown
+        } elseif (TRANSMISSION_TYPE == 1) {
+            if (Key_gas) {
+                if (Out_gear == -1) {
+                    Key_brake = 1
+                    Key_gas = 0
+                    Auto_gasbrake = 1
+                    if (Out_kph <= 1) {
+                        Out_gear = 1
+                        Auto_gasbrake = 0
+                    }
+                } elseif (Out_gear == 0) {
+                    Out_gear = 1
+                }
+            } elseif (Key_brake) {
+                if (Out_kph <= 1 | Out_gear == -1) {
+                    Out_gear = -1
+                    Key_gas = 1
+                }
+            }
+            if (Out_gear >= 1) {
+                if (Out_kph >= GEARS[Out_gear, array][2, number] - 2) {
+                    Out_gear++
+                } elseif (Out_kph <= GEARS[Out_gear - 1, array][2, number] - 8) {
+                    Out_gear--
+                }
+            }
+        }
+        if (((changed(Key_gearup) & Key_gearup) | (changed(Key_geardown) & Key_geardown)) | (changed(Out_gear) & TRANSMISSION_TYPE == 1)) {
+            Out_gear = clamp(Out_gear + Key_gearup - Key_geardown, -1, GEARS:count() - 1)
+            Gear_change_timer = GEAR_CHANGE_TIME
+            if (Out_gear != 1 & Out_gear != -1) {
+                Turbo = 0
+            }
+        }
+        
+        if (Gear_change_timer != 0) {
+            Gear_change_timer--
+            Key_gas = 0
+            Key_clutch = 1
+        }
+        
+        if (Out_gear == 0 | Key_clutch) {
+            Rpm += (Key_gas ? (GEAR0_THROTTLE) : ((RPM_IDLE - Rpm) / GEAR0_RPM_SMOOTH_COEF))
+            if (Key_gas) {
+                Turbo += (((Rpm - RPM_IDLE) / RPM_MAX) - Turbo) / 8
+            }
+        } else {
+            AverageSpeed = 0
+            foreach (K, Wheel:entity = WHEELS) {
+                Speed = toUnit(UNITS, abs(Wheel:angVel():pitch() * Wheel:radius() / _PI * 2 / 60))
+                AverageSpeed += Speed / WHEELS:count()
+                
+                if ((Key_brake & ((TRANSMISSION_TYPE == 1 & !Auto_gasbrake) ? (Out_gear != -1) : 1)) | Out_kph > GEARS[Out_gear, array][2, number]) {
+                    if (Wheel:vel():length() > 2) {
+                        GroundRanger = rangerOffset(Wheel:radius() * 1.25, Wheel:pos(), BASE:up() * BASE_UP)
+                        if (GroundRanger:hit()) {
+                            Wheel:applyForce(-Wheel:vel():normalized() * Wheel:mass() * BRAKING_FORCE)
+                        }
+                    }
+                } else {
+                    if (Key_gas) {
+                        if (Rpm < RPM_MAX | Turbo > 0) {
+                            Wheel:applyTorque(vec(THROTTLE) 
+                                * ROT_FORWARD
+                                * Wheel:mass()
+                                * ROT_DIRECTION[K, number]
+                                * GEARS[Out_gear, array][1, number]
+                                * sign(Out_gear)
+                                * curve(Rpm)
+                                * ((Turbo > 0 & Key_gas) ? (1 + Turbo * GEAR0_AFTERFORCE) : 1)
+                            )
+                            
+                            Turbo -= 0.01
+                        }
+                    } else {
+                        Turbo = 0
+                    }
+                }
+            }
+            
+            if (Out_gear == 1 | Out_gear == -1) {
+                Rpm = remap(AverageSpeed, 0, GEARS[1, array][2, number], RPM_IDLE, RPM_MAX)
+            } else {
+                Rpm = remap(AverageSpeed, GEARS[Out_gear - 1, array][2, number], GEARS[Out_gear, array][2, number], RPM_AFTER, RPM_MAX)
+            }
+        }
+        Rpm = round(clamp(Rpm, RPM_IDLE, RPM_MAX) + random(-RPM_RANDOMNESS, RPM_RANDOMNESS))
+        
+        soundVolume("snd", Key_gas ? remap(Out_rpm, 0, RPM_MAX, VOLUME_MIN, VOLUME_MAX) : VOLUME_MIN)
+        soundPitch("snd", remap(Out_rpm, 0, RPM_MAX, PITCH_MIN, PITCH_MAX))
+    } else {
+        Rpm = 0
+        soundVolume("snd", 0)
+    }
+    Out_kph = toUnit(UNITS, BASE:vel():length())
+    Out_rpm += (Rpm - Out_rpm) / RPM_SMOOTH_COEF
+
+
+

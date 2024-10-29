@@ -1,0 +1,3 @@
+@name ANTI INVIS
+runOnTick(1)
+owner():setMaterial("default")

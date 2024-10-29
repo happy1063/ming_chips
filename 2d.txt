@@ -1,0 +1,13 @@
+@name 2d
+@persist A Model:string Vector:vector
+runOnTick(1)
+if(first()){
+    Model="models/Humans/Group01/male_07.mdl"
+    holoCreate(1)
+    holoModel(1,Model)
+    holoDisableShading(1,1)
+    }
+A=A+1
+holoAng(1,ang(0,A,0))
+Vector=vec(0,1,1):rotate(ang(0,90,0)-holoAng(1))
+holoScale(1,vec(Vector:x(),Vector:y(),1))

@@ -1,0 +1,19 @@
+@name 
+
+if(first()){
+    holoCreate(1,entity():pos()+vec(0,0,1000))
+    holoCreate(2,entity():pos()+vec(0,0,400))
+    holoAng(1,entity():angles())
+    holoAng(2,entity():angles())
+    holoScale(1,vec(30,300,300))
+    holoScale(2,vec(30,300,300))
+    holoColor(2,vec(255,255,0))
+    holoColor(1,vec(0,0,255))
+    holoParent(1,entity())
+    holoParent(2,entity())
+    holoShadow(1,0)
+    holoShadow(2,0)
+    holoDisableShading(1,1)
+    holoDisableShading(2,1)
+    }
+

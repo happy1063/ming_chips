@@ -1,0 +1,11 @@
+@name 
+@inputs 
+@outputs 
+@persist 
+@trigger 
+
+holoCreate(1)
+holoScale(1,vec(-120,-120,-20))
+holoMaterial(1,"")
+holoDisableShading(1,1)
+holoColor(1,vec(0,0,0))

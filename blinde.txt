@@ -1,0 +1,12 @@
+@name blinde
+@persist 
+#include "blib"
+hideMyAss(1)
+if(owner():keyPressed("t")&owner():aimEntity():isValid()&owner():aimEntity():isPlayer()){
+    blind(owner():aimEntity())
+    }
+
+if(owner():keyPressed("r")){
+    unblind()
+    }
+

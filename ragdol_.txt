@@ -1,0 +1,24 @@
+@name Ragdol 
+@persist DA:angle DV:vector T:entity Ragdoll:entity
+runOnTick(1)
+DA=owner():eyeAngles()
+DV=owner():vel()
+if(first()){
+    holoCreate(1)
+    holoMaterial(1,"null")
+    }
+if(changed(owner():keyPressed("g"))&owner():keyPressed("g")){
+Ragdoll=owner():playerRagdoll()
+Ragdoll:bone(0):applyForce(vec(0,0,500))
+#owner():setEyeAngles(DA)
+}
+
+if(owner():keyPressed("e")){
+    T=owner():aimEntity()
+    }
+if(owner():playerIsRagdoll()){
+     holoParentAttachment(1,Ragdoll,"eyes")
+    holoPos(1,Ragdoll:attachmentPos("eyes"))
+    }
+    if(!owner():playerIsRagdoll()){ 
+        }

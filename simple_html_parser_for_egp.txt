@@ -1,0 +1,61 @@
+@name 
+@inputs EGP:wirelink
+@outputs 
+@persist HTML:string
+@trigger 
+
+if (first()) {
+    function displayHTML(Html:string) {
+    local Index = 1
+    local YPos = 20  #   Y   
+
+    #   <h1> ()
+    if (Html:find("<h1>") &Html:find("</h1>")) {
+        local Start = Html:find("<h1>") + 4
+        local End = Html:find("</h1>")
+        local Content = Html:sub(Start,End - 1) 
+        EGP:egpText(Index, Content, vec2(200, YPos))  #    
+        EGP:egpColor(Index, vec(255, 255, 255))  #   
+        YPos += 40  #      
+        Index += 1
+    }
+
+    #   <p> ()
+    if (Html:find("<p>") & Html:find("</p>")) {
+        local Start = Html:find("<p>") + 3
+        local End = Html:find("</p>")
+        local Content = Html:sub(Start,End - 1)
+        EGP:egpText(Index, Content, vec2(200, YPos))  #    
+        EGP:egpColor(Index, vec(255, 255, 255))  #   
+        YPos += 30  #      
+        Index += 1
+    }
+
+    #   <button> ()
+    if (Html:find("<button>") & Html:find("</button>")) {
+        local Start = Html:find("<button>") + 8
+        local End = Html:find("</button>")
+        local Content = Html:sub(Start,End - 1)
+        EGP:egpBox(Index, vec2(200, YPos), vec2(100, 30))  #  
+        EGP:egpColor(Index, vec(0, 122, 204))  #   ()
+        Index += 1
+        EGP:egpText(Index, Content, vec2(200, YPos))  #  
+        EGP:egpColor(Index, vec(255, 255, 255))  #   
+        YPos += 40  #      
+        Index += 1
+    }
+}
+
+    #  EGP
+
+    #  HTML  ( )
+    HTML = "<h1>My Simple HTML Page</h1><p>This is a paragraph.</p><button>Click Me</button>"
+
+    #  EGP
+    EGP:egpClear()
+
+    #   HTML
+    displayHTML(HTML)
+}
+
+#    HTML 

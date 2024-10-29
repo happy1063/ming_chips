@@ -1,0 +1,152 @@
+@name BigChat
+@persist LastSaid:string A:array B:array
+runOnChat(1)
+if(first()){
+    A=array(
+
+    httpUrlDecode("%D0%B0"),
+
+    httpUrlDecode("%D0%B1"),
+
+    httpUrlDecode("%D0%B2"),
+
+    httpUrlDecode("%D0%B3"),
+
+    httpUrlDecode("%D0%B4"),
+
+    httpUrlDecode("%D0%B5"),
+
+    httpUrlDecode("%D1%91"),
+
+    httpUrlDecode("%D0%B6"),
+
+    httpUrlDecode("%D0%B7"),
+
+    httpUrlDecode("%D0%B8"),
+
+    httpUrlDecode("%D0%B9"),
+
+    httpUrlDecode("%D0%BA"),
+
+    httpUrlDecode("%D0%BB"),
+
+    httpUrlDecode("%D0%BC"),
+
+    httpUrlDecode("%D0%BD"),
+
+    httpUrlDecode("%D0%BE"),
+
+    httpUrlDecode("%D0%BF"),
+
+    httpUrlDecode("%D1%80"),
+
+    httpUrlDecode("%D1%81"),
+
+    httpUrlDecode("%D1%82"),
+
+    httpUrlDecode("%D1%83"),
+
+    httpUrlDecode("%D1%84"),
+
+    httpUrlDecode("%D1%85"),
+
+    httpUrlDecode("%D1%86"),
+
+    httpUrlDecode("%D1%87"),
+
+    httpUrlDecode("%D1%88"),
+
+    httpUrlDecode("%D1%89"),
+
+    httpUrlDecode("%D1%8A"),
+
+    httpUrlDecode("%D1%8B"),
+
+    httpUrlDecode("%D1%8C"),
+
+    httpUrlDecode("%D1%8D"),
+
+    httpUrlDecode("%D1%8E"),
+
+    httpUrlDecode("%D1%8F")
+
+)
+B=array(
+
+    httpUrlDecode("%D0%90"),
+
+    httpUrlDecode("%D0%91"),
+
+    httpUrlDecode("%D0%92"),
+
+    httpUrlDecode("%D0%93"),
+
+    httpUrlDecode("%D0%94"),
+
+    httpUrlDecode("%D0%95"),
+
+    httpUrlDecode("%D0%81"),
+
+    httpUrlDecode("%D0%96"),
+
+    httpUrlDecode("%D0%97"),
+
+    httpUrlDecode("%D0%98"),
+
+    httpUrlDecode("%D0%99"),
+
+    httpUrlDecode("%D0%9A"),
+
+    httpUrlDecode("%D0%9B"),
+
+    httpUrlDecode("%D0%9C"),
+
+    httpUrlDecode("%D0%9D"),
+
+    httpUrlDecode("%D0%9E"),
+
+    httpUrlDecode("%D0%9F"),
+
+    httpUrlDecode("%D0%A0"),
+
+    httpUrlDecode("%D0%A1"),
+
+    httpUrlDecode("%D0%A2"),
+
+    httpUrlDecode("%D0%A3"),
+
+    httpUrlDecode("%D0%A4"),
+
+    httpUrlDecode("%D0%A5"),
+
+    httpUrlDecode("%D0%A6"),
+
+    httpUrlDecode("%D0%A7"),
+
+    httpUrlDecode("%D0%A8"),
+
+    httpUrlDecode("%D0%A9"),
+
+    httpUrlDecode("%D0%AA"),
+
+    httpUrlDecode("%D0%AB"),
+
+    httpUrlDecode("%D0%AC"),
+
+    httpUrlDecode("%D0%AD"),
+
+    httpUrlDecode("%D0%AE"),
+
+    httpUrlDecode("%D0%AF")
+
+)
+    }
+if(chatClk(owner())){
+    LastSaid=owner():lastSaid()
+    if(LastSaid!="!build"&LastSaid!="!pvp"){
+    for(I=1,A:count()){
+        LastSaid=LastSaid:replace(A[I,string],B[I,string])
+        }
+    modifyChat("<color=255,0,0><font=BigChatText>"+(LastSaid:upper()))
+}
+    }

@@ -1,0 +1,273 @@
+@name holo skeleton
+@persist HitBoxEnt:entity Protecter:entity Spawns:array Maps:array Zvel Gravity Time Pos:vector S T Del V:vector G:vector J:vector Players:array ModelMode S1 PhysEnt:entity PhysDist PhysOffset:vector PhysAng:angle Flash SF TF A ParentEnt:entity ParentOffset:vector
+runOnTick(1)
+if(first()){
+    Maps=array("gm_mobenix_v3_final")
+    Spawns=array(vec(-9409.909180,-1578.898071,10437.031250))
+    HitBoxEnt=propSpawn("models/hunter/plates/plate1x2.mdl",entity():pos(),1)
+    Protecter=propSpawn("models/hunter/blocks/cube4x4x4.mdl",entity():pos(),1)
+    HitBoxEnt:setMaterial("null")
+    HitBoxEnt:setAlpha(0)
+    HitBoxEnt:drawShadow(0)
+    Protecter:noDraw(1)
+    Protecter:noCollideAll(1)
+    rangerFilter(HitBoxEnt)
+    Players=players()
+    Players:removeEntity(owner():id())
+    cameraCreate(1)
+    Gravity=1
+    Pos=owner():pos()
+        owner():setMaterial("")
+    owner():weapon():setMaterial("")
+    holoCreate(32)
+    holoMaterial(32,"null")
+    for(I=1,15){
+        holoCreate(I,entity():pos()+vec(0,0,I*5))
+        holoScale(I,vec(0.4,0.4,0.4))
+        holoParent(I,32)
+        #holoVisible(I,owner(),0)
+}
+if(!HitBoxEnt:isValid()){
+    selfDestruct()
+    }
+function colide(){
+    rangerFilter(HitBoxEnt)
+    if(rangerOffset(holoPos(15),holoPos(15)+vec(0,0,-1)):hit()&!rangerOffset(holoPos(15),holoPos(15)+vec(0,0,-1)):entity():isPlayer()){
+            return 1
+        }
+    rangerFilter(HitBoxEnt)
+        if(rangerOffset(holoPos(15),holoPos(15)+vec(0,0,-1)):hit()&!rangerOffset(holoPos(15),holoPos(15)+vec(10,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0))):entity():isPlayer()){
+            return 1
+        }  
+    rangerFilter(HitBoxEnt)
+        if(rangerOffset(holoPos(32)+vec(0,0,1),holoPos(32)+(owner():shootPos()-owner():pos())):hit()&!rangerOffset(holoPos(15),holoPos(15)+vec(10,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0))):entity():isPlayer()){
+            return 1
+        }  
+       
+    return 0
+    }
+holoCreate(35)
+holoParent(35,holoEntity(32))
+cameraParent(1,holoEntity(35))
+holoColor(10,vec(0,0,0))
+holoColor(15,vec(0,0,0))
+cameraPos(1,holoPos(35))
+holoCreate(33)
+holoPos(33,holoPos(7))
+holoAng(33,holoAng(7))
+holoParent(33,holoEntity(7))
+holoVisible(33,owner(),0)
+holoShadow(33,1)
+holoCreate(34,cameraPos(1)+vec(5,-3,0):rotate(owner():eyeAngles()))
+holoScale(34,vec(0.4,0.4,0.4))
+holoVisible(34,players(),0)
+holoVisible(34,owner(),1)
+holoParent(34,cameraEntity(1))
+holoMaterial(35,"null")
+#lightCreate(1,rangerOffset(holoPos(35),holoPos(35)+vec(100000000,0,0):rotate(owner():eyeAngles())):pos())
+#lightColor(1,vec(255,255,255))
+#lightDistance(1,300)
+#lightBrightness(1,2)
+#lightParent(1,holoEntity(35))
+#lightToggle(1,0)
+holoPos(32,entity():pos())
+    }
+HitBoxEnt:setPos(holoPos(32)+vec(-20,0,40):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+HitBoxEnt:propFreeze(1)
+HitBoxEnt:setAng(ang(0,owner():eyeAngles():yaw()+90,90))
+HitBoxEnt:noCollideAll(1)
+owner():takeDamage(HitBoxEnt:getDamage(),HitBoxEnt:getAttacker(),HitBoxEnt:getAttacker())
+rangerFilter(HitBoxEnt)
+cameraAng(1,owner():eyeAngles())
+if(T==1){
+Protecter:setPos(owner():pos()-vec(0,0,100))
+A=A+1
+if(owner():keyPressed("f")&SF==0&TF==0){
+    SF=1
+    TF=1
+  #  lightToggle(1,1)
+    }  
+if(owner():keyPressed("f")&SF==0&TF==1){
+    SF=1
+    TF=0
+  #  lightToggle(1,0)
+    }      
+if(!owner():keyPressed("f")){
+    SF=0
+    }  
+#lightPos(1,rangerOffset(holoPos(35),holoPos(35)+vec(100000000,0,0):rotate(owner():eyeAngles())):pos())
+if(owner():weapon():isValid()&owner():weapon():type()!="none"){
+holoModel(33,owner():weapon():model())
+holoModel(34,owner():weapon():model())
+holoMaterial(33,"")
+holoMaterial(34,"")
+}
+if(owner():weapon():isValid()&(owner():weapon():type()=="none"||owner():weapon():type()=="weapon_fists")){
+holoMaterial(33,"null")
+holoMaterial(34,"null")
+}
+holoAng(33,owner():eyeAngles())
+if(owner():isAlive()){
+holoMaterial(33,"")
+for(I=1,15){
+    holoPos(I,(owner():playerBonePos(I)-owner():pos())+holoPos(32))
+    #holoAng(I,ang(0,owner():eyeAngles():yaw(),0))
+    holoAng(I,owner():attachmentAng(I))
+  #  holoAng(I,ang(0,A,0))
+  #  holoColor(I,vec(128+sin(A)*128,128+cos(A)*128,128+sin(A)*128)) 
+    }
+}
+if(!owner():isAlive()){
+    for(I=1,15){
+    rangerFilter(HitBoxEnt)
+    holoPos(I,rangerOffset(holoPos(I),holoPos(I)+vec(0,0,-2)):pos())
+    holoAng(I,ceil(owner():playerBoneAng(I-1)))
+}
+holoMaterial(33,"null")
+    }
+holoPos(35,(owner():shootPos()-owner():pos())+holoPos(32))
+if(!colide()){
+    V=holoPos(32)
+    G=owner():vel()/5
+    }
+if(colide()&!owner():inNoclip()){
+    holoPos(32,V-G)
+    J=holoPos(32)
+    }
+if(owner():keyPressed("e")&rangerOffset(holoPos(10),holoPos(10)+vec(150,0,0):rotate(owner():eyeAngles())):entity():isValid()&!ParentEnt:isValid()){
+    ParentEnt=rangerOffset(holoPos(10),holoPos(10)+vec(150,0,0):rotate(owner():eyeAngles())):entity()
+    ParentOffset=(holoPos(32)-ParentEnt:pos())
+    }
+if(!owner():keyPressed("e")){
+    ParentEnt=noentity()
+    ParentOffset=vec(0,0,0)
+    }
+if(ParentEnt:isValid()){
+    holoPos(32,ParentOffset+ParentEnt:pos())
+    }
+    cameraToggle(1,1)
+    owner():setPos(Pos)
+if(!colide()&!owner():inNoclip()){
+    rangerFilter(HitBoxEnt)
+    holoPos(32,holoPos(32)+owner():vel()/25)
+    rangerFilter(HitBoxEnt)
+    holoPos(32,rangerOffset(holoPos(32)+vec(0,0,45),holoPos(32)):pos())
+}
+if(owner():inNoclip()){
+    holoPos(32,holoPos(32)+owner():vel()/25)
+}
+rangerFilter(HitBoxEnt)
+    if(!rangerOffset(holoPos(15),holoPos(32)+vec(0,0,-5)):hit()&!owner():inNoclip()&owner():isAlive()){
+        rangerFilter(HitBoxEnt)
+        Time=max(Time+0.6,11)
+        holoPos(32,rangerOffset(holoPos(15),holoPos(32)+vec(0,0,Zvel)-vec(0,0,Gravity*Time)):pos())
+        }
+    if(changed(owner():keyJump())&owner():keyJump()&owner():isAlive()&rangerOffset(holoPos(15),holoPos(32)+vec(0,0,-5)):hit()){
+        Zvel=18
+        }
+rangerFilter(HitBoxEnt)
+if(rangerOffset(holoPos(15),holoPos(32)+vec(0,0,-5)):hit()){
+    Time=0
+    }
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_357"){
+    if(owner():keyAttack1()&Del==0&owner():weapon():clip1()!=0){
+    Del=1
+    holoEntity(33):emitSound("weapons/357/357_fire2.wav")
+    holoEntity(33):shootTo(holoEntity(33):pos(),(rangerOffset(holoPos(10),holoPos(10)+vec(100000,0,0):rotate(owner():eyeAngles())):pos()-holoPos(33)):normalized(),0,0,30,"Tracer")
+    timer("d",500)
+    }
+}
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_crowbar"&rangerOffset(holoPos(10),holoPos(10)+vec(50,0,0):rotate(owner():eyeAngles())):hit()){
+    if(owner():keyAttack1()&Del==0){
+    Del=1
+    holoEntity(33):shootTo(holoEntity(33):pos(),(rangerOffset(holoPos(10),holoPos(10)+vec(100000,0,0):rotate(owner():eyeAngles())):pos()-holoPos(33)):normalized(),0,0,10,"")
+    timer("d",250)
+    }
+}
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_physgun"){
+        if(!owner():keyAttack1()){
+        PhysEnt:propFreeze(0)
+        PhysEnt=noentity()
+        PhysDist=0
+        PhysOffset=vec(0,0,0)
+        PhysAng=ang(0,0,0)
+        }
+    rangerFilter(HitBoxEnt)
+    if(changed(owner():keyAttack1())&owner():keyAttack1()&rangerOffset(holoPos(35),holoPos(35)+vec(100000000,0,0):rotate(owner():eyeAngles())):entity():isValid()){
+        rangerFilter(HitBoxEnt)
+        PhysEnt=rangerOffset(holoPos(35),holoPos(35)+vec(100000,0,0):rotate(owner():eyeAngles())):entity()
+        rangerFilter(HitBoxEnt)
+        PhysDist=holoPos(35):distance(rangerOffset(holoPos(35),holoPos(35)+vec(100000000,0,0):rotate(owner():eyeAngles())):pos())
+        rangerFilter(HitBoxEnt)
+        PhysOffset=PhysEnt:pos()-rangerOffset(holoPos(35),holoPos(35)+vec(100000000,0,0):rotate(owner():eyeAngles())):pos()
+        rangerFilter(HitBoxEnt)
+        PhysAng=PhysEnt:angles()-ang(0,owner():eyeAngles():yaw(),0)
+        }
+    if(owner():keyAttack1()&PhysEnt:isValid()){
+        PhysEnt:propFreeze(1)
+        PhysEnt:setPos(holoPos(35)+vec(PhysDist,0,0):rotate(owner():eyeAngles())+PhysOffset)
+        PhysEnt:setAng(PhysAng+ang(0,owner():eyeAngles():yaw(),0))
+        }
+    if(owner():keyPressed("up")&PhysEnt:isValid()){
+        PhysDist=PhysDist+5
+        }
+        if(owner():keyPressed("down")&PhysEnt:isValid()&PhysDist>50){
+        PhysDist=PhysDist-5
+        }
+    }
+if(owner():keyPressed("q")&changed(owner():aimEntity())&owner():aimEntity():isValid()&owner():aimEntity():owner()==owner()){
+    owner():aimEntity():setPos(rangerOffset(holoPos(35),holoPos(35)+vec(100000000,0,0):rotate(owner():eyeAngles())):pos()+vec(0,0,owner():aimEntity():height()/2))
+    }
+if(changed(owner():isAlive())&owner():isAlive()==1){
+    holoPos(32,Spawns[Maps:indexOf(map()),vector])
+    }
+    }
+if(T==0){
+    Protecter:setPos(vec(0,0,0))
+    cameraToggle(1,0)
+    Pos=owner():pos()
+    for(I=1,15){
+        holoPos(I,holoPos(I)+(holoPos(32)+vec(0,0,50)-holoPos(I)):normalized())
+        }
+    }
+if(owner():keyPressed("g")&S==0&T==0){
+    holoPos(34,cameraPos(1)+vec(5,-3.5,-3):rotate(owner():eyeAngles()))
+    T=1
+    S=1
+    }
+if(owner():keyPressed("g")&S==0&T==1){
+    T=0
+    S=1
+    }
+if(!owner():keyPressed("g")){
+    S=0
+    }
+if(clk("d")){
+    Del=0
+    }
+if(owner():keyPressed("j")&S1==0&ModelMode==0){
+    S1=1
+    ModelMode=1
+    }
+if(owner():keyPressed("j")&S1==0&ModelMode==1){
+    S1=1
+    ModelMode=0
+    }    
+if(!owner():keyPressed("j")){
+    S1=0
+}
+if(ModelMode==0){
+    holoMaterial(34,"")
+    holoVisible(33,owner(),0)
+    for(I=1,15){
+        holoVisible(I,owner(),0)
+        }
+    }
+  if(ModelMode==1){
+    holoMaterial(34,"null")
+    holoVisible(33,owner(),1)
+    for(I=1,15){
+        holoVisible(I,owner(),1)
+        }
+    holoVisible(10,owner(),0)
+    }  

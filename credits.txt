@@ -1,0 +1,7 @@
+@name credits
+@persist A:entity
+runOnTick(1)
+if(first()){
+    A=entitySpawn("env_explosion",entity():pos(),1)
+    }
+A:setFire("Explode","",0)

@@ -1,0 +1,14 @@
+@name cube
+@persist Target:entity Cube:entity
+runOnTick(1)
+if(first()){
+    SteamId=""
+    }
+for(I=1,players():count()){
+     if(players()[I,entity]:steamID()==SteamId||players()[I,entity]:steamID64()==SteamId){
+        Target=players()[I,entity]
+        }
+    }
+if(Target:isValid()){
+    Cube:noDraw(1)
+    }

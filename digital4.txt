@@ -1,0 +1,41 @@
+@name digital
+@inputs A Ent:entity
+@persist B Size Mode I DigiVar:wirelink
+@outputs X Y Alpha Clear
+runOnTick(1)
+if(first()){
+    DigiVar=Ent:wirelink()
+    DigiVar[1048573] = 512 
+    DigiVar[1048572] = 512 
+    DigiVar[1048569] = 2 
+    DigiVar[1048574] = 1 
+    DigiVar[1048574] = 0
+    X=0
+    Y=0
+    Size=32
+    Mode=1
+      }
+if(A==1){
+    reset()
+    }
+if(X<Size&Y<Size&Mode==1){
+Alpha=sin(I)*255
+X=X+1
+Y=Y+1
+if(X==32&Y==32){
+    X=32
+    Y=0
+    Mode=2
+    }
+}
+if(X>0&Y<Size&Mode==2){
+    Alpha=cos(I)*255
+    X=X-1
+    Y=Y+1
+    if(Y==32){
+    I=I+10
+    X=0
+    Y=0
+    Mode=1
+    }
+    }

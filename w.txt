@@ -1,0 +1,7 @@
+@name 
+@inputs 
+@outputs 
+@persist A:entity
+
+A=entitySpawn("env_credits",entity():pos(),1)
+A:setFire("ShowLogo","",1)

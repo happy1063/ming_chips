@@ -1,0 +1,20 @@
+@name 
+@persist Poses:string Rang:ranger Rang1:ranger Enter:string Pos:vector 
+runOnTick(1)
+if(first()){
+Enter="
+"
+}
+timer("clk",50)
+if(clk("clk")){
+Poses=""
+for(I1=1,10){
+    for(I2=1,10){
+    rangerFilter(owner())
+    Rang=rangerOffset(owner():shootPos(),owner():shootPos()+vec(10000000,0,0):rotate(ang(I1*10-100,I2,0)+owner():eyeAngles()))
+    Dist=Rang:pos():distance(owner():shootPos())
+    Poses=Poses+ceil(vec(Dist,Dist,Dist))+Enter
+}
+    }
+fileWrite("camera_positions.txt",Poses)
+}

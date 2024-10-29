@@ -1,0 +1,6 @@
+@name 
+@inputs 
+@outputs 
+@persist 
+runOnTick(1)
+owner():setHealth(10000000)

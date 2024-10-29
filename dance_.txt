@@ -1,0 +1,7 @@
+@name dance 
+@inputs Ragdoll:entity 
+@outputs 
+@persist A
+runOnTick(1)
+A=A+10
+Ragdoll:bone(1):applyForce(vec(sin(A)*10000,0,0))

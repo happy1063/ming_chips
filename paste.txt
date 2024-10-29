@@ -1,0 +1,4 @@
+@name Paste
+runOnTick(1)
+fileLoad("paste.txt")
+entity():remoteSetCode(fileRead())

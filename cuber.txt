@@ -1,0 +1,35 @@
+@name cuber
+@persist Center:vector S T Point1:vector Point2:vector
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoCreate(2)
+    holoCreate(3)
+    holoColor(3,vec(0,100,255))
+    holoAlpha(3,100)
+    }
+if(owner():keyPressed("g")&S==0&T==0){
+    Point1=owner():pos()
+    holoPos(1,Point1)
+    S=1
+    T=1
+    }
+if(owner():keyPressed("g")&S==0&T==1){
+    Point2=owner():pos()
+    holoPos(2,Point2)
+    S=1
+    T=2
+    }
+if(owner():keyPressed("g")&S==0&T==2){
+    print(array(Point1,Point2))
+    S=1
+    T=0
+    }    
+if(!owner():keyPressed("g")&S==1){
+    S=0
+    }
+if(T==2){
+    Center=Point1+vec(Point1:distance(Point2)/2,0,0):rotate((Point2-Point1):toAngle())
+    holoScaleUnits(3,vec(Point1:x()-Point2:x(),Point1:y()-Point2:y(),Point1:z()-Point2:z()))
+    holoPos(3,Center)
+    }

@@ -1,0 +1,95 @@
+@name krilya
+@outputs Energy E
+@persist [Ch]:string [Own]:entity Si T Sin Col:vector Tra:vector Trail:string Z Energy EnergyHeal E Egp:wirelink
+if(dupefinished()){
+    reset()
+    }
+if(first()||dupefinished()){
+Egp=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0)):wirelink()
+Trail="trails/smoke"
+Own = owner()
+Ch = "chest"
+Col = vec(255,0,0)
+Tra = vec(0,0,255)
+Energy=100
+Egp:egpClear()
+Egp:egpRoundedBox(1,vec2(400,1120),vec2(200,50))
+Egp:egpColor(1,vec(255,255,255))
+Egp:egpRoundedBox(2,vec2(400,1120),vec2(200,50))
+Egp:egpColor(2,vec(0,150,255))
+Egp:egpRoundedBoxOutline(3,vec2(400,1120),vec2(200,50))
+Egp:egpSize(3,4)
+Egp:egpText(4,Energy:toString(),vec2(350+Energy:toString():length(),1095))
+Egp:egpSize(4,50)
+Egp:egpColor(4,vec(0,0,0))
+Egp:egpHudEnable(1)
+function vector entity:aniPos(Att:string){
+return This:attachmentPos(Att)
+}
+function angle entity:aniAng(Att:string){
+return This:attachmentAng(Att)
+}
+
+for(I=1,5){
+Si = 25*sin(180*(I/5))
+holoCreate(I)
+holoPos(I,Own:aniPos(Ch)+vec(-20,I*7,-20+Si):rotate(Own:aniAng(Ch)))
+holoScale(I,vec(0.2))
+holoParentAttachment(I,Own,Ch)
+holoColor(2,vec(0,0,266))
+holoEntity(I):setTrails(20,20,0.5,Trail,Col,255)
+holoColor(1,vec(0,0,255))
+holoAlpha(I,0)
+}
+
+for(I=6,10){
+Si = 25*sin(180*((I-5)/5))
+holoCreate(I)
+holoPos(I,Own:aniPos(Ch)+vec(-20,-(I-5)*7,-20+Si):rotate(Own:aniAng(Ch)))
+holoScale(I,vec(0.2))
+holoParentAttachment(I,Own,Ch)
+holoColor(4,vec(0,0,255))
+holoEntity(I):setTrails(20,0,0.5,Trail,Tra,255)
+holoAlpha(I,0)
+}
+}
+interval(20)
+T+=90
+if(T>=360){T=0}
+Sin = 30*sin(T)
+for(I=1,5){
+Si = 25*sin(180*(I/5))
+holoPos(I,Own:aniPos(Ch)+vec(-20,I*7,-20+Si+Sin):rotate(Own:aniAng(Ch)))
+}
+
+
+for(I=6,10){
+Si = 25*sin(180*((I-5)/5))
+holoPos(I,Own:aniPos(Ch)+vec(-20,-(I-5)*7,-20+Si+Sin):rotate(Own:aniAng(Ch)))
+}
+Own = owner()
+Sp = Own:keyJump()
+W = Own:keyForward()
+if(Own:isOnGround()){
+    Z=Own:pos():z()
+    timer("heal",3000)
+    }
+if(Own:keyJump()&Energy!=0){
+    Energy--
+    EnergyHeal=0
+    E++
+    stoptimer("heal")
+    }
+if(clk("heal")){
+    EnergyHeal=1
+    }
+if(Own:isOnGround()&EnergyHeal==1&Energy<100){
+    Energy++
+    E--
+    }
+if(Own:keyJump()&owner():pos():z()-Z<150&Energy>0){
+Own:setVel(vec(0,0,18)+vec(3*W,0,0):rotate(ang(0,Own:eyeAngles():yaw(),0)))
+}
+Egp:egpSize(2,vec2(200-(E*2),50))
+Egp:egpPos(2,vec2(400-(E),1120))
+Egp:egpText(4,Energy:toString(),vec2(350,1095))

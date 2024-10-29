@@ -1,0 +1,14 @@
+@name 
+@inputs Ragdoll:entity
+@outputs 
+@persist Bones:array Local:vector
+@strict
+runOnTick(1)
+if(first()){
+Bones=Ragdoll:bones()
+Ragdoll:setModel(owner():model())
+}
+for(I=0,14){
+Bones[I,bone]:boneManipulate(Bones[I,bone]:pos(),ang(0,0,0),1,1,1)
+print(ceil(owner():playerBoneAng(I)))
+}

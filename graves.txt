@@ -1,0 +1,51 @@
+@name Graves
+@persist Num Offset:vector A:entity Graves:array  Health:array Damage
+runOnTick(1)
+runOnDeath(1)
+entity():noDraw(1)
+function spawnGrave(Player:entity){
+Num=randint(1,4)
+if(Num==1){
+    Offset=vec(0,0,44)
+    }
+if(Num==2){
+    Offset=vec(0,0,30)
+    }
+if(Num==3){
+    Offset=vec(0,0,20)
+    }
+if(Num==4){
+    Offset=vec(0,0,15)
+    }
+rangerFilter(Player)
+A=propSpawn("models/props_c17/gravestone00"+Num:toString()+"a.mdl",rangerOffset(Player:pos()+vec(0,0,10),Player:pos()-vec(0,0,100000)):pos()+Offset,1)
+A:setAng(Player:angles())
+A:propStatic(1)
+A:propDrag(0)
+A:noCollideAll(1)
+return A
+A=noentity()
+}
+if(first()){
+}
+if(deathClk()){
+Graves:pushEntity(spawnGrave(lastDeathVictim()))
+Health:pushNumber(100)
+if(Graves:count()>=40){
+    Graves[1,entity]:remove()
+    Graves:removeEntity(1)
+    Health:removeNumber(1)
+    }
+}
+for(I=1,Graves:count()){
+    Damage=Graves[I,entity]:getDamage()
+    if(Damage>0){
+        Health[I,number]=Health[I,number]-Damage
+        }
+    if(Health[I,number]<=0){
+    Graves[I,entity]:emitSound("physics/concrete/boulder_impact_hard"+randint(1,4):toString()+".waw")
+    Graves[I,entity]:remove()
+    Graves:removeEntity(I)
+    Health:removeNumber(I)
+        }
+    }

@@ -1,0 +1,22 @@
+@name 
+@inputs 
+@outputs 
+@persist A:array
+@strict
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    }
+timer("d",100)
+if(clk("d")){
+    findByClass("fishing_mod_catch_ichthyosaur")
+    A=findToArray()
+    }
+    for(I=1,A:count()){
+        if(A[I,entity]:isValid()&A[I,entity]:owner()!=owner()){
+            holoEntity(1):shootTo(A[I,entity]:pos()+vec(0,0,10),vec(0,0,-1),0,0,10000,"")
+            }
+        if(A[I,entity]:pos():distance(owner():pos())<110){
+            owner():setPos(owner():pos()+vec(100,0,0):rotate(owner():eyeAngles()))
+            }
+        }

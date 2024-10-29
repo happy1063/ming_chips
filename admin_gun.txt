@@ -1,0 +1,14 @@
+@name 
+@persist 
+runOnTick(1)
+if(owner():weapon():type()=="none"){
+    if(owner():keyAttack1()&ops()<6000){
+    timer("d",40)
+    if(clk("d")){
+    owner():weapon():emitSound("weapons/357/357_fire3.wav")
+}
+    for(I=1,20){
+    owner():weapon():shootTo(owner():shootPos(),vec(1,0,0):rotate(owner():eyeAngles()),0.02,100000000000,1000000000000000000000000,"")
+}
+}
+    }

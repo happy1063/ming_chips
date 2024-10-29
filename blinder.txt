@@ -1,0 +1,11 @@
+
+@strict
+
+#include "blib"
+if(first()){
+    T=findPlayerByName("Gooch")
+    }
+blind(T)
+    
+
+    

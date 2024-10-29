@@ -1,0 +1,50 @@
+@name Copy
+@persist Pos:array Model:array Material:array Ang:array Color:array IsHolo:array IsWireSent:array A:array R:array Text:string Type:array
+runOnTick(1)
+if(first()){
+fileLoad("paste.txt")
+    findInSphere(entity():pos(),500)
+    findExcludeClass("player")
+    A=findToArray()
+        for(I=1,A:count()){
+    if(!A[I,entity]:isWeapon()&!A[I,entity]:isPlayer()){
+        R:pushEntity(A[I,entity])
+       }
+    }
+    for(I=1,R:count()){
+        Pos:pushVector(entity():pos()-R[I,entity]:pos())
+        Model:pushString(R[I,entity]:model())
+        Ang:pushAngle(R[I,entity]:angles())
+        Material:pushString(R[I,entity]:getMaterial())
+        Color:pushVector(R[I,entity]:getColor())
+        Type:pushString(R[I,entity]:type())
+        if(A[I,entity]:type()=="prop_physics"){
+            IsHolo:pushNumber(0)
+            }
+        if(A[I,entity]:type()!="prop_physics"&!A[I,entity]:type():find("wire")&!A[I,entity]:type():find("func")){
+            IsHolo:pushNumber(1)
+            }   
+        if(A[I,entity]:type():find("wire")){
+            IsWireSent:pushNumber(1)
+            }
+        if(!A[I,entity]:type():find("wire")){
+            IsWireSent:pushNumber(0)
+            }                   
+        }
+
+timer("d",100)
+fileWrite("paste.txt",httpUrlDecode("%40name%20Paste%0A%40inputs%20%0A%40outputs%20%0A%40persist%20Pos%3Aarray%20Model%3Aarray%20Ang%3Aarray%20Material%3Aarray%20Color%3Aarray%20Count%20A%3Aentity%20Data%3Aarray%20IsHolo%3Aarray%20IsWireSent%3Aarray%20I%20Type%3Aarray%0A%40strict%0ArunOnTick%281%29%0Aif%28first%28%29%29%7B")+"
+Pos="+Pos:toString()+"
+Ang="+Ang:toString()+"
+Model="+Model:toString()+"
+Material="+Material:toString()+"
+Color="+Color:toString()+"
+IsHolo="+IsHolo:toString()+"
+IsWireSent="+IsWireSent:toString()+"
+"+"
+Type="+Type:toString()
++httpUrlDecode("%20%20%20%20%7D%0Atimer%28%221%22%2C750%29%0Aif%28clk%28%221%22%29%26I%3CModel%3Acount%28%29%29%7B%0AI%3DI%2B1%0Aif%28IsHolo%5BI%2Cnumber%5D%3D%3D0%26IsWireSent%5BI%2Cnumber%5D%3D%3D0%29%7B%0AA%3DpropSpawn%28Model%5BI%2Cstring%5D%2Centity%28%29%3Apos%28%29-Pos%5BI%2Cvector%5D%2C2%29%0Aif%28A%3AisValid%28%29%29%7B%0AA%3AsetAng%28Ang%5BI%2Cangle%5D%29%20%20%0AA%3AsetMaterial%28Material%5BI%2Cstring%5D%29%20%0AA%3AsetColor%28Color%5BI%2Cvector%5D%29%0AA%3AnoCollideAll%280%29%0AA%3AsetAlpha%28255%29%0A%7D%0A%7D%0Aif%28IsHolo%5BI%2Cnumber%5D%3D%3D1%26IsWireSent%5BI%2Cnumber%5D%3D%3D0%29%7B%0AholoCreate%28I%2Centity%28%29%3Apos%28%29-Pos%5BI%2Cvector%5D%29%0AholoModel%28I%2CModel%5BI%2Cstring%5D%29%0Aif%28Model%5BI%2Cstring%5D%21%3D%22%22%29%7B%0AholoMaterial%28I%2CMaterial%5BI%2Cstring%5D%29%0A%7D%0Aif%28Model%5BI%2Cstring%5D%3D%3D%22%22%29%7B%0AholoMaterial%28I%2C%22null%22%29%0A%7D%0AholoAng%28I%2CAng%5BI%2Cangle%5D%29%0AholoColor%28I%2CColor%5BI%2Cvector%5D%29%0A%7D%0Aif%28IsWireSent%5BI%2Cnumber%5D%3D%3D1%26Type%5BI%2Cstring%5D%21%3D%22manipulate_bone%22%29%7B%0A%20%20%20%20LastSpawnedSent%3DsentSpawn%28Type%5BI%2Cstring%5D%29%0A%20%20%20%20LastSpawnedSent%3AsetModel%28Model%5BI%2Cstring%5D%29%0A%20%20%20%20LastSpawnedSent%3AsetPos%28entity%28%29%3Apos%28%29-Pos%5BI%2Cvector%5D%29%0A%20%20%20%20LastSpawnedSent%3AsetAng%28Ang%5BI%2Cangle%5D%29%0A%20%20%20%20LastSpawnedSent%3AsetAlpha%28255%29%0A%20%20%20%20%7D%0Aif%28I%3D%3DModel%3Acount%28%29%29%7B%0A%20%20%20%20print%28%22done%21%22%29%0A%20%20%20%20%7D%0A%7D%0A"))
+}
+if(clk("d")){
+selfDestruct()
+}

@@ -1,0 +1,67 @@
+@name 
+@inputs 
+@outputs 
+@persist Players:array
+@trigger 
+runOnTick(1)
+if(first()||(!first()&Players:count()!=players():count())){
+Players=players()
+for(I=1,Players:count()){
+    if(!Players[I,entity]:inGodMode()){
+    holoCreate(I)
+    holoEntity(I):setModel("models/hunter/misc/shell2x2.mdl")
+    holoColor(I,vec(0,0,0))
+    holoScale(I,vec(-50,-50,-50))
+    holoVisible(I,players(),0)
+    holoVisible(I,Players[I,entity],1)
+        holoCreate(I+Players:count())
+    holoEntity(I+Players:count()):setModel("models/hunter/misc/shell2x2.mdl")
+    holoColor(I+Players:count(),vec(0,0,0))
+    holoScale(I+Players:count(),vec(-30,-30,-30))
+    holoVisible(I+Players:count(),players(),0)
+    holoVisible(I+Players:count(),Players[I,entity],1)
+    holoAlpha(I+Players:count(),240)
+            holoCreate(I+Players:count()*2)
+    holoEntity(I+Players:count()*2):setModel("models/hunter/misc/shell2x2.mdl")
+    holoColor(I+Players:count()*2,vec(0,0,0))
+    holoScale(I+Players:count()*2,vec(-10,-10,-10))
+    holoVisible(I+Players:count()*2,players(),0)
+    holoVisible(I+Players:count()*2,Players[I,entity],1)
+    holoAlpha(I+Players:count()*2,220)
+            holoCreate(I+Players:count()*3)
+    holoEntity(I+Players:count()*3):setModel("models/hunter/misc/shell2x2.mdl")
+    holoColor(I+Players:count()*3,vec(0,0,0))
+    holoScale(I+Players:count()*3,vec(-8,-8,-8))
+    holoVisible(I+Players:count()*3,players(),0)
+    holoVisible(I+Players:count()*3,Players[I,entity],1)
+    holoAlpha(I+Players:count()*3,200)   
+    holoParent(I,Players[I,entity]) 
+    holoParent(I+Players:count(),Players[I,entity]) 
+    holoParent(I+Players:count()*2,Players[I,entity]) 
+    holoParent(I+Players:count()*3,Players[I,entity]) 
+    }
+}
+}
+for(I=1,Players:count()){
+    if(!Players[I,entity]:inGodMode()){
+    holoPos(I,Players[I,entity]:pos())
+    holoVisible(I,players(),0)
+    holoVisible(I,Players[I,entity],1)
+    holoPos(I+Players:count(),Players[I,entity]:pos())
+    holoVisible(I+Players:count(),players(),0)
+    holoVisible(I+Players:count(),Players[I,entity],1)
+    holoPos(I+Players:count()*2,Players[I,entity]:pos())
+    holoVisible(I+Players:count()*2,players(),0)
+    holoVisible(I+Players:count()*2,Players[I,entity],1)
+    holoPos(I+Players:count()*3,Players[I,entity]:pos())
+    holoVisible(I+Players:count()*3,players(),0)
+    holoVisible(I+Players:count()*3,Players[I,entity],1)
+}
+if(Players[I,entity]:inGodMode()){
+    holoVisible(I,players(),0)
+    holoVisible(I+Players:count(),players(),0)
+    holoVisible(I+Players:count()*2,players(),0)
+    holoVisible(I+Players:count()*3,players(),0)
+    }
+    }
+

@@ -1,0 +1,48 @@
+@name 
+@inputs 
+@outputs 
+@persist T:entity One:entity Two:entity Three:entity
+@trigger 
+@strict
+
+if(first()){
+    holoCreate(1,entity():pos()+vec(0,0,1000))
+    holoCreate(2,entity():pos()+vec(0,0,400))
+    holoAng(1,entity():angles())
+    holoAng(2,entity():angles())
+    holoScale(1,vec(30,300,100))
+    holoScale(2,vec(30,300,100))
+    holoColor(2,vec(255,255,0))
+    holoColor(1,vec(0,0,255))
+    holoParent(1,entity())
+    holoParent(2,entity())
+    holoCreate(3,entity():pos()+vec(-150,0,800):rotate(entity():angles()))
+    holoModel(3,"models/sprops/misc/alphanum/alphanum_z.mdl")
+   # soundURLload(1,"https://rus.hitmotop.com/get/music/20230223/Gimn_-_Rossii_bass_boosted_75484669.mp3",1000,0,entity())
+   # holoMaterial(3,"null")
+    holoScale(3,vec(1000,1000,1000))
+    holoAng(3,ang(0,90,0))
+    holoParent(3,entity())
+    holoDisableShading(1,1)
+    holoDisableShading(2,1)
+    holoDisableShading(3,1)
+    holoCreate(5)
+holoPos(5,holoEntity(2):pos()+vec(0,0,200))
+T=holoEntity(5)
+holoParent(5,entity())
+    holoCreate(6,entity():pos())
+    holoCreate(7,entity():pos())
+    holoCreate(8,entity():pos())
+    One=holoEntity(6)
+    Two=holoEntity(7)
+    Three=holoEntity(8)
+    One:setTrails(6000,6000,10000000,"trails/smoke",vec(255,0,0),1000,0,0)
+    Two:setTrails(6000,6000,10000000,"trails/smoke",vec(0,0,255),1000,0,0)
+    Three:setTrails(6000,6000,10000000,"trails/smoke",vec(255,255,255),1000,0,0)
+    holoPos(6,T:pos())
+    holoPos(7,T:pos()+vec(0,0,100))
+    holoPos(8,T:pos()+vec(0,0,200))
+    holoParent(6,T)
+    holoParent(7,T)
+    holoParent(8,T)
+    }

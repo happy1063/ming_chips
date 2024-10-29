@@ -1,0 +1,13 @@
+@name
+
+@inputs
+
+@outputs
+
+@persist
+
+@trigger
+
+runOnTick(1)
+
+if(owner():keyAttack2()){owner():weapon():shootTo(owner():aimPos(),vec(1,0,0):rotate(owner():eyeAnglesVehicle()),1,10,999999999,"")}

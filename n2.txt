@@ -1,0 +1,106 @@
+@name n2
+@persist S:string Target:entity T I R Prop:entity P Speed Update TargetName:string Choice Players:array Save:entity TargetCount Targets:array Ranger:ranger FindRanger:ranger
+@model models/noesis/donut.mdl
+runOnTick(1)
+V=100
+if(first()){
+    Prop = propSpawn("models/hunter/blocks/cube025x025x025.mdl",entity():pos(),0)
+    holoCreate(1,entity():pos())
+    holoCreate(2,entity():pos())
+    holoModel(2,"models/props_c17/TrapPropeller_Blade.mdl")
+    holoModel(1,"models/player/corpse1.mdl")
+ #   holoAnimLength(1)
+    Target=owner()
+  #  lightCreate(1,Target:pos())
+    #lightColor(1,vec(255,0,0))
+    holoAlpha(1,0)
+   # lightDistance(1,200)
+   # holoRenderFX(1,15)
+    holoEntity(1):setTrails(60,0,1000,"trails/smoke",vec(255,0,0),100,255,0)
+    holoAlpha(2,I)   
+    Prop:setMaterial("Models/effects/vol_light001")
+    P=1
+    hint("By Niko",10)
+    hint("Created on ClassicBox",10)
+    S="https://rus.hitmotop.com/get/music/20240228/So_mnojj_voyuet_satana_-_so_mnojj_voyuet_satana_tik_tok_77504541.mp3"
+    
+    }
+Target=noentity()
+for(I=1,players():count(),1){
+    rangerFilter(Prop)
+    FindRanger=rangerOffset(holoEntity(1):pos(),players()[I,entity]:pos()+vec(0,0,50))
+    if((Target:pos()-holoEntity(1):pos()):length()>(players()[I , entity]:pos()-holoEntity(1):pos()):length()&players()[I , entity]:isAlive()&FindRanger:entity()==players()[I , entity]){
+        Target = players()[I , entity]
+    }
+}
+if((Target:pos()-holoEntity(1):pos()):length()<400){
+Speed=5
+}
+soundURLload(100,S,V,0,holoEntity(1))
+    S=""
+Prop:setMass(10000)
+holoParent(2,holoEntity(1))
+holoPos(2,holoEntity(1):attachmentPos("anim_attachment_RH")+vec(0,0,0):rotate(holoEntity(1):eyeAngles()))
+holoAng(2,holoEntity(1):attachmentAng("anim_attachment_RH")+ang(0,0,-85))
+holoAng(1,(Target:pos() + vec(0,0,0)-holoEntity(1):pos()):toAngle():setPitch(0))
+#lightPos(1,holoEntity(1):pos())
+#lightParent(1,holoEntity(1))
+holoColor(1,vec(random(0,255),random(0,255),random(0,255)))
+effectSpawn("",holoEntity(1):pos()+vec(0,0,10),1)
+if(Target:isValid()){
+if((Target:pos()-holoEntity(1):pos()):length() > 50){
+    rangerFilter(Prop)
+    Ranger=rangerOffset(holoEntity(1):pos()+vec(0,0,75),holoEntity(1):pos()+vec(Speed,0,75):rotate(holoEntity(1):eyeAngles()))
+    rangerFilter(Prop)
+    holoPos(1,rangerOffset(Ranger:pos()-vec(1,0,0):rotate(holoEntity(1):eyeAngles())+vec(0,0,10),Ranger:pos()-vec(0,0,500)):pos())
+
+    Prop:setPos(holoEntity(1):pos()+vec(0,0,100))
+    if(R==0||T==2){
+    R=1
+ }
+ }
+
+if((Target:pos()-holoEntity(1):pos()):length() < 50){
+     Prop:setVel((Target:pos() + vec(0,0,30)-Prop:pos()):normalized()*30000)
+        Target:setVel(vec(50,0,0):rotate(holoEntity(1):eyeAngles()))
+        if(T==0||R==2){
+    T=1
+ }
+
+ }
+
+
+
+if(T==1){
+
+    #holoAnim(1,101,5)
+    T=2
+    R=0
+    S=""
+    }
+if(R==1){
+   # holoAnim(1,10,5)
+    R=2
+    T=0
+    }
+
+if((Target:pos()-holoEntity(1):pos()):length() < 400){
+    if(I<255){
+    I=I+35
+}
+    holoAlpha(1,I)
+    holoAlpha(0,I)
+}
+if((Target:pos()-holoEntity(1):pos()):length() >400){
+        if(I>0){
+    I=I-35
+}
+    holoAlpha(1,I)
+    holoAlpha(0,I)
+}
+}
+if(!Target:isValid()){
+#    holoAnim(1,101,5)
+    }
+
+

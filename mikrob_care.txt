@@ -1,0 +1,87 @@
+@name Mikrob Care
+@inputs [FL,FR,BL,BR,Plate,Seat]:entity [Egp]:wirelink 
+@outputs [Driver]:entity [V]:vector X Y Z Toggle
+@persist 
+runOnTick(1)
+
+if(first()){
+    Egp:egpClear()
+    Egp:egpText(1,Plate:vel():length():toString(),vec2(115,760))
+    Egp:egpSize(1,100)
+    holoCreate(1,Plate:pos())
+    holoAng(1,Plate:angles()+ang(0,-90,0))
+    holoParent(1,Plate)
+    holoModel(1,"models/noesis/donut.mdl")
+ #   holoScale(1,vec(5.5,5.5,5.5))
+    Seat:setMaterial("null")
+    Plate:setMaterial("null")
+    Plate:setMass(1000)
+    FL:setMass(500)
+    FR:setMass(500)
+    BL:setMass(500)
+    BR:setMass(500)
+        Plate:propShadow(0)
+    FL:propShadow(0)
+    FR:propShadow(0)
+    BL:propShadow(0)
+    BR:propShadow(0)
+    }
+if(dupefinished()){
+    reset()
+    }
+holoPos(1,Plate:pos()+vec(0,0,0))
+holoAng(1,Plate:angles()+ang(0,-90,0))
+Egp:egpSetText(1,ceil(Plate:vel():length()):toString())
+Plate:applyForce(vec(0,0,-1000))
+FL:applyForce(vec(0,0,-500))
+FR:applyForce(vec(0,0,-500))
+BL:applyForce(vec(0,0,-500))
+BR:applyForce(vec(0,0,-500))
+Driver=Seat:driver()
+if(Driver:isValid()){
+    FL:propFreeze(0)
+    FR:propFreeze(0)
+    BL:propFreeze(0)
+    BR:propFreeze(0)
+    Plate:propFreeze(0)
+    Seat:propFreeze(0)
+    FL:applyForce(vec(0,0,-50))
+    FR:applyForce(vec(0,0,-50))
+    BL:applyForce(vec(0,0,-50))
+    BR:applyForce(vec(0,0,-50))
+    if(Driver:keyPressed("w")){
+        if(X<300){
+        X=X+5
+    }
+    Plate:soundPlay(1,100,"bank_002/sound_001.wav",1)
+
+        FL:applyAngForce(ang(0,0,400))
+        FR:applyAngForce(ang(0,0,400))
+        Plate:applyForce(vec(X,0,0):rotate(Plate:angles()+ang(0,-90,0))*70)
+        Toggle=1
+        }
+        if(!Driver:keyPressed("w")){
+            soundStop(2)
+            Toggle=0
+            }
+          if(Driver:keyPressed("s")){
+        if(X>300){
+        X=X+5
+    }
+        FL:applyAngForce(ang(0,0,300))
+        FR:applyAngForce(ang(0,0,300))
+        Plate:applyForce(vec(-X,0,0):rotate(Plate:angles()+ang(0,-90,0))*70)
+        }  
+
+    if(Driver:keyPressed("a")&(Driver:keyPressed("s")||Driver:keyPressed("w"))){
+        Plate:applyAngForce(ang(0,1000000,0))
+        }
+      if(Driver:keyPressed("d")&(Driver:keyPressed("s")||Driver:keyPressed("w"))){
+        Plate:applyAngForce(ang(0,-1000000,0))
+        }  
+    }
+        
+     if(Plate:angles():roll()>30||Plate:angles():roll()<-30){
+        Plate:applyAngForce((ang(0,Plate:angles():yaw(),0)-Plate:angles())*10000)
+        }
+

@@ -1,0 +1,29 @@
+@name MATH
+@inputs Egp:wirelink
+@persist Lines:array LastSaid:string Explode:array 
+runOnChat(1)
+runOnTick(1)
+if(first()){
+#    Egp=sentSpawn("gmod_wire_egp",entity():pos(),ang(0,0,0)):wirelink()
+    Egp:egpClear()
+    #Egp:egpScale(vec2(960,960),vec2(1920,1200))
+    print("math 60 ")
+    }
+if(chatClk(owner())){
+LastSaid=owner():lastSaid()
+Explode=owner():lastSaid():explode(" ")
+Lines=array()
+if(Explode[1,string]=="math"){
+modifyChat("")
+for(I=1,Explode[2,string]:toNumber()){
+    if(Explode[4,string]=="sin"){
+    Lines:pushVector2(vec2(I*Explode[3,string]:toNumber(),ceil(sin(I*Explode[5,string]:toNumber())*100)))
+}
+if(owner():lastSaid():explode(" ")[6,string]=="cos"){
+    Lines:pushVector2(vec2(I*Explode[3,string]:toNumber(),ceil(cos(I*Explode[7,string]:toNumber())*100)))
+}
+}
+Egp:egpLineStrip(1,Lines)
+Egp:egpPos(1,vec2(250,400))
+}
+}

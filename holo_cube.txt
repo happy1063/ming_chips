@@ -1,0 +1,17 @@
+@name holo model
+@persist Scale Model:array
+runOnTick(1)
+if(first()){
+    Scale=50
+    Model=array(vec(0, 0, 0), vec(1, 0, 0), vec(1, 1, 0), vec(0, 1, 0), vec(0, 0, 1), vec(1, 0, 1), vec(1, 1, 1), vec(0, 1, 1))
+        for(I=1,Model:count()){
+        Model[I,vector]=Model[I,vector]*Scale
+        }
+    for(I=1,Model:count()){
+        holoCreate(I,entity():pos()+Model[I,vector]+vec(Model[I,vector]:distance(Model[I+1,vector])/2,0,0):rotate((Model[I+1,vector]-Model[I,vector]):toAngle()))
+        holoAng(I,(Model[I+1,vector]-Model[I,vector]):toAngle())
+        holoScaleUnits(I,vec(Model[I,vector]:distance(Model[I+1,vector]),1,1))
+        holoMaterial(I,"models/debug/debugwhite")
+        holoColor(I,vec(I,sin(I)*255,0))
+        }
+    }

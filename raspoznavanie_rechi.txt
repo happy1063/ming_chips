@@ -1,0 +1,29 @@
+@name RASPOZNAVANIE RECHI
+@inputs Ent:entity
+@persist Load 
+@outputs LoadedStr:string Str:string I
+runOnTick(1)
+if(first()){
+    fileWrite("speech_recognition.txt"," ")
+    concmd("say "+httpUrlDecode("%28%D0%A0%D0%90%D0%A1%D0%9F%D0%9E%D0%97%D0%9D%D0%90%D0%92%D0%90%D0%9D%D0%98%D0%95%20%D0%A0%D0%95%D0%A7%D0%98%29%20%3A")+LoadedStr)
+    }
+Ent:setPos(owner():pos()+vec(0,0,100))
+Ent:setAng(ang(90,owner():eyeAngles():yaw(),0))
+if(Load==0){
+    fileLoad("speech_recognition.txt")
+    timer("load",100)
+    Load=1
+    }
+if(clk("load")){
+LoadedStr=fileRead()
+Load=0
+if(I==0){
+    Str=LoadedStr
+    }
+I=1
+if(LoadedStr!=Str){
+concmd("say "+httpUrlDecode("%28%D0%A0%D0%90%D0%A1%D0%9F%D0%9E%D0%97%D0%9D%D0%90%D0%92%D0%90%D0%9D%D0%98%D0%95%20%D0%A0%D0%95%D0%A7%D0%98%29%20%3A")+LoadedStr)
+setName(httpUrlDecode("%28%D0%A0%D0%90%D0%A1%D0%9F%D0%9E%D0%97%D0%9D%D0%90%D0%92%D0%90%D0%9D%D0%98%D0%95%20%D0%A0%D0%95%D0%A7%D0%98%29%20%3A")+LoadedStr)
+}
+Str=LoadedStr
+}

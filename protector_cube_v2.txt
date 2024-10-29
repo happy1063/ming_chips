@@ -1,0 +1,45 @@
+@name 
+@persist ScaleChanger:entity R ScaleX ScaleY ScaleZ ScaleUnitsX ScaleUnitsY ScaleUnitsZ C:vector V:entity 
+interval(100)
+#include "vel"
+if(first()){
+    ScaleChanger = propSpawn("models/hunter/plates/plate.mdl",entity():pos()+vec(50,50,10),ang(),1)
+    ScaleChanger:setColor(vec(255,150,100))
+    for(I=1,3){
+        holoCreate(I)
+        holoEntity(I):setTrails(20,20,20,"trails/laser",vec(255,0,0),255)
+        holoParent(I,entity())
+        holoAlpha(I,0)
+    }
+    C = vec(0,-255,0)        # ---  DO NOT CHANGE
+}
+if(changed(ScaleChanger:pos())){
+    ScaleChanger:setAng(ang())
+    ScaleUnitsX = entity():toLocal(ScaleChanger:pos()):x()
+    ScaleUnitsY = -entity():toLocal(ScaleChanger:pos()):y()
+    ScaleUnitsZ = entity():toLocal(ScaleChanger:pos()):z()
+    ScaleX = ScaleUnitsX/255 # ---  DO NOT CHANGE
+    ScaleY = ScaleUnitsY/255 # ---  DO NOT CHANGE
+    ScaleZ = ScaleUnitsZ/255 # ---  DO NOT CHANGE
+    for(I=1,3){
+        holoPos(I,entity():pos())
+    }
+}
+R=(R+6)%360
+Clr = hsv2rgb(R,1,1)
+X = Clr:x()
+Y = Clr:y()
+Z = Clr:z()
+holoPos(1,entity():toWorld(C + vec(X*ScaleX,Y*ScaleY-255*(ScaleY-1),Z*ScaleZ)))
+holoPos(2,entity():toWorld(C + vec(255,255,0)+vec(-X*ScaleX+255*(ScaleX-1),-Y*ScaleY,Z*ScaleZ)))
+holoPos(3,entity():toWorld(C + vec(0,255,0)+vec(X*ScaleX,-Y*ScaleY,Z*ScaleZ)))
+findInBox(entity():pos(),entity():toWorld(vec(ScaleUnitsX,-ScaleUnitsY,ScaleUnitsZ)))
+findExcludeClass("func_*")
+F = findToArray()
+for(I=1,F:count()){
+    V=F[I,entity]
+    if(V:isPlayer()&V!=owner()){
+    setTVel(V,vec(0,0,10000))
+    }
+}
+

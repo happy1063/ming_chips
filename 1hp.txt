@@ -1,0 +1,9 @@
+@name 1hp
+@persist Cur:entity
+runOnTick(1)
+for(I=1,players():count()){
+    Cur=players()[I,entity]
+    if(Cur:isValid()&Cur:isPVP()&!Cur:isInSafezone()&Cur:health()>1){
+        entity():shootTo(Cur:shootPos()+vec(0,0,10),vec(0,0,-1),0,0,(Cur:health())-1,"")
+        }
+    }

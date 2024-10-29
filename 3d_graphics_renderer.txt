@@ -1,0 +1,69 @@
+@name 3D Graphics Renderer with Lighting and Smoothness
+@inputs E:wirelink
+@persist Vec:array CameraPos:vector CameraAng:angle CameraFov ObjectPos:vector ObjectModel:array ObjectAngle:angle Angle ObjPos:vector GlobalObjPos:vector Xobj:vector TempXobj:vector ScaleCam ScreenX ScreenY LightPos:vector LightIntensity:array Normals:array
+runOnTick(1)
+
+if(first()){
+    CameraPos = vec(-100, 0, 0)  
+    CameraFov = 90
+    ObjectPos = vec(0, 0, 0)
+    ObjectAngle = ang(0,0,0)
+    
+    #  3D      
+    ObjectModel=array(
+        vec(0, 0, 0), vec(50, 0, 0), vec(50, 50, 0), vec(0, 50, 0), 
+        vec(0, 0, 50), vec(50, 0, 50), vec(50, 50, 50), vec(0, 50, 50)
+    )
+    Normals=array(
+        vec(0, 0, -1), vec(0, 0, 1), vec(-1, 0, 0), vec(1, 0, 0), vec(0, -1, 0), vec(0, 1, 0)
+    )
+    
+    LightPos = vec(200, 200, 100)  #   
+    LightIntensity = array(1, 1, 1)  #  
+    
+    holoCreate(1)
+    holoCreate(2)
+}
+
+timer("draw", 10)
+
+if(clk("draw")){
+    Angle += 1
+    Vec = array()
+    CameraPos = vec(-100,0,50)
+    CameraAng = ang(90,Angle,0)
+    ObjectPos = vec(100,0,50)
+    ObjectAngle = ang(0,0,0)
+    
+    for(I = 1, ObjectModel:count()){
+        #  
+        ObjPos = ObjectModel[I, vector]:rotate(ang(ObjectAngle:yaw(),0,ObjectAngle:pitch()))
+        GlobalObjPos = ObjectPos:rotate(ang(CameraAng:yaw(),0,CameraAng:pitch())) + ObjPos
+        
+        #    
+        Xobj =  CameraPos-GlobalObjPos 
+        TempXobj = Xobj/GlobalObjPos:distance(CameraPos)
+
+        #   
+        ScaleCam = (512 / tan(CameraFov / 2)) / TempXobj:z()
+        ScreenX = TempXobj:x() * ScaleCam + 512
+        ScreenY = TempXobj:y() * ScaleCam + 512
+
+        # 
+        LightDir = (LightPos - GlobalObjPos):normalized()  #  
+        Normal = Normals[I, vector]  #  
+        LightFactor = max(0, LightDir:dot(Normal)) * LightIntensity[1,number]  #  
+        
+        #       
+        Vec[I]=vec2(ScreenX * LightFactor, ScreenY * LightFactor)
+    }
+    
+    holoPos(1,entity():pos()+CameraPos)
+    holoPos(2,entity():pos()+ObjectPos)
+    holoAng(1,CameraAng)
+    holoAng(2,ObjectAngle)
+    
+    #     
+    E:egpPolyOutline(1, Vec)
+    E:egpPos(1, E:egpSize() / 2)
+}

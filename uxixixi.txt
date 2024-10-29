@@ -1,0 +1,28 @@
+@name 
+@inputs Ponche:entity
+@outputs 
+@persist A:array B:entity R:entity U:entity T:entity
+@trigger 
+@strict
+@model models/Items/combine_rifle_ammo01.mdl
+runOnTick(1)
+#include "kill_ent"
+
+if(first()){
+   T=owner()
+    }
+    if(Ponche:isValid()){
+        if(changed(Ponche)){
+            Ponche:setColor(vec(100,255,100))
+            }
+    for(I=1,players():count(),1){
+    
+    if((T:pos()-Ponche:pos()):length()>(players()[I , entity]:pos()-Ponche:pos()):length()&players()[I , entity]:isAlive()){
+        T = players()[I , entity]
+    }
+}
+if((Ponche:pos()-T:pos()):length()<70&T:isPVP()&T:isAlive()){
+ kill(T,0) 
+ }
+
+}

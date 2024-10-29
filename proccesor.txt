@@ -1,0 +1,12 @@
+@name proccesor
+@inputs Screen:wirelink Str:string
+@persist Scale:vector2
+@outputs
+runOnTick(1)
+if(first()){
+    Scale=Screen:egpSize()
+    Screen:egpClear()
+    Screen:egpText(1,"",Scale/2)
+    Screen:egpAlign(1,1)
+    }
+Screen:egpSetText(1,Str)

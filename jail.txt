@@ -1,0 +1,9 @@
+@name 
+@inputs 
+@outputs 
+@persist 
+@trigger 
+runOnChat(1)
+for(I=1,80){
+broadcastMessage(lastSpoke():name()+": "+lastSaid())
+}

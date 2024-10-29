@@ -1,0 +1,18 @@
+@name anti speed
+@inputs 
+@outputs 
+@persist 
+@strict
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    }
+for(I=1,players():count()){
+    if(players()[I,entity]:isValid()&players()[I,entity]:isPVP()&!players()[I,entity]:isInSafezone()&(players()[I,entity]:plyGetRunSpeed()>450||players()[I,entity]:plyGetJumpPower()>250)){
+        timer(players()[I,entity]:name(),1000)
+        if(clk(players()[I,entity]:name())){
+        holoEntity(1):shootTo(players()[I,entity]:shootPos(),(players()[I,entity]:pos()-players()[I,entity]:shootPos()):normalized(),0,0,1000,"")
+      #  concmd("ulx psay "+players()[I,entity]:steamID()+" speedi virubay")
+    }
+        }
+    }

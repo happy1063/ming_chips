@@ -1,0 +1,125 @@
+@name yaderniy
+@inputs 
+@outputs 
+@persist B:entity I Hit:entity
+@trigger 
+@strict
+runOnTick(1)
+if(first()){
+        holoCreate(1)
+    holoMaterial(1,"null")
+ 
+    B=propSpawn("models/props_phx/amraam.mdl",entity():pos()+vec(0,0,10),1)
+    B:propFreeze(0)
+    B:setMass(100)
+    Hit=propSpawn("models/hunter/blocks/cube2x2x2.mdl",B:pos(),1)
+    Hit:noDraw(1)
+    Hit:noCollideAll(1)
+      hideMyAss(1)
+}
+
+if(B:isValid()&holoEntity(1):isValid()){
+holoPos(1,B:pos())
+Hit:setPos(B:pos()+vec(0,0,500))
+}
+if(!B:isValid()){
+Hit:explosion()
+Hit:explosion()
+Hit:explosion()
+Hit:explosion()
+Hit:remove()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+holoEntity(1):explosion()
+particle(5,10000,10000,"particle/particle_noisesphere",vec(255,255,255),holoEntity(1):pos(),vec(0,0,50))
+particle(10,10000,10000,"particle/particle_noisesphere",vec(255,255,255),holoEntity(1):pos(),vec(0,0,100))
+particle(10,10000,10000,"particle/particle_noisesphere",vec(255,255,255),holoEntity(1):pos(),vec(0,0,200))
+particle(10,10000,10000,"particle/particle_noisesphere",vec(255,255,255),holoEntity(1):pos(),vec(0,0,300))
+particle(10,10000,10000,"particle/particle_noisesphere",vec(255,255,255),holoEntity(1):pos(),vec(0,0,0))
+particle(10,10000,10000,"particle/particle_noisesphere",vec(255,255,255),holoEntity(1):pos(),vec(0,0,300))
+
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+I=I+50
+entitySpawn("Explosion",holoEntity(1):pos()+vec(0,0,I),1)
+interval(1000)
+selfDestruct()
+    }
+

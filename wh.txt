@@ -1,0 +1,41 @@
+@name 
+@inputs 
+@outputs 
+@persist Players T:entity Count Ranger:ranger
+runOnTick(1) 
+if(first()){
+  #  entity():noDraw(1)
+    T=owner()
+    holoCreate(666,owner():pos())
+    holoParentAttachment(666,owner(),"")
+    }
+holoAng(666,owner():eyeAngles():setPitch(0))
+for(I=1,players():count()){
+    if(players()[I,entity]:isValid()&players()[I,entity]!=T){
+if(first()||Players!=players():count()){
+    holoCreate(I)
+    if(!players()[I,entity]:model():find("pac")){
+    holoEntity(I):setModel(players()[I,entity]:model())
+}
+    if(players()[I,entity]:model():find("pac")){
+    holoEntity(I):setModel("models/Humans/Group01/male_07.mdl")
+}
+    holoScale(I,vec(0.01,0.01,0.01))
+    holoPlayerColor(I,players()[I,entity]:getPlayerColor())
+    holoDisableShading(I,1)
+ #   holoAnim(I,"walk_all")
+}
+    holoVisible(I,players(),0)
+    rangerFilter(players()[I,entity])
+    Ranger=rangerOffset(players()[I,entity]:shootPos(),owner():pos()+vec(0,0,30))
+    if(Ranger:entity()==T){
+    holoVisible(I,T,1)
+}
+holoParent(I,players()[I,entity])
+holoScale(I,vec(5/T:shootPos():distance(players()[I,entity]:pos()),5/T:shootPos():distance(players()[I,entity]:pos()),5/T:shootPos():distance(players()[I,entity]:pos())))
+holoPos(I,T:shootPos()+vec(5,0,0):rotate((players()[I,entity]:pos()-T:shootPos()):toAngle()-players()[I,entity]:angles()))
+holoAng(I,players()[I,entity]:angles())
+}
+}
+Players=players():count()
+

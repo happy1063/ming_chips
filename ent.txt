@@ -1,0 +1,21 @@
+@name ent
+@persist A:entity Vec:vector EyeAng:angle
+runOnTick(1)
+if(first()){
+    Vec=entity():pos()
+    }
+timer("d",100)
+if(!A:isAlive()){
+    A=entitySpawn("npc_fastzombie",Vec,1)
+    A:noCollideAll(1)
+    A:npcSetTarget(owner())
+    A:npcGoRun(owner():pos()+vec(100,0,0):rotate(0,(A:pos()-owner():pos()):toAngle():yaw(),0))
+    A:setHalo(vec(255,255,255),1,1,100)
+    A:setEyeAngles(EyeAng)
+    }
+if(A:isAlive()){
+    A:npcStop()
+  #  A:npcGoRun(owner():pos())
+    Vec=A:pos()
+    EyeAng=A:eyeAngles()
+}

@@ -1,0 +1,30 @@
+@name inbox
+@persist 
+runOnTick(1)
+if(first()||dupefinished()){
+    holoCreate(1)
+    holoScaleUnits(1,vec(100,100,100))
+    function lenght(Vec:vector){
+        return Vec:x()+Vec:y()+Vec:z()
+        }
+    function inbox(E:entity,Vec:vector,Vec2:vector){ #function
+        if(lenght(Vec)<lenght(Vec2)){
+            if(lenght(E:pos())>lenght(Vec)&lenght(E:pos())<lenght(Vec2)){
+                return 1
+                }
+            }
+        
+        if(lenght(Vec)>lenght(Vec2)){
+            if(lenght(E:pos())<lenght(Vec)&lenght(E:pos())>lenght(Vec2)){
+                return 1
+                }
+            }
+        return 0
+        }       
+    }
+if(inbox(owner(),entity():pos()+vec(50,50,50),entity():pos()+vec(-50,-50,0))){
+    owner():ignite(1)
+    }
+if(!inbox(owner(),entity():pos()+vec(50,50,50),entity():pos()+vec(-50,-50,0))){
+    owner():extinguish()
+    }

@@ -1,0 +1,106 @@
+@name ragdole
+@inputs Ragdoll:entity
+@persist Bones:array A P Ang:angle S T Pos:vector Rang:ranger Time Zvel Gravity
+runOnTick(1)
+if(first()){
+    Bones=Ragdoll:bones()
+    Gravity=1
+    cameraCreate(1,Ragdoll:attachmentPos("eyes")+vec(10,0,0):rotate(owner():eyeAngles()))
+    holoCreate(1,Ragdoll:attachmentPos("eyes")+vec(10,0,0):rotate(owner():eyeAngles()))
+  #  holoParent(1,Ragdoll)
+    holoMaterial(1,"null")
+    cameraParent(1,holoEntity(1))
+    function colide(){
+    rangerFilter(Ragdoll)
+    if(rangerOffset(Ragdoll:pos(),Ragdoll:pos()+vec(0,0,-1)):hit()&!rangerOffset(Ragdoll:pos(),Ragdoll:pos()+vec(0,0,-1)):entity():isPlayer()){
+            return 1
+        }
+    rangerFilter(Ragdoll)
+        if(rangerOffset(Ragdoll:pos(),Ragdoll:pos()+vec(0,0,-1)):hit()&!rangerOffset(Ragdoll:pos(),Ragdoll:pos()+vec(10,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0))):entity():isPlayer()){
+            return 1
+        }  
+    rangerFilter(Ragdoll)
+        if(rangerOffset(Ragdoll:pos()+vec(0,0,1),Ragdoll:pos()+(owner():shootPos()-owner():pos())):hit()&!rangerOffset(Ragdoll:pos(),Ragdoll:pos()+vec(10,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0))):entity():isPlayer()){
+            return 1
+        }  
+       
+    return 0
+    }
+    }
+if(T==0){
+    Pos=owner():pos()
+    }
+if(owner():keyPressed("g")&S==0&T==0){
+    S=1
+    T=1
+    cameraToggle(1,1)
+    }
+if(owner():keyPressed("g")&S==0&T==1){
+    S=1
+    T=0
+    cameraToggle(1,0)
+    }
+if(!owner():keyPressed("g")&S==1){
+    S=0
+    } 
+if(T==1){
+rangerFilter(Ragdoll)
+    if(!rangerOffset(holoPos(15),holoPos(32)+vec(0,0,-5)):hit()&!owner():inNoclip()&owner():isAlive()){
+        rangerFilter(Ragdoll)
+        Time=max(Time+0.6,11)
+        rangerFilter(Ragdoll)
+        Ragdoll:ragdollSetPos(rangerOffset(holoPos(15),holoPos(32)+vec(0,0,Zvel)-vec(0,0,Gravity*Time)):pos())
+        }
+    rangerFilter(Ragdoll)
+    if(changed(owner():keyJump())&owner():keyJump()&owner():isAlive()&rangerOffset(holoPos(15),holoPos(32)+vec(0,0,-5)):hit()){
+        Zvel=18
+        }
+rangerFilter(Ragdoll)
+if(rangerOffset(holoPos(15),holoPos(32)+vec(0,0,-5)):hit()){
+    Time=0
+    }
+holoPos(1,Ragdoll:attachmentPos("eyes")+vec(10,0,0):rotate(owner():eyeAngles()))
+holoAng(1,owner():eyeAngles())
+owner():setPos(Pos)
+rangerFilter(Ragdoll)
+Rang=rangerOffset(Ragdoll:pos(),Ragdoll:pos()+(owner():vel()/26))
+Ragdoll:setPos(Rang:pos())
+A=A+5
+if(owner():keyAttack1()){
+P=owner():eyeAngles():pitch()
+Ang=ang(0,owner():eyeAngles():yaw(),0)
+Bones[0,bone]:boneManipulate(Bones[0,bone]:pos(),Ang+ang(0,90,90),1,1,1)
+Bones[1,bone]:boneManipulate(Bones[1,bone]:pos(),Ang+ang(-90,-90,0),1,1,1)
+Bones[8,bone]:boneManipulate(Bones[8,bone]:pos(),Ang+ang(90,90,0),1,1,1)
+Bones[9,bone]:boneManipulate(Bones[9,bone]:pos(),Ang+ang(90,90,0),1,1,1)
+Bones[10,bone]:boneManipulate(Bones[10,bone]:pos(),Ang+ang(-90,90,0),1,1,1)
+Bones[11,bone]:boneManipulate(Bones[11,bone]:pos(),Ang+ang(90,-90,180),1,1,1)
+Bones[12,bone]:boneManipulate(Bones[12,bone]:pos(),Ang+ang(90,-90,180),1,1,1)
+Bones[13,bone]:boneManipulate(Bones[13,bone]:pos(),Ang+ang(30,0,-90),1,1,1)
+Bones[14,bone]:boneManipulate(Bones[14,bone]:pos(),Ang+ang(30,0,-90),1,1,1)
+Bones[3,bone]:boneManipulate(Bones[3,bone]:pos(),Ang+ang(P,0,0),1,1,1)
+Bones[4,bone]:boneManipulate(Bones[4,bone]:pos(),Ang+ang(P,0,0),1,1,1)
+Bones[5,bone]:boneManipulate(Bones[5,bone]:pos(),Ang+ang(P,0,0),1,1,1)
+Bones[2,bone]:boneManipulate(Bones[2,bone]:pos(),Ang+ang(P,0,180),1,1,1)
+Bones[6,bone]:boneManipulate(Bones[6,bone]:pos(),Ang+ang(P,0,180),1,1,1)
+Bones[7,bone]:boneManipulate(Bones[7,bone]:pos(),Ang+ang(P,0,180),1,1,1)
+}
+if(!owner():keyAttack1()){
+Ang=ang(0,owner():eyeAngles():yaw(),0)
+Bones[0,bone]:boneManipulate(Bones[0,bone]:pos(),Ang+ang(0,90,90),1,1,1)
+Bones[1,bone]:boneManipulate(Bones[1,bone]:pos(),Ang+ang(-90,-90,0),1,1,1)
+Bones[8,bone]:boneManipulate(Bones[8,bone]:pos(),Ang+ang(90,90,0),1,1,1)
+Bones[9,bone]:boneManipulate(Bones[9,bone]:pos(),Ang+ang(90,90,0),1,1,1)
+Bones[10,bone]:boneManipulate(Bones[10,bone]:pos(),Ang+ang(-90,90,0),1,1,1)
+Bones[11,bone]:boneManipulate(Bones[11,bone]:pos(),Ang+ang(90,-90,180),1,1,1)
+Bones[12,bone]:boneManipulate(Bones[12,bone]:pos(),Ang+ang(90,-90,180),1,1,1)
+Bones[13,bone]:boneManipulate(Bones[13,bone]:pos(),Ang+ang(30,0,-90),1,1,1)
+Bones[14,bone]:boneManipulate(Bones[14,bone]:pos(),Ang+ang(30,0,-90),1,1,1)
+Bones[3,bone]:boneManipulate(Bones[3,bone]:pos(),Ang+ang(80,0,0),1,1,1)
+Bones[4,bone]:boneManipulate(Bones[4,bone]:pos(),Ang+ang(80,0,0),1,1,1)
+Bones[5,bone]:boneManipulate(Bones[5,bone]:pos(),Ang+ang(80,0,0),1,1,1)
+Bones[2,bone]:boneManipulate(Bones[2,bone]:pos(),Ang+ang(80,0,190),1,1,1)
+Bones[6,bone]:boneManipulate(Bones[6,bone]:pos(),Ang+ang(80,0,190),1,1,1)
+Bones[7,bone]:boneManipulate(Bones[7,bone]:pos(),Ang+ang(80,0,190),1,1,1)
+}
+}
