@@ -1,0 +1,14 @@
+@name player information 
+@persist This:entity Array:array
+for(I=1,players():count()){
+This=players()[I,entity]
+Array:pushVector(This:getPlayerColor())
+Array:pushString("
+Name: "+This:name()+"
+IsAlive: "+This:isAlive()+"
+IsAdmin: "+This:isAdmin()+"
+IsPvp: "+This:isPVP())
+}
+printColor(Array)
+selfDestruct()
+

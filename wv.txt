@@ -1,0 +1,28 @@
+
+@name 
+@persist A:entity F En:array
+runOnTick(1)
+if(F==1){
+timer("d",250)
+if(clk("d")){
+    A=propSpawn("models/props_vehicles/van001a_physics.mdl",entity():pos()+vec(randint(-500,500),randint(-500,500),200),0)
+    A:setAlpha(255)
+    A:noCollideAll(0)
+    En:pushEntity(A)
+    }
+if(owner():keyPressed("z")){
+        for(I=1,En:count()){
+        if(En[I,entity]:isValid()){
+            En[I,entity]:remove()
+            }
+        }
+    timer("g",10)  
+}
+}
+if(clk("g")){
+    selfDestruct()  
+    }
+if(owner():keyPressed("g")){
+    F=1
+    }
+

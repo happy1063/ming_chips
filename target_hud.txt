@@ -1,0 +1,38 @@
+@name fly
+
+@persist Players:array E:wirelink Dist Egp:entity
+
+interval(75)
+
+if (first()|duped()){
+    Egp=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0))
+    E=Egp:wirelink()
+    E:egpClear()
+    findByClass("player")
+    findSortByDistance(owner():pos())
+    Players = findToArray()
+    
+    for (Tracker=1,Players:count()){
+        Player = Players[Tracker,entity]
+        
+        Rect = Tracker+Players:count()
+        Name = Tracker+Players:count()*2
+        
+        E:egp3DTracker(Tracker,Player:pos())
+        
+        Dist=10000/(Player:pos()-owner():pos()):length() 
+        E:egpBoxOutline(Rect, vec2(0,0), vec2(1000/Dist,1000/Dist))
+        E:egpColor(Rect,vec(random(0,255),random(0,255),random(0,255)))
+        E:egpParent(Rect,Tracker)
+    }
+}
+for (Tracker=1,Players:count()){
+    Player = Players[Tracker,entity]
+    X = Tracker+Players:count()
+    
+    Dist = Player:pos():distance(owner():pos())
+    
+    E:egpSize(X, vec2(40,50))
+    E:egpPos(Tracker,Player:pos())
+    
+}

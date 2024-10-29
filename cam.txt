@@ -1,0 +1,41 @@
+@name cam
+@inputs 
+@outputs 
+@persist T S Rang:ranger A
+@strict
+runOnTick(1)
+if(first()){
+    cameraCreate(1)
+    cameraPos(1,entity():pos()+vec(0,0,100))
+    holoCreate(1,entity():pos()+vec(0,0,100))
+    holoInvertModel(1,1)
+    holoVisible(1,players(),0)
+    holoVisible(1,owner(),1)
+    holoDisableShading(1,1)
+    holoColor(1,vec(0,0,0))
+    holoScale(1,vec(6,6,6))
+    }
+if(owner():keyPressed("g")&S==0&T==0){
+    S=1
+    T=1
+    }
+if(owner():keyPressed("g")&S==0&T==1){
+    S=1
+    T=0
+    }
+if(!owner():keyPressed("g")){
+    S=0
+    }
+cameraToggle(1,T)
+cameraAng(1,owner():eyeAngles())
+for(I=2,11){
+    if(first()){
+        holoCreate(I)
+        holoScaleUnits(I,vec(0.1,0.1,0.1))
+        }
+    A=A+1
+    Rang=rangerOffset(owner():shootPos()+vec(10,0,0):rotate(owner():eyeAngles()),owner():shootPos()+vec(10000,0,0):rotate(owner():eyeAngles()+ang(0,sin(A+I)*30,0)))
+    holoPos(I,(Rang:pos()-owner():shootPos())/110+cameraPos(1))
+    holoColor(I,vec(-Rang:pos():distance(owner():shootPos())/255,0,0))
+    holoColor(I,vec(Rang:pos():distance(owner():shootPos())/255,0,0))
+}

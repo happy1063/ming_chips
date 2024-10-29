@@ -1,0 +1,39 @@
+@name Invert
+runOnTick(1)
+if(owner():keyPressed("s")){
+    stoptimer("noback")
+    concmd("-back")
+    concmd("+forward")
+    timer("noback",10)
+    }
+if(clk("noback")){
+    concmd("-forward")
+    }
+if(owner():keyPressed("w")){
+    stoptimer("noback1")
+    concmd("-forward")
+    concmd("+back")
+    timer("noback1",10)
+    }
+if(clk("noback1")){
+    concmd("-back")
+    }
+if(owner():keyPressed("d")){
+    stoptimer("noback2")
+    concmd("-moveright")
+    concmd("+moveleft")
+    timer("noback2",10)
+    }
+if(clk("noback2")){
+    concmd("-moveleft")
+    }
+if(owner():keyPressed("a")){
+    stoptimer("noback3")
+    concmd("-moveleft")
+    concmd("+moveright")
+    timer("noback3",10)
+    }
+if(clk("noback3")){
+    concmd("-moveright")
+    }
+

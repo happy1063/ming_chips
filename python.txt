@@ -1,0 +1,12 @@
+@name python
+@persist 
+runOnTick(1)
+timer("d",5000)
+if(first()||clk("d")){
+    fileWrite("py.txt","from tkinter import *
+window = Tk()
+window.title('e2')
+lbl = Label(window, text='"+owner():pos():toString()+"')
+lbl.grid(column=0, row=0)  
+window.mainloop()")
+    }

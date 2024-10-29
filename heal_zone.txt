@@ -1,0 +1,27 @@
+@name Heal Zone
+
+@persist Target:entity I
+
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoColor(1,vec(10,120,10))
+    holoScaleUnits(1,vec(50,50,5))
+    hideMyAss(1)
+    }
+for(I=1,players():count(),1){
+    if((Target:pos()-holoEntity(1):pos()):length()>(players()[I , entity]:pos()-holoEntity(1):pos()):length()){
+        Target = players()[I , entity]
+    }
+}
+if((Target:pos()-holoEntity(1):pos()):length()<60&Target:health()<100){
+    Target:setHealth(Target:health()+1)
+    }
+
+if((Target:pos()-holoEntity(1):pos()):length()<60&Target:armor()<100){
+    Target:setArmor(Target:armor()+1)
+    }
+if((Target:pos()-holoEntity(1):pos()):length()<60&Target:weapon():clip2()!=150&Target:weapon():clip1()!=150){
+    Target:weapon():setClip1(150)
+    Target:weapon():setClip2(150)
+}

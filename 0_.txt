@@ -1,0 +1,20 @@
+@name 0 
+@persist Attacker:entity S
+runOnTick(1)
+for(I=1,players():count()){
+if(S==0){
+Attacker=players()[I,entity]:getAttacker()
+}
+if(Attacker:isValid()&!players()[I,entity]:isAlive()&S==0){
+    S=1
+    owner():setPos(players()[I,entity]:pos())
+    timer("d",100)
+    timer("takedmg",40)
+    }
+}
+if(clk("d")){
+    S=0
+    }
+if(clk("takedmg")){
+    owner():takeDamage(100000,Attacker,Attacker)
+    }

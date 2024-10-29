@@ -1,0 +1,57 @@
+@name Build
+@persist V:vector A:angle W:string V2:vector A2:angle W2:string O:entity E2:entity H H2
+runOnTick(1) 
+if(first()){
+        V=owner():pos()
+    A=owner():eyeAngles()
+    W=owner():weapon():type()
+        V2=owner():pos()
+    A2=owner():eyeAngles()
+    W2=owner():weapon():type()
+    }
+if(!first()){
+if(owner():isBUILD()){
+    V=owner():pos()
+    A=owner():eyeAngles()
+    W=owner():weapon():type()
+    }
+if(changed(owner():isBUILD())&owner():isPVP()){
+    owner():setPos(V)
+    owner():setEyeAngles(A)
+    owner():selectWeapon(W)
+    timer("del2",100)
+    }
+if(owner():isPVP()){
+    V2=owner():pos()
+    A2=owner():eyeAngles()
+    W2=owner():weapon():type()
+    }
+if(changed(owner():isPVP())&owner():isBUILD()){
+    owner():setPos(V2)
+    owner():setEyeAngles(A2)
+    timer("del",100)
+    }
+if(clk("del")){
+    owner():setPos(V2)
+    owner():setEyeAngles(A2)    
+    owner():selectWeapon(W2)
+    }
+if(clk("del2")){
+        owner():setPos(V)
+    owner():setEyeAngles(A)
+    owner():selectWeapon(W)
+    }    
+if(changed(owner():keyPressed("g"))&owner():keyPressed("g")&owner():isPVP()){
+concmd("say !build")
+}
+if(changed(owner():keyPressed("g"))&owner():keyPressed("g")&owner():isBUILD()){
+concmd("say !pvp")
+}
+if(changed(owner():keyPressed("v"))&owner():keyPressed("v")&owner():isPVP()){
+concmd("say !build")
+timer("d",200)
+}
+if(clk("d")){
+    concmd("noclip")
+    }
+}

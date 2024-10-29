@@ -1,0 +1,7 @@
+@name damage
+@persist Damage
+runOnTick(1) 
+Damage=ceil(owner():getDamage())
+if(Damage>0){
+    print("Damage: "+Damage:toString())
+    }

@@ -1,0 +1,16 @@
+@name krut
+@persist T:entity Th:entity A
+runOnTick(1)
+for(I=1,players():count()){
+    Th=players()[I,entity]
+    if(Th:pos():distance(owner():pos())<T:pos():distance(owner():pos())&Th!=owner()&Th:isAlive()){
+        T=Th
+        }
+    }
+timer("d",10)
+A=A+500
+#(T:pos()-owner():pos()):toAngle():yaw()-owner():eyeAngles():yaw()
+owner():playerSetBoneAng(0,ang(sin(A)*80,0,0))
+if(owner():vehicle():isValid()){
+owner():playerSetBoneAng(0,ang(0,0,0))
+}

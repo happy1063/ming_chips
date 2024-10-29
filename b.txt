@@ -1,0 +1,13 @@
+@name b
+@inputs 
+@outputs 
+@persist T:entity
+@strict
+runOnTick(1)
+if(first()){
+    T=findPlayerBySteamID("STEAM_0:0:766803141")
+    P=propSpawn("models/hunter/blocks/cube025x025x025.mdl",T:shootPos()+vec(100,0,0),1)
+    #P:noDraw(1)
+    }
+P:setPos(T:shootPos()+vec(100,0,0):rotate(T:eyeAngles()))
+P:setAng(T:eyeAngles())

@@ -1,0 +1,41 @@
+@name inventory
+@persist Egp:wirelink S T OwnX OwnY Menu:egpobject Poly:array
+runOnTick(1)
+if(first()){
+Poly = array(    
+)
+for(I=1,360){
+    Poly:pushVector2(vec2(sin(I*10)*45,cos(I*10)*45))
+    }
+    Egp=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0)):wirelink()
+    Egp:egpHudEnable(1)
+    Egp:egpHudEnable(1)
+    OwnX=scrW()
+    OwnY=scrH()
+    Egp:egpBox(1,vec2(960,600),vec2(OwnX,OwnY))
+    Egp:egpAlpha(1,190)
+    Egp:egpColor(1,vec(0,0,0))
+    Egp:egpPoly(2,Poly)
+    Egp:egpParent(2,1)
+    Menu=Egp:egpobject(1)
+    Menu:hide()
+    }
+if(owner():keyPressed("i")&S==0&T==0){
+    S=1
+    T=1
+    Menu:draw()
+    enableMouse(1)
+    }
+if(owner():keyPressed("i")&S==0&T==1){
+    S=1
+    Menu:hide()
+    enableMouse(0)
+    T=0
+    }
+if(!owner():keyPressed("i")){
+    S=0
+    }
+if(!Egp:entity():isValid()){
+    hint("",1000)
+    selfDestruct()
+    }

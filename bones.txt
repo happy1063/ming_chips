@@ -1,0 +1,12 @@
+@name Bones
+@inputs Ragdoll:entity Ragdoll2:entity
+@persist BoneCount Bones:array String:string Enter:string Label:string Loading Bones2:array
+runOnTick(1)
+if(first()){
+    BoneCount=Ragdoll:boneCount()
+    Bones=Ragdoll:bones()  
+    Bones2=Ragdoll2:bones()
+}
+    for(I=0,BoneCount){
+        Bones[I,bone]:boneManipulate(entity():pos()+vec(0,0,50),Bones2[I,bone]:angles(),1,0,0)
+        }

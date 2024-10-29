@@ -1,0 +1,43 @@
+@name working door
+@persist Door:entity IsUsing LocalPos:vector Distance DoorAngle:angle NeedAng EyeAng:angle Beam:entity FirstPos:vector OffsetX Key:string FirstAng:angle Target:entity
+runOnTick(1)
+if(first()){
+    OffsetX=0
+    Door=propSpawn("models/props_c17/door01_left.mdl",entity():pos()+vec(OffsetX,0,50):rotate(ang(0,NeedAng,0)),1)
+    Door:setAng(ang(0,-90+NeedAng,0)-FirstAng)
+    FirstPos=entity():pos()
+    Key="e"
+    FirstAng=entity():angles()
+    Target=noentity()
+    }
+    function getTarget(){
+    for(I=1,players():count()){
+    if(players()[I,entity]:keyPressed(Key)&players()[I,entity]:aimEntity()==Door&IsUsing==0){
+    return players()[I,entity]
+    IsUsing==1
+    LocalPos=players()[I,entity]:aimPos()-Door:pos()
+    DoorAngle=Door:angles()
+    Distance=players()[I,entity]:shootPos():distance(players()[I,entity]:aimPos())
+}
+return noentity()
+}
+}
+Target=getTarget()
+print(Target)
+if(Target:isValid()){
+if(!Target:keyPressed(Key)){
+    IsUsing=0
+    }
+if(Target:keyPressed(Key)&IsUsing==1){
+    NeedAng=((vec2((Target:shootPos()+vec(Distance,0,0):rotate(Target:eyeAngles())):x(),(Target:shootPos()+vec(Distance,0,0):rotate(Target:eyeAngles())):y())-vec2(FirstPos:x(),FirstPos:y())):toAngle()-FirstAng):yaw()
+    if(NeedAng<-90){
+        NeedAng=-90
+}
+    if(NeedAng>90){
+        NeedAng=90
+}
+    Door:setPos(FirstPos+vec(OffsetX,0,50):rotate(ang(0,NeedAng,0)))
+    Door:setAng(ang(0,-90+NeedAng,0))
+    }
+}
+Door:propFreeze(1)

@@ -1,0 +1,30 @@
+@name Hand
+@inputs R E
+@persist Chip:entity WeaponOnStart:entity Weapon:entity Entity:entity
+runOnTick(0.1)
+if(first()){
+WeaponOnStart=owner():weapon()
+Chip=entity()
+holoCreate(1)
+holoScale(0.1)
+}
+Weapon=owner():weapon()
+holoModel(1,Entity:model())
+if(Weapon==WeaponOnStart){
+    holoParentAttachment(1,owner(),"eyes")
+    holoPos(1,owner():attachmentPos("eyes"))
+    holoAng(1,owner():attachmentAng("eyes"))
+    holoMaterial(1,"apovl")
+    owner():weapon():setMaterial("Models/effects/vol_light001")
+}
+if(owner():keyPressed("r")==1){
+    reset()
+    }
+
+if(Weapon!=WeaponOnStart){
+    owner():weapon():setMaterial("apovl")
+    holoMaterial(1,"Models/effects/vol_light001")
+}
+if(owner():keyPressed("e")==1){
+    Entity = owner():aimEntity()
+    }

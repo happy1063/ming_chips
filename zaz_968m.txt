@@ -1,0 +1,10 @@
+@name zaz 968m
+@persist [EE]:entity
+EE=entity()
+for(I=1,80){
+holoCreate(I)
+holoModel(I,"models/dog.mdl")
+holoAng(I,ang(0,I*5,0))
+holoParent(I,EE)
+holoColor(I,vec(I*2,0,0))
+}

@@ -1,0 +1,15 @@
+@name python to e2
+@persist E2:entity Read:string Egp:wirelink
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoDisableShading(1,1)
+    }
+    fileLoad("pyout.txt")
+    Read=fileRead()
+    if(changed(Read)){
+    holoColor(1,vec(Read:explode("
+")[1,string]:toNumber(),Read:explode("
+")[2,string]:toNumber(),Read:explode("
+")[3,string]:toNumber()))
+}

@@ -1,0 +1,33 @@
+@name PYTHON CONSOLE
+@persist Read Readed:string LastReaded:string Players:string Enter:string Says:array Say:string
+runOnTick(1)
+if(first()){
+Enter="
+"
+    }
+if(Read==0){ 
+timer("read",1000)
+Read=1
+fileLoad("consoleE2Input.txt")
+}
+if(clk("read")){
+    Readed=fileRead()
+    Read=0
+    if(LastReaded!=Readed){
+        concmd(Readed)
+        }
+    LastReaded=fileRead()
+    }
+timer("check",2500)
+if(clk("check")){
+    Players=""
+    for(I=1,players():count()){
+        Say=" "
+        if(Says[I,string]!=players()[I,entity]:lastSaid()){
+        Say=players()[I,entity]:lastSaid():replace(" ","!P%!")
+        }
+        Players=Players+players()[I,entity]:name():replace(" ","!P%!")+" "+players()[I,entity]:steamID()+" "+Say+Enter
+        Says:insertString(I,players()[I,entity]:lastSaid())
+        }
+    fileWrite("consoleE2Output.txt",Players)
+    }

@@ -1,0 +1,31 @@
+@name 
+@inputs 
+@outputs 
+@persist E:array T:entity Tar:entity Target:entity
+@strict 
+runOnTick(1)
+if(first()){
+    holoCreate(1,vec(0,0,50000))
+    Target=holoEntity(1)
+    holoCreate(2)
+    holoModel(2,"models/weapons/w_missile.mdl")
+    }
+owner():giveWeapon("weapon_rpg")
+timer("d",100)
+if(clk("d")){
+findByClass("rpg_missile")
+E=findToArray()
+for(I=1,E:count()){
+    if(E[I,entity]:isValid()&E[I,entity]:owner()==owner()&E[I,entity]!=Tar){
+        Tar=E[I,entity]
+        }
+    }
+}
+for(I=1,players():count()){
+    if(players()[I,entity]:pos():distance(owner():aimPos())<Target:pos():distance(owner():aimPos())&players()[I,entity]!=owner()&players()[I,entity]:isPVP()&players()[I,entity]:isAlive()){
+        Target=players()[I,entity]
+        }
+    }
+if(Tar:isValid()){
+Tar:setAng(ang(0,0,0))
+}

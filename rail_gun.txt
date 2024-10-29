@@ -1,0 +1,66 @@
+@name rail gun
+@inputs 
+@persist CountModel CanShoot Bomb:entity Beam:entity
+if(first()){
+    runOnTick(1)
+    Bomb=propSpawn("models/hunter/blocks/cube05x05x05.mdl",entity():pos(),1)
+    Bomb:noCollideAll(1)
+    Bomb:setMaterial("null")
+    Bomb:drawShadow(0)
+    holoCreate(1)
+    holoScale(1,vec(0,0,0))
+    holoCreate(1001,holoPos(1))
+    holoParent(1001,holoEntity(1))
+    holoModel(1001,"models/weapons/w_physics.mdl")
+    holoScale(1001,vec(1,1,1))
+    CountModel=1
+    for(I=1001,1000+CountModel){
+    holoMaterial(I,holoEntity(1):getMaterial())
+    }
+    CanShoot=1
+    }
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_smg1"){
+if(changed(owner():weapon():type())){
+    owner():weapon():setMaterial("null")
+    holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(4,0,2):rotate(owner():attachmentAng("anim_attachment_RH")))
+    holoAng(1,owner():attachmentAng("anim_attachment_RH")+ang(0,0,0))
+    holoParentAttachment(1,owner(),"anim_attachment_RH")
+    for(I=1001,1000+CountModel){
+        holoMaterial(I,"normal")
+    }
+}
+owner():weapon():setClip1(0)
+holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(4,0,2):rotate(owner():attachmentAng("anim_attachment_RH")))
+if(owner():keyAttack1()&CanShoot==1){
+    CanShoot=0
+    holoEntity(1):emitSound("npc/strider/fire.wav",500,100)
+    timer("shootdel",3000)
+    Bomb:setPos(owner():aimPos())
+    timer("exp",10)
+    Beam=drawBeam("trails/tube",holoPos(1),owner():aimPos(),vec(0,0,0),255,10)
+    timer("beam",1000)
+    }
+    for(I=1001,1000+CountModel){
+        if(holoEntity(I):getMaterial()!="NORMAL"){
+        holoMaterial(I,"normal")
+    }
+    }
+}
+if(owner():weapon():type()!="weapon_smg1"){
+    owner():weapon():setMaterial("normal")
+    for(I=1001,1000+CountModel){
+        holoMaterial(I,"null")
+    }
+    CanShoot=1
+}
+if(clk("shootdel")){
+    CanShoot=1
+    }
+if(clk("exp")){
+    Bomb:explosion()
+    Bomb:explosion()
+    Bomb:setPos(vec(0,0,0))
+    }
+if(clk("beam")){
+    Beam:remove()
+    }

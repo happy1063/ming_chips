@@ -1,0 +1,22 @@
+@name Beam
+@inputs 
+@outputs 
+@persist Dist Beam:entity
+@strict
+runOnTick(1)
+if(first()){
+    entity():noDraw(1)
+    holoCreate(1)
+    holoParent(1,entity())
+    holoScale(1,vec(0.5,0.5,1))
+    holoCreate(2)
+    holoScale(2,vec(0.5,0.5,1))
+    Beam=drawBeam("models/debug/debugwhite",entity():pos(),holoPos(2),vec(255,255,255),1,10)
+    }
+holoAng(1,entity():angles())
+Beam:setParent(holoEntity(1))
+Beam:setBeamEndEnt(holoEntity(2))
+holoPos(2,rangerOffset(holoPos(1),holoPos(1)+vec(0,0,1000):rotate(entity():angles())):pos())
+if(rangerOffset(holoPos(1)+vec(0,0,10):rotate(entity():angles()),holoPos(1)+vec(0,0,1000):rotate(entity():angles())):hit()&rangerOffset(holoPos(1)+vec(0,0,10):rotate(entity():angles()),holoPos(1)+vec(0,0,1000):rotate(entity():angles())):entity():isValid()){
+    entity():shootTo(holoPos(1),(rangerOffset(holoPos(1),holoPos(1)+vec(0,0,1000):rotate(entity():angles())):pos()-entity():pos()):normalized(),0,0,10000,"")
+    }

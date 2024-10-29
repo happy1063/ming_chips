@@ -1,0 +1,19 @@
+@name anti stuck
+@persist Stucked StuckedEnt:entity Ignore:array StuckRanger:ranger StuckRangerCur:ranger
+runOnTick(1)
+if(first()){
+    Ignore=array(owner())
+    }
+owner():noCollideAll(1)
+rangerFilter(Ignore)
+StuckRanger=rangerOffset(owner():shootPos()+vec(0,0,5),owner():pos())
+if(StuckRanger:hit()){
+    owner():setPos(owner():pos()+vec(5,0,5):rotate(0,owner():eyeAngles():yaw(),0))
+    }
+for(I=1,8){
+    rangerFilter(Ignore)
+    StuckRangerCur=rangerOffset(owner():pos()+vec(0,0,10),owner():pos()+vec(0,0,10)+vec(30,0,0):rotate(0,I*45,0))
+if(StuckRangerCur:hit()&StuckRangerCur:entity():isValid()){
+    owner():setPos(owner():pos()+vec(5,0,1):rotate(0,owner():eyeAngles():yaw(),0))
+    }    
+    }

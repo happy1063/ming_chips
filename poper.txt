@@ -1,0 +1,10 @@
+@name Poper
+
+@persist P:entity
+runOnTick(1)
+if(first()){
+    P=entity():isWeldedTo()
+    hideMyAss(1)
+    }
+P:setMass(100000000000000000000000)
+

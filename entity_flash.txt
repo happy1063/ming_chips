@@ -1,0 +1,7 @@
+@name Entity Flash
+@inputs E:entity Write
+@outputs Out:entity
+@model models/bull/gates/microcontroller1_mini.mdl
+if(Write==1){
+    Out=E
+    }

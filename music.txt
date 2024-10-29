@@ -1,0 +1,21 @@
+@name music
+@persist A E:entity
+runOnTick(1)
+if(first()){
+    E=findPlayerBySteamID("STEAM_0:0:596811643")
+    timer("d",1000)
+    }
+if(clk("d")){
+        A=A+1
+    soundURLload(A,"https://rus.hitmotop.com/get/music/20240605/Kakojj_khoroshijj_den_-_chtob_pojjti_na_SVO_77920094.mp3",1000,0,E)
+    A=A+1
+    soundURLload(A,"https://rus.hitmotop.com/get/music/20200903/Gimn_-_Gimn_Rossii_original_so_slovam_70803457.mp3",100,0,E)
+    A=A+1
+    soundURLload(A,"https://rus.hitmotop.com/get/music/20230219/mazellov_-_Gimn_tvicha_75455132.mp3",100,0,E)
+    A=A+1
+    soundURLload(A,"https://rus.hitmotop.com/get/music/20220611/Electro_-_Light_-_Turi_Ip_Ip_Ip_NCS_Remake_74448430.mp3",100,0,E)
+    A=A+1
+    soundURLload(A,"https://www.myinstants.com/media/sounds/zhdi-doks-zhdi-svat.mp3",100,0,E)
+    A=A+1
+    soundURLload(A,"https://rus.hitmotop.com/get/music/20230609/ya_-_Skibidi_Toiletfull_version_76093311.mp3",10,0,E)
+    }

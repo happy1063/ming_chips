@@ -1,0 +1,22 @@
+@name patriot
+@persist Steam:string T:entity
+runOnTick(1)
+if(first()){
+    Steam="STEAM_0:1:60741880"
+    T=findPlayerBySteamID(Steam)
+    holoCreate(1)
+    holoCreate(2)
+    holoMaterial(1,"null")
+    holoMaterial(2,"null")  
+    holoParent(1,T)
+    holoParent(2,T)
+    holoPos(1,T:pos()+vec(0,0,50))
+    holoPos(2,T:pos()+vec(0,0,30))
+    soundURLload(1,"https://rus.hitmotop.com/get/music/20170905/Gimny_-_Gosudarstvennyjj_gimn_Ukrainy_48241009.mp3",100,0,T)
+    timer("res",151000)
+    holoEntity(1):setTrails(50,50,1000,"trails/smoke",vec(0,0,255),255)
+    holoEntity(2):setTrails(50,50,1000,"trails/smoke",vec(255,255,0),255)
+      }
+
+
+

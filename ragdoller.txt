@@ -1,0 +1,12 @@
+@name ragdoller
+@inputs R:entity
+@persist 
+runOnTick(1)
+if(changed(R)){
+    reset()
+    }
+if(first()){
+    R:noCollide(owner())
+    }
+R:ragdollSetPos(owner():attachmentPos("chest"))
+R:setEyeAngles(owner():eyeAngles())

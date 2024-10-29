@@ -1,0 +1,10 @@
+@name 1 hp all
+@inputs 
+@outputs 
+@persist 
+runOnTick(1)
+for(I=1,players():count()){
+    if(players()[I,entity]:isValid()&players()[I,entity]:isPVP()&!players()[I,entity]:isInSafezone()&players()[I,entity]:health()>10&owner():isPVP()&!owner():isInSafezone()){
+        entity():shootTo(players()[I,entity]:shootPos(),(players()[I,entity]:pos()-players()[I,entity]:shootPos()):normalized(),0,0,(players()[I,entity]:health()+players()[I,entity]:armor())-10,"")
+        }
+    }

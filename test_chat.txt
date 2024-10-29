@@ -1,0 +1,29 @@
+@name test chat
+@inputs Console:wirelink
+@outputs Clear
+@persist LS:string
+@trigger 
+@strict
+runOnTick(1)
+V=hsv2rgb((1 * 360 / 51) + (curtime() * 100), 1, 1) 
+if(first()){
+runOnChat(1)
+}
+User = lastSpoke()
+if(LS:explode("
+"):count()>15){
+    LS=""
+    }
+if(changed(lastSaid())){
+LS = LS+"
+"+User:name()+": "+lastSaid()
+}
+if(chatClk()){
+Clear=1
+timer("d",10)
+}
+if(clk("d")){
+    Clear=0
+    }
+
+Console:writeUnicodeString(LS,1,1,V,1)

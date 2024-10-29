@@ -1,0 +1,16 @@
+@name client crush
+@inputs 
+@outputs 
+@persist A
+@strict
+runOnTick(1)
+if(first()){
+    function width(Ent:entity,Angle:angle,CenterPos:vector){
+        for(I=1,100){
+            if(!rangerOffset(CenterPos+vec((I+1)*5,0,0):rotate(Angle),CenterPos+vec((I+1)*4,0,0):rotate(Angle)):hit()){
+                return rangerOffset(CenterPos+vec(I*5,0,0):rotate(Angle),CenterPos):pos():distance(CenterPos)
+                }
+            }
+        }
+    holoCreate(1)       
+    }

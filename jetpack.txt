@@ -1,0 +1,22 @@
+@name jetpack
+@persist Power 
+runOnTick(1)
+if(first()){
+    Power=100
+    }
+if(Power>0&owner():keyJump()){
+    Power=Power-2
+    owner():setVel(vec(0,0,12+(Power/10)))
+    }
+if(owner():isOnGround()&!owner():keyJump()&Power<100){
+    Power=Power+1
+    }
+if(Power>100){
+    Power=100
+    }
+if(Power<0){
+    Power=0
+    }
+if(!owner():isOnGround()&Power==0){
+    owner():setVel(vec(0,0,12))
+    }

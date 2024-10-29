@@ -1,0 +1,60 @@
+@name Bomb
+@persist S Key:string Hitbox:entity Ang:angle
+runOnTick(1)
+if(first()){
+Key="g"
+holoCreate(0,entity():pos()+vec(0,0,47/2))
+holoModel(0,"models/sprops/misc/tubes_superthin/size_3/tube_72.mdl")
+holoParent(0,entity())
+holoAng(0,entity():angles()+ang(0,0,0))
+Hitbox=propSpawn("models/hunter/blocks/cube05x1x05.mdl",entity():pos()+vec(0,0,25),1)
+Hitbox:noDraw(1)
+holoCreate(1,entity():pos()+vec(0,0,10))
+holoModel(1,"models/props_phx/torpedo.mdl")
+holoScale(1,vec(0.3,1.4,1.4))
+holoParent(1,Hitbox)
+Hitbox:setAng(holoAng(0)+ang(0,0,0))
+holoAng(1,holoAng(0)+ang(0,90,0))
+holoColor(1,vec(193,173,0))
+holoMaterial(1,"models/XQM//Deg360")
+Hitbox:parentTo(entity())
+}
+if(owner():keyPressed(Key)&S==0){
+    S=1
+    Ang=entity():angles()+ang(0,90,0)
+    }
+if(S==1){
+    Hitbox:unParent()
+    Hitbox:setPos(Hitbox:pos()+vec(50,0,0):rotate(Ang))
+    Hitbox:setAng(Ang+ang(0,-90,0))
+    if(rangerOffset(Hitbox:pos()+vec(100,0,0):rotate(Ang),Hitbox:pos()+vec(200,0,0):rotate(Ang)):hit()||rangerOffset(Hitbox:pos()+vec(30,0,0):rotate(Ang),Hitbox:pos()+vec(60,0,0):rotate(Ang)):entity():isValid()){
+        Hitbox:explosion()
+        holoDelete(1)
+        Hitbox:remove()
+        timer("reset",1000)
+        }
+    if(Hitbox:getDamage()>0){
+                Hitbox:explosion()
+        holoDelete(1)
+        Hitbox:remove()
+        timer("reset",1000)
+        }
+    }
+
+if(clk("reset")){
+    S=0
+if(Hitbox:isValid()){
+    Hitbox:remove()
+    }
+Hitbox=propSpawn("models/hunter/blocks/cube075x2x075.mdl",entity():pos()+vec(0,0,25),1)
+Hitbox:noDraw(1)
+holoCreate(1,entity():pos()+vec(0,0,10))
+holoModel(1,"models/props_phx/torpedo.mdl")
+holoScale(1,vec(0.3,1.4,1.4))
+holoParent(1,Hitbox)
+holoAng(1,holoAng(0)+ang(0,90,0))
+Hitbox:setAng(holoAng(0)+ang(0,0,0))
+holoColor(1,vec(193,173,0))
+holoMaterial(1,"models/XQM//Deg360")
+Hitbox:parentTo(entity())
+    }

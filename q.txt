@@ -1,0 +1,17 @@
+@name For
+@inputs Start End Delay Enable
+@outputs Out
+@model models/bull/gates/microcontroller1_mini.mdl
+runOnTick(1)
+if(Enable==0){
+    Out=Start
+    }
+if(Enable==1){
+    interval(Delay)
+    if(clk("interval")){
+        Out=Out+1
+        if(Out>End){
+            Out=Start
+            }
+        }
+    }

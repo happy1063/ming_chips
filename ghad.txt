@@ -1,0 +1,52 @@
+@name Paste
+@inputs 
+@outputs 
+@persist Pos:array Model:array Ang:array Material:array Color:array Count A:entity Data:array IsHolo:array IsWireSent:array I Type:array
+@strict
+runOnTick(1)
+if(first()){
+Pos=array(vec(445.996,-91.3633,410.331), vec(21.4578,19.0264,-28.2154), vec(23.3794,19.7207,-15.6723), vec(12.9668,16.3535,-20.1455), vec(-41.2028,39.8994,0.251404), vec(-33.8547,34.5176,-66.8106), vec(-31.359,31.252,-59.2189), vec(27.1908,1.94434,-17.9584), vec(35.838,23.834,-19.6271))
+Ang=array(ang(0,0,0), ang(-89.6743,107.791,-0.000978523), ang(89.7077,-102.496,-30.3211), ang(89.5608,-127.075,-54.8992), ang(-0,-141.867,0), ang(-10.0841,132.748,-2.68657), ang(-10.0841,132.748,-2.68657), ang(-0.32573,-72.2098,-0.333435), ang(89.9871,107.805,180))
+Model=array("*479", "models/bull/gates/microcontroller1.mdl", "models/bull/gates/resistor.mdl", "models/bull/gates/resistor.mdl", "", "models/holograms/hq_sphere.mdl", "models/holograms/hq_sphere.mdl", "models/hunter/blocks/cube075x075x075.mdl", "models/bull/dynamicbutton.mdl")
+Material=array("", "", "", "", "", "", "", "", "")
+Color=array(vec(255,255,255), vec(255,255,255), vec(255,255,255), vec(255,255,255), vec(255,255,255), vec(0,147,255), vec(255,0,0), vec(255,255,255), vec(255,255,255))
+IsHolo=array(1, 1, 1, 1, 1, 1)
+IsWireSent=array(0, 0, 1, 1, 1, 0, 0, 0, 0)
+
+Type=array("func_illusionary", "gmod_wire_gate", "gmod_wire_value", "gmod_wire_value", "manipulate_bone", "gmod_wire_hologram", "gmod_wire_hologram", "prop_physics", "gmod_wire_egp_hud")    }
+timer("1",100)
+if(clk("1")&I<Model:count()){
+I=I+1
+if(IsHolo[I,number]==0&IsWireSent[I,number]==0&Type[I,string]=="prop_physics"){
+A=propSpawn(Model[I,string],entity():pos()-Pos[I,vector],2)
+if(A:isValid()){
+A:setAng(Ang[I,angle])  
+A:setMaterial(Material[I,string]) 
+A:setColor(Color[I,vector])
+A:noCollideAll(0)
+A:setAlpha(255)
+}
+}
+if(IsHolo[I,number]==1&IsWireSent[I,number]==0){
+holoCreate(I,entity():pos()-Pos[I,vector])
+holoModel(I,Model[I,string])
+if(Model[I,string]!=""){
+holoMaterial(I,Material[I,string])
+}
+if(Model[I,string]==""){
+holoMaterial(I,"null")
+}
+holoAng(I,Ang[I,angle])
+holoColor(I,Color[I,vector])
+}
+if(IsWireSent[I,number]==1&Type[I,string]!="manipulate_bone"){
+    LastSpawnedSent=sentSpawn(Type[I,string])
+    LastSpawnedSent:setModel(Model[I,string])
+    LastSpawnedSent:setPos(entity():pos()-Pos[I,vector])
+    LastSpawnedSent:setAng(Ang[I,angle])
+    LastSpawnedSent:setAlpha(255)
+    }
+if(I==Model:count()){
+    print("done!")
+    }
+}

@@ -1,0 +1,16 @@
+@name 
+@inputs Screen:wirelink Load LoadedStr:string
+@persist 
+runOnTick(1)
+if(first()){
+    Screen:egpText(1,"",vec2(0,0))
+    }
+if(Load==0){
+    fileLoad("browser.txt")
+    timer("load",400)
+    Load=1
+    }
+if(clk("load")){
+LoadedStr=fileRead()
+Screen:egpSetText(1,LoadedStr)
+}

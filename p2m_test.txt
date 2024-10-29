@@ -1,0 +1,2 @@
+@name p2m test
+@persist E:entity B:entity

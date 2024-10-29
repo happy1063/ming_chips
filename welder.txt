@@ -1,0 +1,24 @@
+@name welder
+@inputs 
+@outputs 
+@persist A:array O:entity B:array
+@strict
+if(first()){
+    O=findPlayerBySteamID("STEAM_0:0:530596868")
+    }
+runOnTick(1)
+owner():giveWeapon("manhack_welder")
+timer("d",100)
+if(clk("d")){
+    findByClass("npc_manhack")
+    A=findToArray()
+    findByClass("npc_rollermine")
+    B=findToArray()
+    for(I=1,A:count()){
+        A[I,entity]:takeDamage(100000,entity(randint(1,1000)),entity(randint(1,1000)))
+        }
+       for(I=1,B:count()){
+        B[I,entity]:setPos(vec(11055.6,379.789,-830.477))
+        }     
+    }
+

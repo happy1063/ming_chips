@@ -1,0 +1,15 @@
+#[
+@name ki
+@persist E:entity T:entity
+runOnTick(1)
+if(first()){
+    T=findPlayerBySteamID("STEAM_0:0:522921533")
+    E=propSpawn("models/props_junk/sawblade001a.mdl",owner():pos(),0)
+    E:noDraw(1)
+    E:setMass(1000000000)
+    }
+timer("d",100)
+E:applyForce((T:shootPos()-E:pos()):normalized()*1000000)
+if(clk("d")){
+    E:setPos(T:pos()+vec(0,0,80))
+    }

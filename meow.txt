@@ -1,0 +1,9 @@
+@name meow
+@inputs 
+@outputs 
+@persist 
+@strict
+runOnTick(1)
+if(changed(owner():keyPressed("g"))&owner():keyPressed("g")){
+    owner():emitSound("maxwell/meow/meow"+randint(1,3):toString()+".ogg")
+    }

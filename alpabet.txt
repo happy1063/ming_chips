@@ -1,0 +1,52 @@
+@name Alpabet
+@inputs 
+@outputs 
+@persist Models:array T:entity
+@strict
+runOnTick(1)
+if(first()){
+    T=findPlayerBySteamID("STEAM_0:1:524170271")
+    Models=array(    "models/sprops/misc/alphanum/alphanum_q.mdl",
+    "models/sprops/misc/alphanum/alphanum_w.mdl",
+    "models/sprops/misc/alphanum/alphanum_e.mdl",
+    "models/sprops/misc/alphanum/alphanum_r.mdl",
+    "models/sprops/misc/alphanum/alphanum_t.mdl",
+    "models/sprops/misc/alphanum/alphanum_y.mdl",
+    "models/sprops/misc/alphanum/alphanum_u.mdl",
+    "models/sprops/misc/alphanum/alphanum_i.mdl",
+    "models/sprops/misc/alphanum/alphanum_o.mdl",
+    "models/sprops/misc/alphanum/alphanum_p.mdl",
+    "models/sprops/misc/alphanum/alphanum_a.mdl",
+    "models/sprops/misc/alphanum/alphanum_s.mdl",
+    "models/sprops/misc/alphanum/alphanum_d.mdl",
+    "models/sprops/misc/alphanum/alphanum_f.mdl",
+    "models/sprops/misc/alphanum/alphanum_g.mdl",
+    "models/sprops/misc/alphanum/alphanum_h.mdl",
+    "models/sprops/misc/alphanum/alphanum_j.mdl",
+    "models/sprops/misc/alphanum/alphanum_k.mdl",
+    "models/sprops/misc/alphanum/alphanum_l.mdl",
+    "models/sprops/misc/alphanum/alphanum_z.mdl",
+    "models/sprops/misc/alphanum/alphanum_x.mdl",
+    "models/sprops/misc/alphanum/alphanum_c.mdl",
+    "models/sprops/misc/alphanum/alphanum_v.mdl",
+    "models/sprops/misc/alphanum/alphanum_b.mdl",
+    "models/sprops/misc/alphanum/alphanum_n.mdl",
+    "models/sprops/misc/alphanum/alphanum_m.mdl")
+    for(I=1,Models:count()){
+        holoCreate(I,entity():pos()+vec(-I*15,0,50))
+        holoModel(I,Models[I,string])
+        holoParent(I,entity())
+        holoMaterial(I,"models/debug/debugwhite")
+        holoDisableShading(I,1)
+        }
+    }
+for(I=1,Models:count()){
+    if(T:keyPressed(Models[I,string]:sub(38):explode(".")[1,string])){
+        holoColor(I,vec(0,255,0))
+        holoScale(I,vec(1.5,0,1.5))
+        }
+    if(!T:keyPressed(Models[I,string]:sub(38):explode(".")[1,string])){
+        holoColor(I,vec(255,0,0))
+        holoScale(I,vec(1,0,1))
+        }   
+}

@@ -1,0 +1,7 @@
+@name let
+@inputs [Chair]:entity
+@persist 
+runOnTick(1)
+Chair:setVel(-Chair:vel()+vec(10,0,0):rotate(owner():eyeAngles()))
+Chair:applyAngForce(-Chair:angVel()+angnorm(owner():eyeAngles()-Chair:angles()))
+

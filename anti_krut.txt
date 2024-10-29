@@ -1,0 +1,9 @@
+@name anti krut
+@inputs 
+@outputs 
+@persist 
+@strict
+for(I=0,67){
+owner():playerSetBoneAng(I,ang(0,0,0))
+}
+#selfDestruct()

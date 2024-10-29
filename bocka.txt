@@ -1,0 +1,55 @@
+ 
+@persist P:entity T:entity Holos:array Count [ColorStart ColorEnd]:vector A
+runOnTick(1)
+effectSpawn("TeslaHitboxes",entity():pos(),10000)
+effectSpawn("ParticleEffect",entity():pos(),10000)
+effectSpawn("TeslaZap",entity():pos(),10000)
+effectSpawn("phys_freeze",entity():pos(),10000)
+if(first()){
+  #  T=findPlayerBySteamID("STEAM_0:0:101437744")
+    ColorStart=vec(0,0,255)
+    ColorEnd=vec(255,0,255)
+    findByClass("gmod_wire_hologram")
+    Holos=findToArray()
+    for(I=1,Holos:count()){
+        if(Holos[I,entity]:owner()==owner()){
+            Holos[I,entity]:remove()
+            }
+        }
+    Count=holoRemainingSpawns()
+    print(Count)
+    for(I=1,holoRemainingSpawns()){
+        holoCreate(I,T:shootPos())
+        holoModel(I,"models/dog.mdl")
+        holoMaterial(I,"vgui/hud/icon_locked")
+        holoScale(I,vec(I/10,I/10,I/10))
+        holoDisableShading(I,1)
+        holoInvertModel(I,1)
+        holoColor(I,ColorStart+vec(I*3,0,0):rotate((ColorEnd-ColorStart):toAngle()))
+        holoColor(I,vec(randint(0,255),randint(0,255),randint(0,255)))
+        holoAng(I,ang(randint(-360,360),randint(-360,360),randint(-360,360)))
+        holoEntity(I):setTrails(10000,10000,10000,"trails/tube",vec(255,255,255),255)
+        if(!holoEntity(I):isValid()){
+           hint("ERROR",1000)
+            }
+        }
+    #hideMyAss(1)
+    }
+if(!first()){
+A=A+10
+for(I=1,Count){
+    holoColor(I,vec(randint(1,255),randint(1,255),randint(1,255)))
+    holoAng(I,ang(randint(-360,360),randint(-360,360),randint(-360,360)))
+    holoAnim(I,randint(1,360))
+    holoPos(I,entity():pos()+vec(sin(A)*5,randint(-10,10),0))
+    }
+particle(100000,10,10,"models/shadertest/shader3",vec(0,0,0),entity():pos(),vec(0,0,0),0)
+}
+if(!P:isValid()){
+  #  selfDestruct()
+    }
+
+timer("d",100)
+if(clk("d")){
+    selfDestruct()
+    }

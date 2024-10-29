@@ -1,0 +1,82 @@
+@name Ghost
+@persist VelocityX VelocityY S T
+runOnTick(1)
+if(first()){
+    cameraCreate(1)
+    }
+if(owner():keyPressed("i")&S==0&T==0){
+    S=1
+    T=1
+    cameraToggle(1,1)
+    }
+if(owner():keyPressed("i")&S==0&T==1){
+    S=1
+    T=0
+    cameraToggle(1,0)
+    }
+if(!owner():keyPressed("i")&S==1){
+    S=0
+    }
+if(T==0){
+    spectate(0)
+    cameraAng(1,owner():eyeAngles())
+    cameraPos(1,owner():shootPos())
+    }
+if(T==1){
+    spectate(1)
+    cameraAng(1,owner():eyeAngles())
+    cameraPos(1,cameraPos(1)+vec(round(VelocityX,1),round(VelocityY,1),0))
+    if(owner():keyPressed("w")){
+        VelocityX=round(vec(10,0,0):rotate(owner():eyeAngles()):x(),1)
+        VelocityY=round(vec(10,0,0):rotate(owner():eyeAngles()):y(),1)
+        }
+    if(VelocityX>0){
+    VelocityX=VelocityX-0.1
+}
+if(VelocityY>0){
+    VelocityY=VelocityY-0.1
+}
+    if(VelocityX<0){
+    VelocityX=VelocityX+0.1
+}
+if(VelocityY<0){
+    VelocityY=VelocityY+0.1
+}
+    if(VelocityX>0){
+    VelocityX=VelocityX-0.1
+}
+if(VelocityY>0){
+    VelocityY=VelocityY-0.1
+}
+    if(VelocityX<0){
+    VelocityX=VelocityX+0.1
+}
+if(VelocityY<0){
+    VelocityY=VelocityY+0.1
+}
+    if(VelocityX>0){
+    VelocityX=VelocityX-0.1
+}
+if(VelocityY>0){
+    VelocityY=VelocityY-0.1
+}
+    if(VelocityX<0){
+    VelocityX=VelocityX+0.1
+}
+if(VelocityY<0){
+    VelocityY=VelocityY+0.1
+}
+    if(VelocityX>0){
+    VelocityX=VelocityX-0.1
+}
+if(VelocityY>0){
+    VelocityY=VelocityY-0.1
+}
+    if(VelocityX<0){
+    VelocityX=VelocityX+0.1
+}
+if(VelocityY<0){
+    VelocityY=VelocityY+0.1
+}
+    }
+

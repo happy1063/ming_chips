@@ -1,0 +1,4 @@
+@name Print
+@inputs String:string
+@model models/bull/gates/microcontroller1_mini.mdl
+print(String)

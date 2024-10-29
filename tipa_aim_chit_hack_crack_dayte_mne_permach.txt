@@ -1,0 +1,24 @@
+@name tipa aim chit hack crack dayte mne permach
+@persist Pitch Target:entity
+runOnTick(1) 
+if(first()){
+    concmd("simple_thirdperson_enable_toggle")
+    }
+for(I=1,players():count()){
+    if(players()[I,entity]:pos():distance(owner():pos())<Target:pos():distance(owner():pos())&players()[I,entity]!=owner()&players()[I,entity]:isPVP()&players()[I,entity]:isAlive()){
+    Target=players()[I,entity]
+    }
+}
+if(!owner():keyAttack1()){
+    Pitch=owner():eyeAngles():pitch()
+    }
+if(owner():keyAttack1()){
+    concmd("simple_thirdperson_cam_pitch 0.00 ")
+    stoptimer("d")
+    owner():setEyeAngles((Target:shootPos()-vec(0,0,20)-owner():shootPos()):toAngle())
+    timer("d",100)
+    }
+if(clk("d")){
+     concmd("simple_thirdperson_cam_pitch -90.00 ")
+    owner():setEyeAngles(ang(90,owner():eyeAngles():yaw(),0))
+    }

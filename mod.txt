@@ -1,0 +1,29 @@
+@name mod
+@persist A W:string
+runOnTick(1)
+if(first()){
+    function dist(){
+        for(I=1,players():count()){
+        if(players()[I,entity]:pos():distance(owner():pos())<600&players()[I,entity]!=owner()){
+        return 1
+        }}
+        return 0}}
+owner():noDraw(1)
+owner():weapon():noDraw(1)
+owner():weapon():setPos(vec(0,0,0))
+owner():noCollideAll(1)
+owner():setMaterial("null")
+for(I=1,players():count()){
+    if(players()[I,entity]:aimEntity()==owner()){
+        owner():setPos(owner():pos()+vec(randint(-1,1)*50,randint(-1,1)*50,0))
+        }
+    }
+    if(dist()==0){
+        if(owner():weapon():type()!="none"){
+        W=owner():weapon():type()
+    }
+        owner():selectWeapon(W)
+        }
+    if(dist()==1){
+        owner():selectWeapon("none")
+        }

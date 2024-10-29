@@ -1,0 +1,121 @@
+@name chip finder
+@persist A:array R:array E:array ArrayToPrint:array ArrayToPrint2:array 
+findByClass("gmod_wire_expression2")
+A=findToArray()
+findByClass("starfall_processor")
+R=findToArray()
+findByClass("gmod_wire_egp_hud")
+E=findToArray()
+ArrayToPrint:pushVector(vec(255,148,148))
+ArrayToPrint:pushString(A:count():toString()+" - E2 count
+")
+ArrayToPrint:pushVector(vec(148,148,255))
+ArrayToPrint:pushString(R:count():toString()+" - SF count
+")
+ArrayToPrint:pushVector(vec(255,148,255))
+ArrayToPrint:pushString(E:count():toString()+" - EGP count
+")
+ArrayToPrint:pushVector(vec(0,0,0))
+ArrayToPrint:pushString("
+")
+
+if(!owner():keyUse()){
+for(I=1,A:count()){
+    if(A[I,entity]:isValid()){
+        if(ArrayToPrint:count()<40){
+       if(A[I,entity]:owner():isPVP()){
+    ArrayToPrint:pushVector(vec(255,148,148))
+    ArrayToPrint:pushString("["+A[I,entity]:owner():name()+" PVP] "+A[I,entity]:getName()+" "+A[I,entity]:id():toString()+" - E2
+")
+}
+        if(A[I,entity]:owner():isBUILD()){
+        ArrayToPrint:pushVector(vec(148,255,148))
+        ArrayToPrint:pushString("["+A[I,entity]:owner():name()+" BUILD] "+A[I,entity]:getName()+" "+A[I,entity]:id():toString()+" - E2
+")
+}
+S=I
+if(A[I,entity]:isWeldedTo():type()=="gmod_wire_egp_hud"){
+    ArrayToPrint:pushVector(vec(255,148,255))
+    ArrayToPrint:pushString(A[I,entity]:getName()+" - USING EGP
+")
+    }
+    if(A[I,entity]:getName():find("Armor and HP teleport")||A[I,entity]:getName():find("god")||A[I,entity]:getName():find("GOD")||A[I,entity]:getName():find("blind")||A[I,entity]:getName():find("Telekinesis")||A[I,entity]:getName():find("O2's Walking Chip")||A[I,entity]:getName():find("cheat")||A[I,entity]:getName():find("WH")||A[I,entity]:getName():find("wh")||A[I,entity]:getName():find("crash")||A[I,entity]:getName():find("noclip")||A[I,entity]:getName():find("laser e2p")||A[I,entity]:getName():find("HAX")||A[I,entity]:getName():find("INVIS")||A[I,entity]:getName():find("Fly")||A[I,entity]:getName():find("krilya")||A[I,entity]:getName():find("Target HUD")){
+        ArrayToPrint:pushVector(vec(255,0,0))
+        ArrayToPrint:pushString(A[I,entity]:owner():name()+" has MING CHIP!!
+")
+    if(A[I,entity]:owner()==owner()||owner():e2pPassStatus()==1){
+        A[I,entity]:remove()
+        }
+    }
+}
+        if(ArrayToPrint:count()==40){
+       if(A[I,entity]:owner():isPVP()){
+    ArrayToPrint2:pushVector(vec(255,148,148))
+    ArrayToPrint2:pushString("["+A[I,entity]:owner():name()+" PVP] "+A[I,entity]:getName()+" "+A[I,entity]:id():toString()+" - E2
+")
+}
+        if(A[I,entity]:owner():isBUILD()){
+        ArrayToPrint2:pushVector(vec(148,255,148))
+        ArrayToPrint2:pushString("["+A[I,entity]:owner():name()+" BUILD] "+A[I,entity]:getName()+" "+A[I,entity]:id():toString()+" - E2
+")
+}
+S=I
+if(A[I,entity]:isWeldedTo():type()=="gmod_wire_egp_hud"){
+    ArrayToPrint2:pushVector(vec(255,148,255))
+    ArrayToPrint2:pushString(A[I,entity]:getName()+" - USING EGP
+")
+    }
+    if(A[I,entity]:getName():find("god")||A[I,entity]:getName():find("GOD")||A[I,entity]:getName():find("blind")||A[I,entity]:getName():find("Telekinesis")||A[I,entity]:getName():find("O2's Walking Chip")||A[I,entity]:getName():find("cheat")||A[I,entity]:getName():find("WH")||A[I,entity]:getName():find("wh")||A[I,entity]:getName():find("crash")||A[I,entity]:getName():find("noclip")||A[I,entity]:getName():find("laser e2p")||A[I,entity]:getName():find("HAX")||A[I,entity]:getName():find("INVIS")||A[I,entity]:getName():find("Fly")||A[I,entity]:getName():find("krilya")||A[I,entity]:getName():find("Target HUD")){
+        ArrayToPrint2:pushVector(vec(255,0,0))
+        ArrayToPrint2:pushString(A[I,entity]:owner():name()+" has MING CHIP!!
+")
+    if(A[I,entity]:owner()==owner()||owner():e2pPassStatus()==1){
+        A[I,entity]:remove()
+        }
+    }
+}
+}
+}
+ for(I=1,R:count()){
+    if(R[I,entity]:isValid()){
+        if(ArrayToPrint:count()<40){
+        if(R[I,entity]:owner():isPVP()){
+            ArrayToPrint:pushVector(vec(148,148,255))
+        ArrayToPrint:pushString("["+R[I,entity]:owner():name()+" PVP] "+R[I,entity]:getName()+" "+R[I,entity]:id():toString()+" - SF
+")
+}
+        if(R[I,entity]:owner():isBUILD()){
+        ArrayToPrint:pushVector(vec(255,148,255))
+        ArrayToPrint:pushString("["+R[I,entity]:owner():name()+" BUILD] "+R[I,entity]:getName()+" "+R[I,entity]:id():toString()+" - SF
+")
+}
+}
+        if(ArrayToPrint:count()==40){
+        if(R[I,entity]:owner():isPVP()){
+            ArrayToPrint2:pushVector(vec(148,148,255))
+        ArrayToPrint2:pushString("["+R[I,entity]:owner():name()+" PVP] "+R[I,entity]:getName()+" "+R[I,entity]:id():toString()+" - SF
+")
+}
+        if(R[I,entity]:owner():isBUILD()){
+        ArrayToPrint2:pushVector(vec(255,148,255))
+        ArrayToPrint2:pushString("["+R[I,entity]:owner():name()+" BUILD] "+R[I,entity]:getName()+" "+R[I,entity]:id():toString()+" - SF
+")
+}
+}
+}
+}
+}
+if(owner():keyUse()){
+for(I=1,E:count()){
+    print(E[I,entity]:owner():name() + " has egp")
+    }
+}
+#if((ArrayToPrint:count()+ArrayToPrint2:count())/2>A:count()+R:count()){
+printColor(ArrayToPrint)
+printColor(ArrayToPrint2)
+#}
+#if((ArrayToPrint:count()+ArrayToPrint2:count())/2<A:count()+R:count()){
+#    print((ArrayToPrint:count()+ArrayToPrint2:count())/2)
+ #   printColor(array(vec(255,0,0),"ERROR"))
+#    }
+selfDestruct()

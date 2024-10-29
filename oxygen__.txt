@@ -1,0 +1,144 @@
+@name oxygen  
+@persist Egp:wirelink Oxygen SwimSpeed NO_OXYGEN OxygenCount Maps:array Z:array CurrentZ Points PointsStr:string Depth ShopOpen Items:array ItemsString:string CurrentItems:string Cost:array E2:entity Enable Deap
+runOnTick(1)
+if(first()){
+    fileLoad("points.txt")
+    timer("Load",1000)
+    Items=array("tank01","tank02","tank03")
+    Cost=array(70,190,240)
+ItemsString="Oxygen Tank(Level 1)
+Oxygen Tank(Level 2)
+Oxygen Tank(Level 3)"
+function setOxygen(){
+    if(CurrentItems:find("tank01")&!CurrentItems:find("tank02")&!CurrentItems:find("tank03")){
+    
+    OxygenCount=75
+    return 
+    }
+if(CurrentItems:find("tank01")&CurrentItems:find("tank02")&!CurrentItems:find("tank03")){
+    OxygenCount=135
+    return 
+    }    
+if(CurrentItems:find("tank01")&CurrentItems:find("tank02")&CurrentItems:find("tank03")){
+    OxygenCount=235
+    return 
+    }
+    }
+    holoCreate(1)
+    holoPos(1,owner():shootPos())
+    holoParent(1,owner())
+    holoMaterial(1,"null")
+    Egp=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0)):wirelink()
+    Egp:egpRoundedBox(1,vec2(150,1000),vec2(200,60))
+    Egp:egpRoundedBox(2,vec2(150,1000),vec2(190,50))
+    Egp:egpDrawTopLeft(1)
+    Egp:egpText(3,"ERROR LOADING",vec2(100,970))
+    Egp:egpColor(3,vec(0,0,0))
+    Egp:egpSize(3,60)
+    Egp:egpColor(2,vec(90,140,255))
+    Egp:egpText(4,"DEPTH: 0M",vec2(960,100))
+    Egp:egpColor(4,vec(0,0,0))
+    Egp:egpSize(4,60)  
+    Egp:egpHudEnable(1) 
+    SwimSpeed
+    hint("Loading",2.5)
+    }
+
+if(clk("Load")){
+    Points=fileRead():toNumber()
+    PointsStr=fileRead()
+    timer("Load2",1000)
+    fileLoad("items.txt")
+    }
+if(clk("Load2")){
+    CurrentItems=fileRead() 
+    if(CurrentItems==""){
+        fileWrite("items.txt","it")
+        }  
+    if(PointsStr==""){
+        fileWrite("points.txt","20")
+        }     
+    print("Points: "+Points:toString()+"
+"+"Items: "+CurrentItems)
+    hint("Done!!!",1)
+if(CurrentItems=="it"){
+    OxygenCount=45
+    }
+setOxygen()
+    Oxygen=OxygenCount
+    Enable=1
+    }
+if(Egp:egpConnectedUsers():count()==0){
+    Egp:egpHudEnable(1)
+    }
+if(Enable==1){
+if(owner():lastSaid()=="!shop"&ShopOpen==0){
+    ShopOpen=1
+    print("!buy {item_number}
+items:
+"+ItemsString)
+    }
+if(owner():lastSaid():explode(" ")[1,string]=="!buy"&owner():lastSaid():explode(" ")[2,string]:toNumber()>0&owner():lastSaid():explode(" ")[2,string]:toNumber()<4&ShopOpen==1&Points+1>(Cost[owner():lastSaid():explode(" ")[2,string]:toNumber(),number]-1)&!CurrentItems:find(Items[owner():lastSaid():explode(" ")[2,string]:toNumber(),string])){
+    print("You buy a "+ItemsString:explode("
+")[owner():lastSaid():explode(" ")[2,string]:toNumber(),string])
+fileWrite("items.txt",CurrentItems+"
+"+Items[owner():lastSaid():explode(" ")[2,string]:toNumber(),string])
+CurrentItems=CurrentItems+"
+"+Items[owner():lastSaid():explode(" ")[2,string]:toNumber(),string]
+ShopOpen=0
+Points=Points-Cost[owner():lastSaid():explode(" ")[2,string]:toNumber(),number]
+fileWrite("points.txt",Points:toString())
+print(Points)
+setOxygen()
+    }
+if(holoEntity(1):isUnderWater()){
+Egp:egpSetText(4,"Depth: "+Depth:toString()+"m")
+#print(Deap)
+timer("give",6000)
+if(owner():vel():z()<0){
+owner():setVel(vec(0,0,30))
+}
+timer("d",3000)
+if(clk("d")&Oxygen>0){
+    Oxygen=Oxygen-3
+    }
+if(Oxygen<0){
+    Oxygen=0
+    }
+if(Oxygen==0&NO_OXYGEN==0){
+    timer("kill",5000)
+    NO_OXYGEN=1
+    }
+if(NO_OXYGEN==1){
+    timer("damage",500)
+    if(clk("damage")){
+    owner():takeDamage(10)
+}
+    }
+if(clk("kill")){
+    owner():takeDamage(100000)
+    }
+if(clk("give")){
+Points=Points+1
+fileWrite("points.txt",Points:toString())
+print("Points: "+Points)
+}
+}
+Depth=ceil(vec(0,0,owner():shootPos():z()):distance(vec(0,0,CurrentZ))/39.37)
+Egp:egpSize(2,vec2(190*(Oxygen / OxygenCount),50))
+Egp:egpPos(2,vec2(55,975))
+Egp:egpSetText(3,Oxygen:toString())
+if(!holoEntity(1):isUnderWater()){
+    CurrentZ=owner():shootPos():z()
+    stoptimer("kill")
+    Deap=owner():shootPos():z()
+    NO_OXYGEN=0
+    timer("d",200)
+    if(Oxygen<OxygenCount){
+    Oxygen=Oxygen+1
+}
+    }
+if(!Egp:entity():isValid()){
+    selfDestruct()
+    }
+}

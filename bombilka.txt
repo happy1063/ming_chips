@@ -1,0 +1,181 @@
+@name bombilka
+@inputs Launch Seat:entity Camera:entity D:entity
+@outputs Zoom
+@persist S T VW VA VS VD VU VF OP:vector OA:angle R:ranger Ra:ranger B:entity B1:entity B2:entity Y H Zoom Rx Ry Delay J
+runOnTick(1) 
+if(!Seat:isValid()){
+    reset()
+    }
+if(first()){
+    holoCreate(1,owner():pos()+vec(0,0,3500))
+    holoMaterial(1,"null")
+    cameraCreate(1,holoEntity(1):pos())
+    cameraAng(1,owner():eyeAngles())
+    cameraParent(1,holoEntity(1))
+            OA=owner():eyeAngles()
+        OP=owner():pos()
+        Camera:setAng(ang(90,0,0))
+        Camera:setPos(cameraPos(1))
+        Camera:setMaterial("null")
+        Zoom=60
+            holoCreate(2,Ra:pos())
+    holoModel(2,"models/sprops/geometry/fring_144.mdl")
+    holoMaterial(2,"models/debug/debugwhite")
+    holoMaterial(2,"null")
+    holoColor(2,vec(255,0,0))
+    
+
+}
+
+Camera:setAng(ang(90,0,0))
+Camera:setPos(cameraPos(1))
+R=rangerOffset(holoEntity(1):pos(),holoEntity(1):pos())
+Ra=rangerOffset(holoEntity(1):pos()+vec(0,0,-100),holoEntity(1):pos()+vec(0,0,-1000000))
+holoAng(2,ang(0,0,90))
+holoPos(2,Ra:pos())
+if(Seat:driver()==owner()&owner():keyPressed("t")&S==0&T==0){
+    S=1
+    T=1
+            OA=owner():eyeAngles()
+        OP=owner():pos()
+    }
+if(owner():keyPressed("t")&S==0&T==1){
+    S=1
+    T=0
+    
+    }
+if(!owner():keyPressed("t")){
+    S=0
+    }
+if(Seat:driver()==owner()){
+    T=1
+    }
+if(T==1){
+    if(changed(T)){
+       }
+    cameraToggle(1,1)
+    cameraAng(1,ang(90,0,0))
+    if(owner():keyAttack1()){
+    Launch=1
+    }
+    if(owner():keyPressed("1")){
+        Zoom=5
+        }
+        if(owner():keyPressed("2")){
+            Zoom=20
+            }
+            if(owner():keyPressed("3")){
+            Zoom=60
+            }
+if(Zoom==60){
+if(owner():keyPressed("w")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(50,0,0))
+    }
+if(owner():keyPressed("s")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(-50,0,0))
+    }
+if(owner():keyPressed("a")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,50,0))
+    }  
+if(owner():keyPressed("d")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,-50,0))
+    }
+}
+if(Zoom==20){
+if(owner():keyPressed("w")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(35,0,0))
+    }
+if(owner():keyPressed("s")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(-35,0,0))
+    }
+if(owner():keyPressed("a")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,35,0))
+    }  
+if(owner():keyPressed("d")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,-35,0))
+    }
+}
+if(Zoom==5){
+if(owner():keyPressed("w")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(15,0,0))
+    }
+if(owner():keyPressed("s")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(-15,0,0))
+    }
+if(owner():keyPressed("a")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,15,0))
+    }  
+if(owner():keyPressed("d")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,-15,0))
+    }
+}
+}
+if(Launch&Y==0){
+    Y=1
+    B=propSpawn("models/props_phx/amraam.mdl",D:pos()+vec(100,0,0):rotate((vec(Ra:pos():x(),Ra:pos():y(),Ra:pos():z()+1000)-D:pos()):toAngle()+ang(0,-90,0)),1)
+    B:soundPlay(10000,10000,"Missile.Ignite")
+    B:setAng(ang(0,0,0))
+    B:propFreeze(0)
+    Rx=random(-90,90)
+    Ry=random(-90,90)
+    J=1
+    }
+if(J==1){
+    Delay=Delay+1
+    }
+if(changed(Delay)&Delay==20){
+   # B1=propSpawn("models/props_phx/amraam.mdl",D:pos()+vec(100,0,0):rotate((vec(Ra:pos():x(),Ra:pos():y(),Ra:pos():z()+1000)-D:pos()):toAngle()+ang(0,-90,0)),1)
+  #  B1:propFreeze(0)
+    }
+if(changed(Delay)&Delay==40){
+    Delay=0
+    J=0
+   # B2=propSpawn("models/props_phx/amraam.mdl",D:pos()+vec(100,0,0):rotate((vec(Ra:pos():x(),Ra:pos():y(),Ra:pos():z()+1000)-D:pos()):toAngle()+ang(0,-90,0)),1)
+   # B2:propFreeze(0)
+    }
+if(B1:isValid()){
+    B1:setVel((B:pos()-B1:pos()):normalized()*300000000)
+    B1:setAng((B1:pos()-B:pos()):toAngle())
+        B1:setVel((vec(Ra:pos():x()+Rx,Ra:pos():y()+Ry,Ra:pos():z()+(vec2(B1:pos():x(),B1:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()*1.1)-B1:pos()):normalized()*300000000)
+    }
+if(B2:isValid()){
+    B2:setVel((B2:pos()-B1:pos()):normalized()*300000000)
+        B2:setVel((vec(Ra:pos():x()+Rx,Ra:pos():y()+Ry,Ra:pos():z()+(vec2(B2:pos():x(),B2:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()*1.1)-B2:pos()):normalized()*300000000)
+    }
+if(B1:isValid()&(vec2(B1:pos():x(),B1:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()<100){
+    B1:propBreak()
+    }
+if(B2:isValid()&(vec2(B2:pos():x(),B2:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()<100){
+    B2:propBreak()
+    }
+if(B:isValid()){
+    B:setVel((vec(Ra:pos():x()+Rx,Ra:pos():y()+Ry,Ra:pos():z()+(vec2(B:pos():x(),B:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()*1.1)-B:pos()):normalized()*300000000)
+    B:setAng((vec(Ra:pos():x(),Ra:pos():y(),Ra:pos():z()+(vec2(B:pos():x(),B:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()*2)-B:pos()):toAngle())
+    }
+if(B:isValid()&(vec2(B:pos():x(),B:pos():y())-vec2(Ra:pos():x(),Ra:pos():y())):length()<100){
+    B:explosion()
+    B:propBreak()
+    }
+
+if(Y==1){
+    H=H+1
+    }
+if(H>10){
+    H=0
+    Y=0
+    }
+    if(T==0){
+        cameraToggle(1,0)
+        if(changed(T)){
+          owner():setPos(OP)
+          owner():setEyeAngles(OA)
+            }
+            }
+if(R:hit()||Seat:driver()!=owner()){
+    T=0
+    }
+D:setAng((cameraPos(1)+vec(0,0,100)-D:pos()):toAngle()+ang(90,90,-30))
+cameraZoom(1,Zoom)
+
+
+

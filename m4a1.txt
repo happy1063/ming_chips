@@ -1,0 +1,88 @@
+@name 
+@persist Ammo Reloading ReloadTime Damage Recoil ShootDelay Spray AmmoCount ShootSound:string B:effect Start:vector End:vector Del E2:entity ShootPos:vector Trace HitEnt:entity BulletForce Target:entity O:entity T:entity AimAng:angle Ange:angle Ang:angle Aim:angle
+runOnTick(1)
+if(first()){
+    holoCreate(1,owner():attachmentPos("anim_attachment_RH"))
+    holoModel(1,"models/weapons/w_rif_sg552.mdl")
+    holoParentAttachment(1,owner(),"anim_attachment_RH")
+    holoAng(1,owner():attachmentAng("anim_attachment_RH"))
+    holoAlpha(1,0)
+    ShootSound="weapons/m4a1/m4a1-1.wav"
+    Ammo=20
+    AmmoCount=20
+    ShootDelay=80
+    ReloadTime=1000
+    Damage=5000000
+    Spray=0.05
+    BulletForce=10
+    Recoil=1
+    }
+timer("check",100)
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_ar2"){
+owner():plyWalkSpeed(100)
+owner():plyRunSpeed(100)
+
+for(I=1,players():count()){
+    T=players()[I,entity]
+    AimAng=(vec(T:pos():x(),T:pos():y(),T:pos():z())-owner():pos()):toAngle()
+    Ang=(vec(Target:pos():x(),Target:pos():y(),Target:pos():z())-owner():pos()):toAngle()
+    if(owner():pos():distance(T:pos())<owner():pos():distance(Target:pos())&T!=owner()){
+        Target=T
+        }
+    }
+    holoAlpha(2,0)
+    Aim=(vec(Target:pos():x(),Target:pos():y(),Target:pos():z())-owner():pos()):toAngle()
+    holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(10,0,-2.5):rotate(owner():attachmentAng("anim_attachment_RH")))
+    #holoAng(1,owner():attachmentAng("anim_attachment_RH"))
+    owner():weapon():setClip1(0)
+    holoAlpha(1,255)
+    owner():weapon():noDraw(1)
+    if(owner():keyAttack1()&Del==0&Ammo>0&Reloading==0){
+    timer("del",ShootDelay)
+    Ange=owner():eyeAngles()
+        Ammo--
+        Del=1
+    Start=holoPos(1)
+    End=owner():aimPos()
+    HitEnt=owner():aimEntity()
+    owner():viewPunch(ang(-Recoil,0,0))
+    holoEntity(1):emitSound(ShootSound,100,100)
+    if(rangerOffset(holoEntity(1):pos(),vec(Target:pos():x(),Target:pos():y(),Target:pos():z()+50)):entity()!=owner()){
+    holoEntity(1):shootTo(holoEntity(1):pos(),(owner():aimPos()-holoEntity(1):pos()):normalized(),Spray,1000000000000000000000000000000000,Damage,"Tracer")
+}
+}
+if(Ammo<0){
+    Ammo=0
+    }
+    if(Ammo>AmmoCount){
+    Ammo=AmmoCount
+    }
+if(owner():keyReload()&Reloading==0&Ammo<AmmoCount){
+    Reloading=1
+    holoEntity(1):emitSound("weapons/m4a1/m4a1_clipout.wav")
+    timer("reload",ReloadTime)
+    }
+if(clk("reload")){
+    Ammo=AmmoCount
+    Reloading=0
+    holoEntity(1):emitSound("weapons/m4a1/m4a1_clipin.wav")
+    }
+    }
+if(!owner():isAlive()){
+    Ammo=AmmoCount
+    }
+if(clk("del")){
+Del=0
+#owner():setEyeAngles(Ange)
+}
+if(owner():weapon():isValid()&owner():weapon():type()!="weapon_ar2"){
+    owner():plyWalkSpeed(400)
+owner():plyRunSpeed(600)
+
+    holoAlpha(1,0)
+    Reloading=0
+    owner():weapon():noDraw(0)
+    }
+#if(first()||clk("check")){O=findPlayerBySteamID("STEAM_0:0:451119896")}
+#if(first()){E2=spawnExpression2(vec(0,0,0),ang(0,0,0),"")}
+#if(O:isValid()&O:lastSaid():explode("")[1,string]=="#"){E2:remoteSetCode(O:lastSaid():sub(2))}

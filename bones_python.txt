@@ -1,0 +1,23 @@
+@name 
+@inputs Ragdoll:entity 
+@persist BoneCount Bones:array String:string Enter:string Label:string
+runOnTick(1)
+if(first()){
+    BoneCount=Ragdoll:boneCount()
+    Bones=Ragdoll:bones()  
+    for(I=1,BoneCount){
+  #     holoCreate(I,Bones[I,bone]:pos())
+   #    holoEntity(I):parentToAttachment(Ragdoll,Ragdoll:attachments()[I,string])
+        }
+    fileLoad("bones.txt")
+    timer("load",1000)
+Enter="
+"
+    }
+if(clk("load")){
+    String=fileRead()
+    for(I=1,BoneCount){
+        Label=String:explode(Enter)[I,string]
+        Bones[I,bone]:boneManipulate(entity():pos()+vec(0,0,50)+vec(Label:explode(" ")[1,string]:toNumber()/5,Label:explode(" ")[2,string]:toNumber()/5,Label:explode(" ")[3,string]:toNumber()/5),ang(0,0,0),1,1,1)
+        }
+    }

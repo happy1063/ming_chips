@@ -1,0 +1,47 @@
+@name sobway serfer
+@persist Count Line Last Gen Gened Points
+runOnTick(1)
+if(first()){
+    holoCreate(1,entity():pos()+vec(0,0,30))
+    holoCreate(2,entity():pos()+vec(90,0,30))
+ #   spectate(1)
+    Count=2
+    function colide(E:entity){
+        for(I=1,Count){
+            if(holoEntity(I)!=E&E:pos():distance(holoPos(I))<11){
+                return I
+                }
+            }
+        return 0
+        }
+    function rand(A,B){
+while(1==1){
+Gen=randint(A,B)
+if(Gen!=Last){
+    return Gen
+ 
+}}}}
+Gened=rand(-1,1)
+holoPos(2,holoPos(2)+vec(-5,0,0))
+holoPos(1,entity():pos()+vec(0,Line*30,30))
+if(colide(holoEntity(1))!=0){
+    holoPos(2,entity():pos()+vec(90,Gened*30,30))   
+    Last=Gened
+    Points=0
+    stoptimer("d")
+    }
+if(holoPos(2):x()-entity():pos():x()<-10){
+    holoPos(2,entity():pos()+vec(90,Gened*30,30))
+    Last=Gened
+    }
+if(changed(owner():keyPressed("a"))&owner():keyPressed("a")&Line<1){
+    Line=Line+1
+    }
+if(changed(owner():keyPressed("d"))&owner():keyPressed("d")&Line>-1){
+    Line=Line-1
+    }
+timer("d",500)
+if(clk("d")){
+    Points=Points+1
+    print(Points)
+    }

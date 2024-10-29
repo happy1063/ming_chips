@@ -1,0 +1,28 @@
+@name seagull turret
+@inputs 
+@outputs 
+@persist A:array T:entity
+@strict
+runOnTick(1)
+if(first()){
+    holoCreate(1,entity():pos()+vec(0,0,20))
+    holoParent(1,entity())
+    holoModel(1,"models/seagull.mdl")
+    holoScale(1,vec(5,5,5))
+   # entity():setMaterial("null")
+    holoCreate(2)
+    holoMaterial(2,"null")
+    }
+timer("delay",100)
+if(clk("delay")){
+findByClass("fishing_mod_seagull")
+A=findToArray()
+}
+for(I=1,A:count(),1){
+    if(A[I,entity]:isValid()&(A[I,entity]:pos()-holoPos(1)):length()<100000000){
+        holoAng(1,(A[I,entity]:pos()-holoPos(1)):toAngle())
+        holoEntity(1):shootTo(holoEntity(1):pos(),(A[I,entity]:pos()-holoEntity(1):pos()):normalized(),0,10000000,1000000,"ToolTracer")
+        holoPos(2,A[I,entity]:pos())
+        holoEntity(2):explosion()
+    } 
+     }

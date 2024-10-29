@@ -1,0 +1,48 @@
+@name 
+@persist A:vector B:angle IsBuild Weapon:string S G
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoAlpha(1,0)
+    }
+if(owner():isValid()&S==0&G==0){
+    holoAlpha(1,0)
+    A=owner():pos()
+    B=owner():eyeAngles()
+    IsBuild=owner():isBUILD()
+    Weapon=owner():weapon():type()
+    holoModel(1,owner():model())
+    }
+if(!owner():isValid()){
+    holoAlpha(1,255)
+    holoPos(1,A)
+    holoAng(1,ang(0,B:yaw(),0))
+    S=1
+    }
+if(owner():isValid()&S==1){
+    S=0
+    G=1
+    owner():giveWeapon(Weapon)
+    if(IsBuild==1){
+        concmd("say !build")
+        }
+    if(IsBuild==0){
+        concmd("say !pvp")
+        }  
+    owner():selectWeapon(Weapon) 
+    owner():setPos(A)
+    owner():setAng(B)
+    timer("g",60000)
+    }
+if(clk("g")){
+    G=0
+    }
+if(G==1){
+    owner():setPos(A)
+    owner():setAng(B)
+    owner():giveWeapon(Weapon)
+    owner():selectWeapon(Weapon) 
+    }
+if(owner():keyPressed("w")){
+    G=0
+    }

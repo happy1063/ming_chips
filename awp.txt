@@ -1,0 +1,88 @@
+@name awp
+@outputs Holo:entity Pos:vector EnableCam Angle:angle Zoom
+@persist E:entity Toggle A:angle S Egp:wirelink Egp:wirelink Del Cam:entity
+runOnTick(1)
+if(first()){
+    E=propSpawn("models/hunter/blocks/cube025x05x025.mdl",entity():pos(),1)
+    E:noDraw(1)
+    Cam:noCollideAll(1)
+    Egp=sentSpawn("gmod_wire_egp_hud",vec(0,0,0),ang(0,0,0)):wirelink()
+    Cam=sentSpawn("gmod_wire_cameracontroller",owner():pos(),ang(0,0,0))
+    Cam:createWire(entity(),"Position","Pos")
+    Cam:createWire(entity(),"Activated","EnableCam")
+    Cam:createWire(entity(),"Parent","Holo")
+    Cam:createWire(entity(),"Angle","Angle")
+    Cam:createWire(entity(),"FOV","Zoom")
+    Egp:egpCircleOutline(1,vec2(0,0),vec2(10,10))
+    Egp:egp3DTracker(2,rangerOffset(holoPos(1)+vec(0,0,20),holoPos(1)+vec(10000,0,10):rotate(holoAng(1))):pos())
+    Egp:egpParent(1,2)
+    Egp:egpBox(3,vec2(0,15),vec2(5,15))
+    Egp:egpBox(4,vec2(0,-15),vec2(5,15))
+    Egp:egpBox(5,vec2(-15,0),vec2(15,5))
+    Egp:egpBox(6,vec2(15,0),vec2(15,5))
+    Egp:egpParent(3,2)
+    Egp:egpParent(4,2)
+    Egp:egpParent(5,2)
+    Egp:egpParent(6,2)
+    holoCreate(1,E:pos())
+    holoParent(1,E)
+    holoModel(1,"models/weapons/w_snip_awp.mdl")
+    entity():noDraw(1)
+    Zoom=70
+    }
+if(!first()){
+    }
+if(changed(owner():keyPressed("e"))&owner():keyPressed("e")&owner():aimEntity()==E&Toggle==0&S==0){
+    Egp:egpHudToggle()
+    EnableCam=1
+    A=owner():eyeAngles()
+    spectate(1)
+    S=1
+    Toggle=1
+    }
+if(Toggle==1){
+    if(owner():keyForward()&Zoom>4){
+        Zoom=Zoom-2
+        }
+        if(owner():keyBack()&Zoom<70){
+        Zoom=Zoom+2
+        }  
+    Holo=holoEntity(1)
+    Pos=holoPos(1)+vec(15,0,20):rotate(holoAng(1))
+    Angle=holoAng(1)
+    owner():giveWeapon("weapon_physgun")
+    owner():selectWeapon("weapon_physgun")
+    owner():setPos(vec(holoPos(1):x(),holoPos(1):y(),owner():pos():z())+vec(-35,0,0):rotate(ang(0,holoAng(1):yaw(),0)))
+    E:setAng(ang(0,owner():eyeAngles():yaw(),owner():eyeAngles():pitch())+ang(0,90,0))
+    holoAng(1,ang(owner():eyeAngles():pitch(),owner():eyeAngles():yaw(),0)+ang(0,0,0))
+    Egp:egpPos(2,rangerOffset(holoPos(1)+vec(0,0,20),holoPos(1)+vec(10000,0,10):rotate(holoAng(1))):pos())
+    if(owner():keyAttack2()&Del==0){
+        E:emitSound("weapons/awp/gunfire/awp1.wav")
+        E:shootTo(holoPos(1)+vec(0,0,20),(rangerOffset(holoPos(1)+vec(0,0,20),holoPos(1)+vec(10000,0,10):rotate(holoAng(1))):pos()-(holoPos(1)+vec(0,0,20))):normalized(),0,100,100,"Tracer")
+        timer("del",3000)
+        Del=1
+        if(rangerOffset(holoPos(1)+vec(0,0,20),holoPos(1)+vec(10000,0,10):rotate(holoAng(1))):entity():isPlayer()){
+        E:emitSound("garrysmod/balloon_pop_cute.wav")
+        }
+    }
+}
+if(changed(owner():keyPressed("e"))&owner():keyPressed("e")&Toggle==1&S==0){
+    Del=0
+    spectate(0)
+    EnableCam=0
+    Egp:egpHudToggle()
+    owner():setEyeAngles(A)
+    S=1
+    Toggle=0
+    }
+if(!owner():keyPressed("e")){
+    S=0
+    }
+if(!Cam:isValid()){
+    Egp:entity():remove()
+    E:remove()
+    selfDestruct()
+    }
+    if(clk("del")){
+        Del=0
+        }

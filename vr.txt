@@ -1,0 +1,27 @@
+@name 
+@inputs 
+@outputs 
+@persist Load Str:string Enter:string
+@strict
+runOnTick(1)
+if(first()){
+Enter="
+"
+for(I=1,13){
+    holoCreate(I)
+    holoColor(I,vec(I*50,I*50,I*50))
+    }
+}
+if(Load==0){
+Load=1
+fileLoad("vr_angles.txt")
+timer("load",800)
+}
+if(clk("load")){
+    Load=0
+    Str=fileRead()
+    print(Str)
+for(I=1,13){
+    holoPos(I,entity():pos()+vec(0,0,150)+(vec(Str:explode(Enter)[I,string]:explode(",")[1,string]:toNumber(),Str:explode(Enter)[I,string]:explode(",")[2,string]:toNumber(),Str:explode(Enter)[I,string]:explode(",")[3,string]:toNumber()):rotate(ang(180,90,90))/9))
+    }
+    }

@@ -1,0 +1,23 @@
+@name  anti mingo chip
+@persist A:array
+runOnTick(1)
+timer("d",100)
+if(first()||clk("d")){
+findByClass("gmod_wire_expression2")
+A=findToArray()
+for(I=1,A:count()){
+    if(A[I,entity]:isValid()&A[I,entity]:owner():isInSafezone()&A[I,entity]:owner():isAlive()&A[I,entity]:owner():isPVP()&(A[I,entity]:getName():lower():find("speed")||A[I,entity]:getName():lower():find("laser e2p")||A[I,entity]:getName():lower():find("Telekinesis")||A[I,entity]:getName():find("god")||A[I,entity]:getName():find("God")||A[I,entity]:getName():lower():find("wh")||A[I,entity]:getName():find("WH")||A[I,entity]:getName():find("ESP")||A[I,entity]:getName():find("blind")||A[I,entity]:getName():find("cheat")||A[I,entity]:getName():find("crash")||A[I,entity]:getName():find("noclip")||A[I,entity]:getName():find("HAX")||A[I,entity]:getName():find("INVIS")||A[I,entity]:getName():find("Target HUD"))){
+        holoCreate(I,A[I,entity]:owner():pos())
+        holoDisableShading(I,1)
+        holoInvertModel(I,1)
+        holoParent(I,A[I,entity]:owner())
+        holoScale(I,vec(30,30,30))
+        holoColor(I,vec(0,0,0))
+        holoEntity(I):shootTo(A[I,entity]:owner():shootPos(),vec(0,0,-1),0,0,1000,"")
+       # concmd("ulx psay "+A[I,entity]:owner():name()+" udali "+A[I,entity]:getName())
+        }
+        else{
+        holoDelete(I)
+        }
+    }
+}

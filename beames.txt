@@ -1,0 +1,33 @@
+@name Beames
+@inputs 
+@outputs 
+@persist Beams:array Count
+@strict
+runOnTick(1)
+if(first()){
+    A=propSpawn("models/hunter/blocks/cube025x025x025.mdl",entity():pos()+vec(0,0,10),0)
+    B=propSpawn("models/hunter/blocks/cube025x025x025.mdl",entity():pos()+vec(0,0,20),0)
+    A:setColor(vec(255,0,0))
+    B:setColor(0,255,0)
+    Count=10
+    for(I=1,Count){
+        Beams:pushEntity(drawBeam("models/debug/debugwhite",A:pos()+vec(0,I,0),B:pos(),vec(0,0,0),1,1))
+        Beams[I,entity]:setBeamEndEnt(Beams[I+1,entity])
+        Beams[I,entity]:setParent(Beams[I-1,entity])   
+        }
+    function destruct(){
+        for(I=1,Count){
+            Beams[I,entity]:remove()
+            }
+        A:remove()
+        B:remove()
+        selfDestruct()
+        }
+    }
+for(I=1,Count){
+if(!Beams[I,entity]:isValid()){
+    print(I)
+    destruct()
+}
+}
+

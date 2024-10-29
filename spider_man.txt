@@ -1,0 +1,26 @@
+@name spider man
+@persist 
+runOnTick(1)
+if(first()){
+    
+    }
+rangerFilter(owner())
+if(rangerOffset(owner():pos(),owner():pos()+vec(30,0,0):rotate(ang(0,owner():eyeAngles():yaw(),0))):hit()){
+    owner():setVel(vec(0,0,12+(20*owner():keyForward())))
+    }
+rangerFilter(owner())
+if(rangerOffset(owner():pos(),owner():pos()+vec(30,0,0):rotate(ang(0,owner():eyeAngles():yaw()+45,0))):hit()){
+    owner():setVel(vec(0,0,12+(20*owner():keyForward())))
+    }
+rangerFilter(owner())
+if(rangerOffset(owner():pos(),owner():pos()+vec(30,0,0):rotate(ang(0,owner():eyeAngles():yaw()-45,0))):hit()){
+    owner():setVel(vec(0,0,12+(20*owner():keyForward())))
+    }
+rangerFilter(owner())
+if(rangerOffset(owner():pos(),owner():pos()+vec(30,0,0):rotate(ang(0,owner():eyeAngles():yaw()+90,0))):hit()){
+    owner():setVel(vec(0,0,12+(20*owner():keyForward())))
+    }
+rangerFilter(owner())
+if(rangerOffset(owner():pos(),owner():pos()+vec(30,0,0):rotate(ang(0,owner():eyeAngles():yaw()-90,0))):hit()){
+    owner():setVel(vec(0,0,12+(20*owner():keyForward())))
+    }

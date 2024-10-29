@@ -1,0 +1,93 @@
+@name bombilka
+@inputs Launch Seat:entity Camera:entity
+@outputs Zoom
+@persist S T VW VA VS VD VU VF OP:vector OA:angle R:ranger Ra:ranger B:entity Y H Zoom
+runOnTick(1)
+if(!Seat:isValid()){
+    reset()
+    }
+if(first()){
+    holoCreate(1,owner():pos()+vec(0,0,6500))
+    holoMaterial(1,"null")
+    cameraCreate(1,holoEntity(1):pos())
+    cameraAng(1,owner():eyeAngles())
+    cameraParent(1,holoEntity(1))
+            OA=owner():eyeAngles()
+        OP=owner():pos()
+        Camera:setAng(ang(90,0,0))
+        Camera:setPos(cameraPos(1))
+        Camera:setMaterial("null")
+        Zoom=60
+        }
+Camera:setAng(ang(90,0,0))
+Camera:setPos(cameraPos(1))
+R=rangerOffset(holoEntity(1):pos(),holoEntity(1):pos())
+Ra=rangerOffset(holoEntity(1):pos()+vec(0,0,-100),holoEntity(1):pos()+vec(0,0,-1000000))
+if(Seat:driver()==owner()&owner():keyPressed("t")&S==0&T==0){
+    S=1
+    T=1
+            OA=owner():eyeAngles()
+        OP=owner():pos()
+    }
+if(owner():keyPressed("t")&S==0&T==1){
+    S=1
+    T=0
+    
+    }
+if(!owner():keyPressed("t")){
+    S=0
+    }
+if(Seat:driver()==owner()){
+    T=1
+    }
+if(T==1){
+    if(changed(T)){
+       }
+    cameraToggle(1,1)
+    cameraAng(1,ang(90,0,0))
+    holoAng(1,owner():eyeAngles())
+    if(owner():keyPressed("1")){
+        Zoom=20
+        }
+        if(owner():keyPressed("2")){
+            Zoom=60
+            }
+if(owner():keyPressed("w")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(50,0,0))
+    }
+if(owner():keyPressed("s")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(-50,0,0))
+    }
+if(owner():keyPressed("a")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,50,0))
+    }  
+if(owner():keyPressed("d")){
+    holoEntity(1):setPos(holoEntity(1):pos()+vec(0,-50,0))
+    }
+}
+if(Launch&Y==0){
+    Y=1
+    B=propSpawn("models/props_phx/amraam.mdl",holoEntity(1):pos()-vec(0,0,50),1)
+    B:soundPlay(10000,10000,"Missile.Ignite")
+    B:setAng(ang(90,0,0))
+    B:propFreeze(0)
+    B:setVel(vec(0,0,-50000000))
+    }
+if(Y==1){
+    H=H+1
+    }
+if(H>300){
+    H=0
+    Y=0
+    }
+    if(T==0){
+        cameraToggle(1,0)
+        if(changed(T)){
+          owner():setPos(OP)
+          owner():setEyeAngles(OA)
+            }
+            }
+if(R:hit()||Seat:driver()!=owner()){
+    T=0
+    }
+cameraZoom(1,Zoom)

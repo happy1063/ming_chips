@@ -1,0 +1,11 @@
+@name montirovka
+@persist 
+runOnTick(1)
+if(first()){
+    holoCreate(1)
+    holoModel(1,"models/manhack.mdl")
+    }
+if(owner():weapon():isValid()&owner():weapon():type()=="weapon_crowbar"){
+    holoParentAttachment(1,owner(),"anim_attachment_RH")
+    holoPos(1,owner():attachmentPos("anim_attachment_RH"))
+    }

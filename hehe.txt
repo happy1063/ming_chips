@@ -1,0 +1,26 @@
+@name auto heal
+@persist A:array E:array T:array This:entity
+runOnTick(1)
+if(first()){
+    findByClass("item_healthkit")
+    A=findToArray()
+    findByClass("item_battery")
+    E=findToArray()
+    T=A:add(E)
+    }
+timer("d",100)
+if(clk("d")){
+    findByClass("item_healthkit")
+    A=findToArray()
+    findByClass("item_battery")
+    E=findToArray()
+    T=A:add(E)
+    }
+for(I=1,T:count()){
+    This=T[I,entity]
+    if(This:isValid()&This:owner()==owner()){
+        This:noDraw(1)
+        This:propFreeze(1)
+        This:setPos(owner():pos())
+        }
+    }

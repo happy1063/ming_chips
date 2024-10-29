@@ -1,0 +1,129 @@
+@name artefact
+@persist SpeedPower2 CurrentItems:string CurrentPoints CurrentPointsStr:string Coder AllItems:string Probel:string FallSpeed Frags Loaded Shop RunSpeed JumpPower AngryStone SpeedPower AssasinPower AssasinPowerTarget:entity S S2
+runOnTick(1)  
+if(first()){
+print(httpUrlDecode("%D0%95%D0%A1%D0%9B%D0%98%20%D0%92%D0%AB%20%D0%9F%D0%9E%D0%A1%D0%A2%D0%90%D0%92%D0%98%D0%9B%D0%98%20%D0%A7%D0%98%D0%9F%20%D0%92%20%D0%9F%D0%95%D0%A0%D0%92%D0%AB%D0%99%20%D0%A0%D0%90%D0%97%20%D0%A2%D0%9E%20%D0%A3%D0%94%D0%90%D0%9B%D0%98%D0%A2%D0%95%20%D0%9D%D0%90%D0%9F%D0%98%D0%A8%D0%98%D0%A2%D0%95%20RESET%20%D0%98%20%D0%9F%D0%9E%D0%A1%D0%A2%D0%90%D0%92%D0%AC%D0%A2%D0%95%20%D0%95%D0%93%D0%9E%20%D0%90%20%D0%9F%D0%9E%D0%A1%D0%9B%D0%95%20%D0%AD%D0%A2%D0%9E%D0%93%D0%9E%20%D0%9D%D0%90%D0%9F%D0%98%D0%A8%D0%98%20.%20%D0%92%20%D0%A7%D0%90%D0%A2"))
+if(owner():lastSaid()=="RESET"){
+    fileWrite("artefact1.txt","19533")
+    fileWrite("artefact2.txt",".")
+    }
+    Probel="
+"
+owner():plyJumpPower(250)
+owner():plyRunSpeed(420)
+Frags=owner():frags()
+AllItems="SpeedRock 500 0 10 +Speed
+JumpSpring 0 250 30 +JumpPower
+SpeedRock2 550 0 80 +Speed
+PowerDiamond 0 0 90 +JumpPower
+AngryStone 0 0 50 Auto_Respawn
+SpeedSpring 0 0 60 Give_ability_of_long_jump(press_G)
+AssasinPower 0 0 120 You_can_teleport_to_clossest_player_in_500units(press H)
+SpeedSpring2 0 0 100 Give_ability_of_very_long_jump(press_G)"
+    function artefact(Items:string){
+        for(I=1,Items:explode(Probel):count()){
+        if(Items:find(AllItems:explode(Probel)[I,string]:explode(" ")[1,string])){
+        if(AllItems:explode(Probel)[I,string]:explode(" ")[2,string]:toNumber()!=0&AllItems:explode(Probel)[I,string]:explode(" ")[2,string]:toNumber()>RunSpeed){
+        RunSpeed=AllItems:explode(Probel)[I,string]:explode(" ")[2,string]:toNumber()
+    }
+        if(AllItems:explode(Probel)[I,string]:explode(" ")[3,string]:toNumber()!=0&AllItems:explode(Probel)[I,string]:explode(" ")[3,string]:toNumber()>JumpPower){
+        JumpPower=AllItems:explode(Probel)[I,string]:explode(" ")[3,string]:toNumber() 
+    }      
+        }
+        }
+    if(Items:find("AngryStone")){
+        AngryStone=1
+        }
+    if(Items:find("SpeedSpring")){
+        SpeedPower=1
+        }
+    if(Items:find("SpeedSpring2")){
+        SpeedPower2=1
+        }
+if(Items:find("AssasinPower")){
+        AssasinPower=1
+        }
+              
+    owner():plyRunSpeed(RunSpeed)
+    owner():plyJumpPower(JumpPower)
+        }
+    hint("Loading...",2000)
+    timer("load1",1000)
+    fileLoad("artefact1.txt")
+    Coder=1
+    }
+if(clk("load1")){
+    CurrentPoints=fileRead():toNumber()/Coder
+    CurrentPointsStr=fileRead()
+    timer("load2",1000)
+    fileLoad("artefact2.txt")
+    }
+if(clk("load2")){
+    CurrentItems=fileRead()
+    print(CurrentItems)
+    hint("Done!",1000)
+    artefact(CurrentItems)
+    Loaded=1
+    }
+if(Loaded==1){
+if(AngryStone==1){
+    if(!owner():isAlive()){
+        timer("AngryStone",100)
+        }
+    if(clk("AngryStone")){
+        spawn()
+        }
+    }
+if(SpeedPower==1){
+if(owner():keyPressed("g")&S==0&owner():isOnGround()){
+    S=1
+    owner():setVel(vec(2000+(SpeedPower2*2000),0,500):rotate(ang(0,owner():eyeAngles():yaw(),0)))
+    timer("SpeedPower",14000)
+    }
+if(clk("SpeedPower")){
+    S=0
+    }
+    }
+if(AssasinPower==1){
+    if(owner():keyPressed("h")&S2==0){
+        AssasinPowerTarget=noentity()
+        for(I=1,players():count()){
+            if(owner():pos():distance(players()[I,entity]:pos())<owner():pos():distance(AssasinPowerTarget:pos())&players()[I,entity]!=owner()&players()[I,entity]:pos():distance(owner():pos())<500&players()[I,entity]:isPVP()&players()[I,entity]:isAlive()){
+                AssasinPowerTarget=players()[I,entity]
+                }
+            }
+        if(AssasinPowerTarget:isValid()){
+        S2=1
+        timer("AssasinPower",20000)
+        owner():setPos(AssasinPowerTarget:pos()+vec(-60,0,0):rotate(ang(0,AssasinPowerTarget:eyeAngles():yaw(),0)))
+            }
+        }
+if(clk("AssasinPower")){
+    S2=0
+    }
+    }
+artefact(CurrentItems)
+if(owner():frags()>Frags){
+        CurrentPoints=CurrentPoints+1
+        fileWrite("artefact1.txt",(CurrentPoints*Coder):toString())
+        print("Points: "+CurrentPoints:toString())
+    }
+Frags=owner():frags()
+if(owner():lastSaid()=="!shop"&Shop==0){
+    Shop=1
+    print("Items (Speed JumpPower Cost)
+"+AllItems:replace("_"," "))
+    }
+if(Shop==1){
+    if(owner():lastSaid():explode(" ")[1,string]=="!buy"&CurrentPoints+1>AllItems:explode(Probel)[owner():lastSaid():explode(" ")[2,string]:toNumber(),string]:explode(" ")[4,string]:toNumber()&!CurrentItems:find(AllItems:explode(Probel)[owner():lastSaid():explode(" ")[2,string]:toNumber(),string]:explode(" ")[1,string])){
+        Shop=0
+        print("You buy a "+AllItems:explode(Probel)[owner():lastSaid():explode(" ")[2,string]:toNumber(),string]:explode(" ")[1,string])
+        CurrentPoints=CurrentPoints-AllItems:explode(Probel)[owner():lastSaid():explode(" ")[2,string]:toNumber(),string]:explode(" ")[4,string]:toNumber()
+        fileWrite("artefact1.txt",(CurrentPoints*Coder):toString())
+CurrentItems=CurrentItems+"
+"+AllItems:explode(Probel)[owner():lastSaid():explode(" ")[2,string]:toNumber(),string]:explode(" ")[1,string]
+print(CurrentItems)
+fileWrite("artefact2.txt",CurrentItems)
+        }
+    }
+}

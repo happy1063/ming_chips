@@ -1,0 +1,19 @@
+@name Rpg-29
+@inputs Entity:entity Run
+runOnTick(1)
+if(first()){
+        holoCreate(1,Entity:pos())
+        holoModel(1,"models/sprops/misc/tubes_thin/size_1/t_tube_12x96.mdl")
+        holoMaterial(1,"models/XQM//WoodTexture_1")
+        holoAng(1,Entity:angles()+ang(0,90,0))
+        holoParent(1,Entity)
+                holoCreate(2,Entity:pos()+vec(10,0,20):rotate(Entity:angles()))
+        holoModel(2,"models/weapons/w_pistol.mdl")
+        holoAng(2,Entity:angles()+ang(90,180,0))
+        holoScale(2,vec(5,5,5))
+        holoParent(2,Entity)
+    }
+if(Run==1){
+    Entity:setPos(owner():pos() + vec(10,-10,60):rotate(owner():eyeAngles()))
+    Entity:setAng(owner():eyeAngles()+ang(90,0,0))
+}

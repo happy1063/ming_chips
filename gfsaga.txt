@@ -1,0 +1,14 @@
+@name 
+@inputs 
+@outputs 
+@persist A:array
+@strict
+runOnTick(1)
+if(first()||clk("d")){
+    findByClass("prop_vehicle_prisoner_pod")
+    A=findToArray()
+    }
+for(I=1,A:count()){
+    dPanel(I:toString(),vec2(0,0),vec2(4000,4000))
+    dPod(A[I,entity])
+    }

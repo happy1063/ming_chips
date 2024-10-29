@@ -1,0 +1,61 @@
+@name Magic
+@inputs A
+@persist Plate:entity Button:entity Kd LastSpawned:entity
+runOnTick(1)
+if(first()){
+    Plate=propSpawn("models/hunter/plates/plate1x2.mdl",entity():pos()+vec(0,0,30),ang(0,0,0),1)
+    Button=sentSpawn("gmod_wire_button",Plate:pos()+vec(-25,0,0),ang(90,-180,0))
+    Button:setModel("models/cheeze/buttons2/start.mdl")
+    entity():createWire(Button,"A","Out")
+    Button:noCollideAll(1)
+    Plate:noCollideAll(0)
+    Plate:setAlpha(255)
+    Button:setAlpha(255)
+    Button:parentTo(Plate)
+    holoCreate(1,Plate:pos()+vec(0,0,25))
+    holoAng(1,ang(90,0,0))
+    holoScaleUnits(1,vec(50,2,50)) 
+    holoParent(1,Plate)
+    holoCreate(2,Plate:pos()+vec(25,25,25))
+    holoAng(2,ang(90,90,0))
+    holoScaleUnits(2,vec(50,2,50))  
+    holoParent(2,Plate)
+    holoCreate(3,Plate:pos()+vec(25,-25,25))
+    holoAng(3,ang(90,90,0))
+    holoScaleUnits(3,vec(50,2,50))  
+    holoParent(3,Plate) 
+    holoCreate(4,Plate:pos()+vec(0,50,25))
+    holoAng(4,ang(90,0,0))
+    holoScaleUnits(4,vec(50,2,50))
+    holoParent(4,Plate)
+        holoCreate(5,Plate:pos()+vec(0,-50,25))
+    holoAng(5,ang(90,0,0))
+    holoScaleUnits(5,vec(50,2,50)) 
+    holoParent(5,Plate)    
+    holoCreate(6,Plate:pos()+vec(0,0,50))
+    holoAng(6,ang(90,0,0))
+    holoScaleUnits(6,vec(2,100,50))    
+    holoParent(6,Plate)    
+     }
+Plate:setPos(entity():pos()+vec(0,0,30))
+Plate:setAng(ang(0,0,0))
+if(A==1&rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():isValid()&Kd==0){
+    if(!rangerOffset(Plate:pos()+vec(0,-25,50),Plate:pos()+vec(0,-25,3)):entity():isValid()){
+    LastSpawned=propSpawn(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():model(),Plate:pos()+vec(0,-25,-(Plate:pos():z()-rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():pos():z())),rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():angles(),rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():isFrozen())
+    LastSpawned:setMaterial(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():getMaterial())
+    LastSpawned:setColor(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():getColor())
+    LastSpawned:noCollideAll(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():isNoCollideAll())
+    LastSpawned:setAlpha(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():getAlpha())
+}
+    if(rangerOffset(Plate:pos()+vec(0,-25,50),Plate:pos()+vec(0,-25,3)):entity():isValid()){
+    rangerOffset(Plate:pos()+vec(0,-25,50),Plate:pos()+vec(0,-25,3)):entity():setMaterial(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():getMaterial())
+    rangerOffset(Plate:pos()+vec(0,-25,50),Plate:pos()+vec(0,-25,3)):entity():setColor(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():getColor())
+    rangerOffset(Plate:pos()+vec(0,-25,50),Plate:pos()+vec(0,-25,3)):entity():noCollideAll(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():isNoCollideAll())
+    rangerOffset(Plate:pos()+vec(0,-25,50),Plate:pos()+vec(0,-25,3)):entity():setAlpha(rangerOffset(Plate:pos()+vec(0,25,50),Plate:pos()+vec(0,25,3)):entity():getAlpha())
+        }
+    Kd=1
+    timer("kd",1000)
+    }
+if(clk("kd")){
+    Kd=0
+    }

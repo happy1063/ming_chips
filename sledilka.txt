@@ -1,0 +1,37 @@
+@name 
+@persist S B:entity
+
+ runOnTick(1)
+
+if(first()){
+    cameraCreate(1)
+    hideMyAss(1)
+    holoCreate(1,owner():attachmentPos("eyes"))
+   # holoAng(1,owner():attachmentAng("eyes"))
+holoMaterial(1,"null")
+    cameraParent(1,holoEntity(1))
+    cameraPos(1,holoEntity(1):pos())
+    cameraAng(1,holoEntity(1):angles())
+    cameraToggle(1,1)
+    S=1
+    B=findPlayerBySteamID("STEAM_0:1:417944767")
+    
+    }
+    #holoAng(1,owner():attachmentAng("eyes"))
+
+if(S==1){
+    cameraToggle(0)
+    if(B:weapon():isValid()){
+    holoParent(1,B:weapon())
+    holoPos(1,B:weapon():pos()+vec(20,0,20):rotate(B:weapon():angles()))
+    holoAng(1,B:eyeAngles())
+}
+    cameraPos(1,holoEntity(1):pos())
+    cameraAng(1,holoEntity(1):angles())
+    }
+if(S==0){
+     cameraToggle(1,0)
+    }
+if(B:isValid()&!B:isAlive()){
+    cameraToggle(1,0)
+    }

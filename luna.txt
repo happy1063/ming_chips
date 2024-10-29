@@ -1,0 +1,145 @@
+@name Luna
+
+@persist Ponchek:entity Ent:entity H Target:entity I Rang:ranger P Y R OldP:vector OldP2:vector OldP3:vector OldP4:vector OldP5:vector Target2:entity I2 Target3:entity Target4:entity Target5:entity OldHoloP:vector Hp Np:vector
+
+runOnTick(1)
+
+if(first()){
+    holoCreate(1,entity():pos()+vec(0,0,500))
+    holoModel(1,"models/hunter/misc/sphere2x2.mdl")
+    holoCreate(2,holoEntity(1):pos())
+    holoMaterial(2,"models/debug/debugwhite")
+    holoModel(2,"models/hunter/tubes/tube4x4x05.mdl")
+    holoScale(2,vec(2.5,2.5,2.5))
+        holoCreate(3,holoEntity(1):pos())
+    holoMaterial(3,"models/debug/debugwhite")
+    holoModel(3,"models/hunter/tubes/tube4x4x05.mdl")
+    holoScale(3,vec(2,2,2))
+    holoCreate(4,holoEntity(1):pos())
+    holoMaterial(4,"models/alyx/emptool_glow")
+    holoModel(4,"models/hunter/misc/sphere2x2.mdl")
+    holoScale(4,vec(1.2,1.2,1.2))
+    holoRenderFX(4,17)
+    holoMaterial(1,"models/debug/debugwhite")
+    Target=owner()
+    Ent=propSpawn("models/hunter/misc/sphere2x2.mdl",holoEntity(1):pos(),1)
+    Ent:setMaterial("null")
+    holoParent(2,holoEntity(1))
+    holoParent(3,holoEntity(1))
+    holoParent(4,holoEntity(1))
+    Np=vec(random(-10000,10000),random(-10000,10000),Ent:pos():z())
+    }
+if(Ent:pos()==Np){
+    Np=vec(random(-10000,10000),random(-10000,10000),Ent:pos():z())
+    }
+    if(Np!=Ent:pos()){
+        Ent:setPos(Ent:pos()+vec(10,0,0):rotate((Ent:pos()-Np):toAngle()))
+        }
+OldHoloP=holoEntity(1):pos()
+I2=I2+1
+H=H+Ent:getDamage()
+Hp=16000-H
+holoColor(1,vec(H-8000,8000-H,0))
+Ent:setPos(holoEntity(1):pos())
+P=P+5
+Y=Y-5
+R=R+5
+holoAng(2,ang(P,Y,-R))
+holoAng(3,ang(-P*1.05,-Y*1.5,R*1.2))
+if(H>16000||!Ent:isValid()){
+soundURLload(1000,"https://www.myinstants.com/media/sounds/saul-goodman-better-call-saul.mp3",1000,100,holoEntity(1):pos())
+interval(1000)
+}
+if(H>1||!Ent:isValid()){
+    propSpawn("models/noesis/donut.mdl",OldHoloP,1):propFreeze(0)
+    propSpawn("models/noesis/donut.mdl",OldHoloP,1):propFreeze(0)
+    effectSpawn("Sparks",holoEntity(1):pos(),1)
+    effectSpawn("Sparks",holoEntity(1):pos(),1)
+    effectSpawn("Sparks",holoEntity(1):pos(),1)
+effectSpawn("Sparks",holoEntity(1):pos(),1)
+effectSpawn("Sparks",holoEntity(1):pos(),1)
+    interval(1000)
+    #effectSpawn("explosion",holoEntity(1):pos(),1)
+    interval(1000)
+    #effectSpawn("explosion",holoEntity(1):pos(),1)
+    interval(1000)
+    #effectSpawn("explosion",holoEntity(1):pos(),1)
+    interval(1000)
+    Ent:remove()
+    selfDestructAll()
+    }
+for(I=1,players():count(),1){
+    Rang=rangerOffset(holoEntity(1):pos()+vec(0,0,-100),players()[I , entity]:pos()+vec(0,0,60)+vec(-5,0,0):rotate(players()[I , entity]:eyeAngles()))
+    if(players()[I , entity]:isPVP()&players()[I , entity]:isAlive()){
+    Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.5,"ToolTracer")
+    players()[I , entity]:setVel((players()[I , entity]:pos() + vec(0,0,30)-Ent:pos()):normalized()*15+H/1500)
+    OldP=players()[I , entity]:pos()+vec(0,0,60)-(players()[I , entity]:vel()/15)
+}
+    if((Target:pos()-holoEntity(1):pos()):length()>(players()[I , entity]:pos()-holoEntity(1):pos()):length()&players()[I , entity]:isPVP()&players()[I , entity]:isValid()&Rang:entity():isPlayer()){
+        Target = players()[I , entity]
+    }
+}
+
+
+if(H<9000){
+    holoAlpha(4,150)
+    }
+if(H>8000){
+    holoDelete(4)
+    
+    }
+if((Target:pos()-Ent:pos()):length()<4000&Rang:entity():isPVP()){
+    Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.3,"ToolTracer")
+    if(H>8000){
+        Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.5,"ToolTracer")
+
+    }
+}
+
+Target2 = players()[random(1,players():count()) , entity]
+Target3 = players()[random(1,players():count()) , entity]
+Target4 = players()[random(1,players():count()) , entity]
+Target5 = players()[random(1,players():count()) , entity]
+
+if(H>8000){
+if((Target2:pos()-holoEntity(1):pos()):length()<1500){
+Target2:setVel((Target2:pos() + vec(0,0,30+-Hp)-Ent:pos()):normalized()*-12)
+}
+if((Target3:pos()-holoEntity(1):pos()):length()<1500){
+Target3:setVel((Target3:pos() + vec(0,0,30)-Ent:pos()):normalized()*-12)
+}
+if((Target4:pos()-holoEntity(1):pos()):length()<1500){
+Target4:setVel((Target4:pos() + vec(0,0,30)-Ent:pos()):normalized()*-12)
+}
+if((Target5:pos()-holoEntity(1):pos()):length()<1500){
+Target5:setVel((Target5:pos() + vec(0,0,30)-Ent:pos()):normalized()*-12)
+}
+}
+if((Target2:pos()-Ent:pos()):length()<3500&Target2:isPVP()&Target2!=Target&Target2!=Target3&Target2!=Target4&Target2!=Target5){
+    Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP2-holoEntity(1):pos()):normalized(),0,1,0.3,"ToolTracer")
+    if(H>8000){
+        Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP2-holoEntity(1):pos()):normalized(),0,1,0.5,"ToolTracer")
+
+    }
+}
+if((Target3:pos()-Ent:pos()):length()<3500&Target3:isPVP()&Target3!=Target&Target3!=Target2&Target3!=Target4&Target3!=Target5){
+    Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.3,"ToolTracer")
+    if(H>8000){
+        Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.5,"ToolTracer")
+
+    }
+}
+if((Target4:pos()-Ent:pos()):length()<3500&Target4:isPVP()&Target4!=Target&Target4!=Target2&Target4!=Target3&Target4!=Target5){
+    Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.3,"ToolTracer")
+    if(H>8000){
+        Ent:shootTo(holoEntity(1):pos()-vec(0,0,0),(OldP-holoEntity(1):pos()):normalized(),0,1,0.5,"ToolTracer")
+    }
+}
+if(I2>players():count()){
+    I2=0
+}
+interval(1000)
+OldP2=Target2:attachmentPos("chest")-(Target2:vel()/15)
+OldP3=Target3:attachmentPos("chest")-(Target3:vel()/15)
+OldP4=Target4:attachmentPos("chest")-(Target4:vel()/15)
+OldP5=Target5:attachmentPos("chest")-(Target5:vel()/15)

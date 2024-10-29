@@ -1,0 +1,29 @@
+@name Gride
+@inputs 
+@outputs 
+@persist Size Center:vector Spacing Holos:array Index Dist Position:vector
+@strict
+runOnTick(1)
+interval(200)
+if(first()){
+Size=8
+Center=entity():pos()+vec(0,0,10)
+Spacing=12
+E=propSpawn("models/hunter/blocks/cube025x025x025.mdl",Center,1)
+for(X = 1, Size) {
+    for(Y = 1, Size) {
+        Pos = Center + vec(X*Spacing, Y*Spacing, 0) #     
+        holoCreate(X*Size+Y, Pos) #  
+       # holoDisableShading(X*Size+Y,1)
+        Holos:pushEntity(holoEntity(X*Size+Y))  
+    }
+}
+}
+if(clk("interval")){
+for(I=1,Holos:count()){
+    Index=holoIndex(Holos[I,entity])
+    Position=holoPos(Index)
+    Dist=ceil(Position:distance(vec(E:pos():x(),E:pos():y(),Position:z())))
+    holoColor(Index,vec(0,Dist*5,0))
+    }
+}

@@ -1,0 +1,15 @@
+@name god of
+@inputs 
+@outputs 
+@persist 
+@strict
+runOnTick(1)
+if(first()){
+    owner():playerFreeze()
+    timer("d",10000)
+    }
+if(clk("d")){
+    hint("done",1000)
+    owner():playerUnFreeze()
+    selfDestruct()
+    }

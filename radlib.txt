@@ -1,0 +1,54 @@
+@name RadLib
+@persist Zones:string Pos:vector Player:entity Enter:string Explode:array Current:string Zp:string Zone
+runOnTick(1)
+if(first()){
+Enter="
+"
+Zp=","
+function zoneCanCreate(N){
+    Explode=Zones:explode(Enter)
+    for(I=1,Explode:count()){
+        Current=Explode[I,string]
+        if(!Current:explode(",")[1,string]:find(N:toString())){
+            return 1
+            }
+        }
+    hint("CANT CREATE",500)
+    return 0
+}
+function zoneCreate(N,Vec:vector,Radius,Damage){
+    if(N<=0||!zoneCanCreate(N)){return 0}
+    Zones=Zones+Enter+N:toString()+Zp+Vec:x():toString()+Zp+Vec:y():toString()+Zp+Vec:z():toString()+Zp+Radius:toString()+Zp+Damage:toString()
+    }
+function zoneDeleteAll(){
+    Zones=""
+    }
+function zoneRadius(N,Radius){
+    if(N<=0){return}
+    }
+function number inZone(Ent:entity){
+    Explode=Zones:explode(Enter)
+    for(I=1,Explode:count()){
+        Current=Explode[I,string]
+        Pos=vec(Current:explode(",")[2,string]:toNumber(),Current:explode(",")[3,string]:toNumber(),Current:explode(",")[4,string]:toNumber())
+        if(Ent:pos():distance(Pos)<Current:explode(",")[5,string]:toNumber()){
+            return Current:explode(",")[1,string]:toNumber()
+            }
+        }
+    return 0
+    }
+function getRad(N)
+function getDam(N){
+}
+holoCreate(1)
+holoMaterial(1,"null")
+zoneCreate(1,owner():pos(),1,0.1)
+}
+for(I=1,players():count()){
+    Player=players()[I,entity]
+    Zone=inZone(Player)
+    if(Player:isValid()&Player:isPVP()&!Player:isInSafezone()&Zone==1){
+        timer(Player:name(),)
+        holoEntity(1):shootTo(Player:shootPos(),(Player:pos()-Player:shootPos()):normalized(),0,0,Zone,"")
+        }
+    }

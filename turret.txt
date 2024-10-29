@@ -1,0 +1,13 @@
+@name turret
+@inputs Entity:entity Run
+runOnTick(1)
+if(first()){
+        holoCreate(1,Entity:pos())
+        holoModel(1,"models/sprops/misc/tubes_superthin/size_1/tube_72.mdl")
+        holoAng(1,Entity:angles())
+        holoParent(1,Entity)
+    }
+if(Run==1){
+    Entity:setPos(owner():pos() + vec(10,-10,60):rotate(owner():eyeAngles()))
+    Entity:setAng(owner():eyeAngles()+ang(90,0,0))
+}

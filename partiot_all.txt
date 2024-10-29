@@ -1,0 +1,28 @@
+@name 
+@inputs 
+@outputs 
+@persist G
+@strict
+runOnTick(1)
+for(I=1,players():count()){
+    T=players()[I,entity]
+    if(first()){
+    holoCreate(I)
+    holoCreate(I+players():count()+1)
+    holoMaterial(I,"null")
+    holoMaterial(I+players():count()+1,"null")  
+    holoParent(I,T)
+    holoParent(I+players():count()+1,T)
+    holoPos(I,T:pos()+vec(0,0,50))
+    holoPos(I+players():count()+1,T:pos()+vec(0,0,30))
+}
+G=randint(0,1)
+if(G==1){
+    holoEntity(I+players():count()+1):removeTrails()
+    holoEntity(I):setTrails(50,50,1000,"trails/smoke",vec(0,0,255),255)
+}
+if(G==0){
+    holoEntity(I):removeTrails()
+    holoEntity(I+players():count()+1):setTrails(50,50,1000,"trails/smoke",vec(255,255,0),255)
+}
+}

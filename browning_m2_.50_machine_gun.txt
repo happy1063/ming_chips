@@ -1,0 +1,525 @@
+@name Browning M2 .50 Machine Gun
+@inputs  [Turret]:entity
+@outputs [Fire Shoot Rd]:number
+@persist [Valid D Spd Act RPM Aimbot CD Use PM Ammo M ]:number
+@persist [Effect1 Effect2]:effect
+@persist [Base Seat Shield]:entity
+@persist [Target]:array
+@model models/hunter/plates/plate2x4.mdl
+
+#AMERICAN POWER YEAHHHHHHHHHHHHHH
+#Made by https://steamcommunity.com/profiles/76561198777938795/
+
+runOnTick(1)
+
+if (first()|duped()){
+    
+    RPM = 450
+        
+    setName("Browning M2"+toChar(0))
+    
+    entity():setAng(ang(vec(0,entity():angles():yaw(),0)))
+    entity():propFreeze(1)
+    noCollideAll(entity(),1)
+    
+    Seat = seatSpawn("models/nova/airboat_seat.mdl",1)
+    Base = entity()
+    Shield = propSpawn("models/hunter/blocks/cube075x2x1.mdl",1)
+    Shield:setAlpha(0)
+    holoDeleteAll()
+    
+    for (I=1,31){
+        holoCreate(I)
+        holoColor(I,vec(100))
+        holoMaterial(I,"models/ihvtest/arm")
+    }
+    timer("first",100)
+    
+    Effect1 = effect()
+    Effect2 = effect()
+    Rd = 0
+    D = 0
+    Spd = 1.5
+    CD = 1
+    PM = 1
+    
+    timer("rd",1500)
+    printColor(vec(255,190,0),"[M2] ",vec(255),"Plz wait 1.5 Seconds")
+}
+
+if (clk("rd")){
+    D = 1
+    print("")
+    printColor(vec(255,190,0),"[M2] ",vec(255),"M2 browning machine gun is ready")
+    printColor(vec(255,190,0),"[M2] ",vec(255),"WASD turns the Turret. Hold down SHIFT to slow it down")
+    printColor(vec(255,190,0),"[M2] ",vec(255),"Press the mouse2 to activated the aimbot, press it again to deactivatedl aimbot")
+    entity():soundPlay(0,10,"vehicles/tank_readyfire1.wav")
+}
+
+if (clk("first")){
+    holoScale(1,vec(5,1,1))
+    holoAng(1,entity():angles()+ang(vec(0,90,0)))
+    
+    holoModel(2,"models/holograms/hq_cylinder.mdl")
+    holoPos(2,holoEntity(1):toWorld(vec(30,0,0)))
+    holoAng(2,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(2,vec(0.7,0.7,3))
+    
+    holoModel(3,"models/holograms/hq_cylinder.mdl")
+    holoPos(3,holoEntity(1):toWorld(vec(80,0,0)))
+    holoAng(3,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(3,vec(0.3,0.3,6))
+    
+    holoPos(4,holoEntity(1):toWorld(vec(120,0,0)))
+    holoAng(4,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(4,vec(0.3,0.4,0.9))
+    
+    holoModel(5,"models/holograms/hq_cylinder.mdl")
+    holoPos(5,holoEntity(1):toWorld(vec(40,0,0)))
+    holoAng(5,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(5,vec(0.5,0.5,3))
+    
+    holoModel(6,"models/hunter/plates/plate05x1.mdl")
+    holoPos(6,holoEntity(2):toWorld(vec(0,22.5,-10)))
+    holoAng(6,holoEntity(2):angles()+ang(vec(0,90,65)))
+    holoScale(6,vec(0.9,0.8,0.6))
+    
+    holoModel(7,"models/hunter/plates/plate05x1.mdl")
+    holoPos(7,holoEntity(2):toWorld(vec(0,-22.5,-10)))
+    holoScale(7,vec(0.9,0.8,0.6))
+    holoAng(7,holoEntity(2):angles()+ang(vec(0,90,-65)))
+    
+    holoModel(8,"models/hunter/tubes/circle2x2.mdl")
+    holoPos(8,holoEntity(1):toWorld(vec(0,0,-8)))
+    holoAng(8,holoEntity(1):angles())
+    holoScale(8,vec(0.1,0.1,3))
+    
+    holoModel(9,"models/props_c17/TrapPropeller_Lever.mdl")
+    holoPos(9,holoEntity(8):toWorld(vec(-44.5,30,-20)))
+    holoScale(9,vec(4,9,4))
+    holoAng(9,holoEntity(8):angles()+ang(vec(0,60,-20)))
+    
+    holoModel(10,"models/props_c17/TrapPropeller_Lever.mdl")
+    holoPos(10,holoEntity(8):toWorld(vec(-44.5,-30,-20)))
+    holoScale(10,vec(4,9,4))
+    holoAng(10,holoEntity(8):angles()+ang(vec(0,120,-20)))
+    
+    holoModel(11,"models/props_c17/TrapPropeller_Lever.mdl")
+    holoPos(11,holoEntity(8):toWorld(vec(30,0,-20)))
+    holoScale(11,vec(4,6,4))
+    holoAng(11,holoEntity(8):angles()+ang(vec(0,-90,-35)))
+    
+    holoModel(12,"models/squad/sf_bars/sf_bar25x25x1.mdl")
+    holoPos(12,holoEntity(1):toWorld(vec(15,-10.5,0)))
+    holoScale(12,vec(1.2,2,2))
+    holoAng(12,holoEntity(1):angles()+ang(vec(0,90,0)))
+    
+    holoModel(13,"models/hunter/tubes/circle2x2.mdl")
+    holoPos(13,holoEntity(4):toWorld(vec(0,0,2.5)))
+    holoScale(13,vec(0.035,0.035,2))
+    holoAng(13,holoEntity(4):angles())
+    holoColor(13,vec(30))
+    
+    holoModel(14,"models/props_wasteland/panel_leverHandle001a.mdl")
+    holoPos(14,holoEntity(1):toWorld(vec(-28,3,0)))
+    holoScale(14,vec(0.8,1.3,0.7))
+    holoAng(14,holoEntity(1):angles()+ang(vec(0,235,90)))
+    
+    holoModel(15,"models/props_wasteland/panel_leverHandle001a.mdl")
+    holoPos(15,holoEntity(1):toWorld(vec(-28,-3,0)))
+    holoScale(15,vec(0.8,1.3,0.7))
+    holoAng(15,holoEntity(1):angles()+ang(vec(0,-235,-90)))
+    
+    holoModel(16,"models/hunter/plates/plate.mdl")
+    holoScale(16,vec(3,2,3))
+    holoAng(16,holoEntity(1):angles())
+    holoPos(16,holoEntity(1):toWorld(vec(-20,0,0)))
+    
+    holoModel(17,"models/hunter/plates/plate.mdl")
+    holoScale(17,vec(2,0.2,1))
+    holoAng(17,holoEntity(1):angles())
+    holoPos(17,holoEntity(16):toWorld(vec(-1,2.5,8)))
+    
+    holoModel(18,"models/hunter/plates/plate.mdl")
+    holoScale(18,vec(2,0.2,1))
+    holoAng(18,holoEntity(1):angles())
+    holoPos(18,holoEntity(16):toWorld(vec(-1,-2.5,8)))
+    
+    holoModel(19,"models/hunter/plates/plate.mdl")
+    holoScale(19,vec(1.5,1,1.5))
+    holoAng(19,holoEntity(1):angles())
+    holoPos(19,holoEntity(16):toWorld(vec(0,0,5.5)))
+    
+    holoModel(20,"models/props_vehicles/tire001a_tractor.mdl")
+    holoScale(20,vec(0.04,0.03,0.03))
+    holoAng(20,holoEntity(1):angles())
+    holoPos(20,holoEntity(16):toWorld(vec(-1.9,0,10.5)))
+    
+    holoModel(21,"models/squad/sf_bars/sf_bar1.mdl")
+    holoScale(21,vec(0.5,0.8,0.1))
+    holoPos(21,holoEntity(1):toWorld(vec(25,1.45,10)))
+    holoAng(21,holoEntity(1):angles()+ang(vec(90,90,0)))
+    
+    holoModel(22,"models/squad/sf_bars/sf_bar1.mdl")
+    holoScale(22,vec(0.5,0.8,0.1))
+    holoPos(22,holoEntity(1):toWorld(vec(25,-1.85,10)))
+    holoAng(22,holoEntity(1):angles()+ang(vec(90,90,0)))
+    
+    holoModel(23,"models/hunter/tubes/tube2x2x05c.mdl")
+    holoScale(23,vec(0.04,0.0375,0.1))
+    holoPos(23,holoEntity(1):toWorld(vec(24.2,-0.15,9.9)))
+    holoAng(23,holoEntity(1):angles()+ang(vec(90,0,0)))
+    
+    holoModel(24,"models/hunter/plates/plate.mdl")
+    holoScale(24,vec(1,0.02,2))
+    holoAng(24,holoEntity(1):angles())
+    holoPos(24,holoEntity(1):toWorld(vec(24.5,-0.05,4.3)))
+    
+    holoModel(25,"models/hunter/triangles/1x1x1carved025.mdl")
+    holoScale(25,vec(0.07,0.07,0.1))
+    holoPos(25,holoEntity(1):toWorld(vec(24,0,6)))
+    holoAng(25,holoEntity(1):angles()+ang(vec(-135,90,90)))
+    
+    holoModel(26,"models/props_vehicles/apc_tire001.mdl")
+    holoScale(26,vec(0.5,0.075,0.075))
+    holoAng(26,holoEntity(1):angles())
+    holoPos(26,holoEntity(1):toWorld(vec(-27.5,0,1.5)))
+    
+    holoModel(27,"models/Items/BoxSRounds.mdl")
+    holoPos(27,holoEntity(1):toWorld(vec(8,15.5,-12)))
+    holoScale(27,vec(3.5,0.6,1.3))
+    holoAng(27,holoEntity(1):angles()+ang(vec(0,90,0)))
+    
+    holoModel(28,"models/holograms/hq_cylinder.mdl")
+    holoPos(28,holoEntity(1):toWorld(vec(30,0,0)))
+    holoAng(28,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(28,vec(0.71,0.71,3.01))
+    holoMaterial(28,"models/debug/debugwhite")
+    holoAlpha(28,0)
+    holoShadow(28,0)
+    holoDisableShading(28,1)
+    
+    holoModel(29,"models/holograms/hq_cylinder.mdl")
+    holoPos(29,holoEntity(1):toWorld(vec(80,0,0)))
+    holoAng(29,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(29,vec(0.31,0.31,6.01))
+    holoMaterial(29,"models/debug/debugwhite")
+    holoAlpha(29,0)
+    holoDisableShading(29,1)
+    
+    holoPos(30,holoEntity(1):toWorld(vec(120,0,0)))
+    holoAng(30,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(30,vec(0.31,0.41,0.91))
+    holoMaterial(30,"models/debug/debugwhite")
+    holoAlpha(30,0)
+    holoDisableShading(30,1)
+    
+    holoModel(31,"models/holograms/hq_cylinder.mdl")
+    holoPos(31,holoEntity(1):toWorld(vec(40,0,0)))
+    holoAng(31,holoEntity(1):angles()+ang(vec(90,0,0)))
+    holoScale(31,vec(0.51,0.51,3.01))
+    holoMaterial(31,"models/debug/debugwhite")
+    holoAlpha(31,0)
+    holoDisableShading(31,1)
+    
+    for (P=1,31){
+        holoPos(P,holoEntity(P):pos()+vec(0,0,40))
+    }
+}
+
+if (D==1){
+
+    if (Turret:isValid()){
+        findInCone(holoEntity(1):pos(),holoEntity(1):eye(),114514,20)
+        findExcludePlayer("Bot")
+        findIncludeClass("player")
+        findIncludeClass("npc_*")
+    }
+
+    if (!holoEntity(0):isValid()){
+        holoCreate(0)
+        holoModel(0,"models/hunter/misc/shell2x2.mdl")
+        holoMaterial(0,"debug/debugportals")
+        holoVisible(0,players(),0)
+        holoDisableShading(0,1)
+        holoShadow(0,0)
+        holoAlpha(0,150)
+        holoScale(0,vec(0.25))
+        holoColor(0,vec(180,0,0))
+    }
+    
+    if (find()){
+        holoColor(0,vec(180,0,0))
+    }else{
+        holoColor(0,vec(180,180,0))
+    }
+    
+    if (changed(Aimbot==1)&Aimbot==1){
+        Target:pushEntity(find())
+    }else{
+    holoPos(0,find():pos())
+    }
+
+    if (changed(Turret:isValid())&Turret:isValid()&Seat:isValid()){
+        Seat:propFreeze(1)
+        Seat:setPos(holoEntity(1):toWorld(vec(-50,0,-22.5)))
+        Seat:setAng(holoEntity(1):angles()+ang(vec(0,-90,0)))
+        Shield:setPos(holoEntity(2):toWorld(vec(7.5,0,0)))
+        Shield:setAng(holoEntity(2):angles())
+        timer("de",100)
+        Base:setAlpha(0)
+        Base:setMass(1000)
+        Turret:setAlpha(0)
+        Turret:createWire(entity(),"Fire","Shoot")
+        holoParent(1,8)
+        holoParent(2,8)
+        holoParent(3,8)
+        holoParent(4,8)
+        holoParent(5,8)
+        holoParent(2,1)
+        holoParent(3,1)
+        holoParent(4,1)
+        holoParent(5,1)
+        holoParent(6,1)
+        holoParent(7,1)
+        holoParent(14,1)
+        holoParent(15,1)
+        holoParent(12,1)
+        holoParent(16,1)
+        holoParent(17,16)
+        holoParent(18,16)
+        holoParent(19,16)
+        holoParent(20,16)
+        holoParent(21,1)
+        holoParent(22,1)
+        holoParent(23,1)
+        holoParent(24,1)
+        holoParent(25,1)
+        holoParent(26,1)
+        holoParent(27,1)
+        holoParent(28,1)
+        holoParent(29,3)
+        holoParent(30,4)
+        holoParent(31,1)
+        holoParent(4,3)
+        holoParent(13,4)
+        holoParent(8,Base)
+        holoParent(9,Base)
+        holoParent(10,Base)
+        holoParent(11,Base)
+        Valid = 1
+        Rd = 1
+    }
+
+    if (clk("de")){
+        Seat:parentTo(holoEntity(1))
+        Shield:parentTo(holoEntity(1))
+        noCollideAll(Shield,1)
+    }
+
+    if (Valid==1){
+        Turret:constraintBreak()
+        Turret:setPos(holoEntity(4):toWorld(vec(0,-2.5,0)))
+        Turret:setAng(holoEntity(1):angles()+ang(vec(0,0,0)))
+    }
+
+    if (Seat:driver():isValid()){
+        Use = 1
+        holoVisible(0,Seat:driver(),1)
+        if (Aimbot==1){
+        Seat:printDriver(_HUD_PRINTCENTER,Target[Target:count(),entity]:toString())
+        }else{
+        Seat:printDriver(_HUD_PRINTCENTER,find():toString())
+        }
+        local Pl = Seat:driver()
+        local A = Pl:keyLeft()
+        local D = Pl:keyRight()
+        local W = Pl:keyForward()
+        local S = Pl:keyBack()
+        local At1 = Pl:keyAttack1()
+        local At2 = Pl:keyAttack2()
+        local Sh = Pl:keySprint()
+    
+        if (A){
+            holoAng(8,holoEntity(8):angles()+ang(vec(0,Spd-(Spd*Sh*0.9),0)))
+            if (Act!=1){
+                Act = 1
+            }    
+        }
+    
+        if (D){
+            holoAng(8,holoEntity(8):angles()+ang(vec(0,-Spd+(Spd*Sh*0.9),0)))
+            if (Act!=1){
+                Act = 1
+            }    
+        }
+    
+        if (S){
+            holoAng(1,holoEntity(1):angles()+ang(vec(Spd-(Spd*Sh*0.9),0,0)))
+            if (Act!=1){
+                Act = 1
+            }    
+        }
+    
+        if (W){
+            holoAng(1,holoEntity(1):angles()+ang(vec(-Spd+(Spd*Sh*0.9),0,0)))
+            if (Act!=1){
+                Act = 1
+            }    
+        }
+    
+        if (!W&!A&!S&!D){
+            Act = 0
+        }
+    
+        if (changed(Act==1)&Act==1){
+            holoEntity(8):soundPlay(3,114514,"vehicles/tank_turret_loop1.wav")
+        }
+    
+        if (changed(Act==0)&Act==0){
+            holoEntity(8):soundPlay(3,114514,"vehicles/tank_turret_stop1.wav")
+        }
+        
+        soundVolume(3,0.5)
+        
+        if (holoEntity(1):angles():pitch()>=20){
+            holoAng(1,ang(vec(20,holoEntity(1):angles():yaw(),holoEntity(1):angles():roll())))
+        }
+
+        if (holoEntity(1):angles():pitch()<=-45){
+            holoAng(1,ang(vec(-45,holoEntity(1):angles():yaw(),holoEntity(1):angles():roll())))
+        }
+    
+        if (At1){
+            Fire = 1
+        }else{ Fire = 0
+        }
+    
+        if (Aimbot==1){
+            holoPos(0,Target[Target:count(),entity]:pos())
+            holoAng(8,(ang(vec(holoEntity(8):angles():pitch(),((Target[Target:count(),entity]:boxCenterW()+vec(0,0,7))-holoEntity(8):boxCenterW()):toAngle():yaw(),holoEntity(8):angles():roll()))))
+            holoAng(1,(ang(vec(((Target[Target:count(),entity]:boxCenterW()+vec(0,0,7))-holoEntity(1):boxCenterW()):toAngle():pitch(),holoEntity(1):angles():yaw(),holoEntity(1):angles():roll()))))
+        }
+    
+        if (changed(At2)&At2&Aimbot==0&CD==1&find():isValid()){
+            Aimbot = 1
+            CD = 0
+            holoEntity(8):soundPlay(4,10,"hl1/fvox/activated.wav")
+            holoEntity(8):soundPlay(5,2,"vehicles/tank_turret_start1.wav")
+            timer("cd",250)
+        }
+    
+      if (changed(At2)&At2&Aimbot==1&CD==1){
+        Aimbot = 0
+        CD = 0
+        holoEntity(8):soundPlay(4,10,"hl1/fvox/deactivated.wav")
+        holoEntity(8):soundPlay(5,2,"vehicles/tank_turret_stop1.wav")
+        timer("cd",250)
+    }
+     
+    }else{
+    Use = 0
+    soundStop(3,0.2)
+    soundStop(4,0.2)
+    soundStop(5,0.2)
+    Fire = 0
+    holoVisible(0,players(),0)
+    }
+    
+    if (clk("cd")){
+        CD = 1
+    }
+
+    if (Fire==1&Rd==1&PM==1){
+        Shoot = 1
+        Rd = 0
+        Ammo = Ammo+1
+        Effect1:setOrigin(holoEntity(1):pos())
+        Effect1:setNormal(vec(100))
+        Effect1:play("EjectBrass_762Nato")
+        Base:applyForce((holoEntity(1):toWorld(vec(-100,0,-40)-holoEntity(1):pos()+vec(0,0,-40)))*2)
+        timer("delay",1000/(RPM/60))
+        timer("hzl",500/(RPM/60))
+        holoPos(3,holoEntity(3):toWorld(vec(0,0,-20)))
+        holoAng(1,holoEntity(1):angles()+ang(vec(-0.25,0,0)))
+        holoPos(1,holoEntity(1):toWorld(vec(-1,0,0)))
+        holoPos(12,holoEntity(1):toWorld(vec(-20,-10.5,0)))
+        holoEntity(1):soundPlay(1,10,"Weapon_SMG1.NPC_Single")
+        holoEntity(1):soundPlay(2,10,"Breakable.MatConcrete")
+        soundPitch(1,60)
+        soundPitch(2,30)
+        soundVolume(1,10)
+        soundVolume(2,10)
+    }else {
+    Shoot = 0
+    }
+    
+    if (Ammo<0){
+        Ammo = 1
+    }
+    
+    if (Fire==0){
+        Ammo = Ammo-0.5
+    }
+    if (clk("delay")){
+        Rd = 1
+    }
+    
+    if (M<=0){
+        M = 0.1
+    }
+    
+    M = (Ammo)*1.2
+    for (O=28,31){
+        holoColor(O,vec(M,(M/4),30))
+        holoAlpha(O,Ammo)
+    }
+    
+    if (Ammo>=200){
+        timer("gr",7000)
+        timer("zgr",8500)
+        timer("rgr",11500)
+        holoEntity(3):soundPlay(10,7,"ambient/gas/steam2.wav")
+        soundPitch(10,130)
+        PM = 0
+    }
+    
+    if (clk("gr")){
+        soundStop(10,1)
+    }
+    
+    if (clk("zgr")){
+        holoEntity(8):soundPlay(11,10,"vehicles/tank_readyfire1.wav")
+    }
+    
+    if (clk("rgr")){
+        PM = 1
+        Ammo = 0
+        M = 0
+    }
+    if (clk("hzl")){
+        holoAng(1,holoEntity(1):angles()+ang(vec(0.25,0,0)))
+    }
+    
+    if (Rd==0&Valid==1){
+        holoPos(3,holoEntity(3):toWorld(vec(0,0,0.5+(RPM/450))))
+        holoPos(12,holoEntity(12):toWorld(vec(0,-0.75-(RPM/250),0)))
+    }
+
+    if (Rd==1&Valid==1){
+        holoPos(3,holoEntity(1):toWorld(vec(80,0,0)))
+        holoPos(1,holoEntity(8):toWorld(vec(0,0,8)))
+        holoPos(12,holoEntity(1):toWorld(vec(15,-10.5,0)))
+    }
+}
+
+#if (owner():steamID()!="STEAM_0:1:408836533"){
+#    print("huh")
+#    selfDestructAll()
+#}
+
+if (last()){
+    for (C = 1,13){
+    soundStop(C)
+    }
+}

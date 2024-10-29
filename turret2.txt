@@ -1,0 +1,43 @@
+@name turret
+@inputs 
+@outputs 
+@persist Friends:array A Target:entity CanShoot
+@strict
+runOnTick(1)
+#include "array"
+if(first()){
+    Friends=array("STEAM_0:0:766803141","STEAM_0:1:14123484","STEAM_0:0:571847889")
+    Target=players()[4,entity]
+    holoCreate(1)
+    holoModel(1,"models/Items/combine_rifle_ammo01.mdl")
+    CanShoot=1
+    function shoot(Targ:entity,Damage){
+        if(CanShoot==1&rangerOffset(holoPos(1),Targ:pos()+vec(0,0,40)):entity()==Targ&Targ:isPVP()&!Targ:isInSafezone()&Targ:pos():distance(holoPos(1))<1000){
+            holoEntity(1):shootTo(holoPos(1),(Targ:pos()-Target:vel()/15+vec(0,0,40)-holoPos(1)):normalized(),0,0,Damage,"Tracer")
+            CanShoot=0
+            timer("reload",250)
+            }
+        }
+    }
+if(clk("reload")){
+    CanShoot=1
+    }
+for(I=1,players():count()){
+    if(players()[I,entity]:pos():distance(holoPos(1))<Target:pos():distance(holoPos(1))&players()[I,entity]:isPVP()&players()[I,entity]:pos():distance(holoPos(1))<1000&!players()[I,entity]:isInSafezone()&!findInArray(Friends,players()[I,entity]:steamID())&rangerOffset(holoPos(1),players()[I,entity]:pos()+vec(0,0,40)):entity()==players()[I,entity]){
+        Target=players()[I,entity]
+        }
+    }
+if(Target:isValid()&owner():isAlive()){
+if(holoPos(1):distance(owner():shootPos()+vec(0,50,10))>6){
+    holoPos(1,holoPos(1)+(owner():shootPos()+vec(0,50,10)-holoPos(1)):normalized()*10)
+    }
+if(holoPos(1):distance(owner():shootPos()+vec(0,50,10))<6){
+    A=A+2
+    holoPos(1,owner():shootPos()+vec(0,50,10)+vec(0,0,sin(A)*5))
+    }
+holoAng(1,(Target:shootPos()-Target:vel()/15-vec(0,0,20)-holoPos(1)):toAngle()+ang(90,0,0))
+shoot(Target,6)
+}
+if(holoPos(1):distance(owner():shootPos()+vec(0,50,10):rotate(owner():angles()))>500){
+    holoPos(1,holoPos(1)+vec(400,0,0):rotate(((owner():shootPos()+vec(0,50,10):rotate(owner():angles()))-holoPos(1)):toAngle()))
+    }

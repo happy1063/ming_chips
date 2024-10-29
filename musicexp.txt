@@ -1,0 +1,26 @@
+@name MusicExp
+@persist Str:string Loaded Enter:string Exploded:array
+runOnTick(1)
+if(first()){
+Enter="
+"
+    fileLoad("music.txt")
+    timer("load",400)
+    holoCreate(1)
+    }
+if(clk("load")){
+    Str=fileRead()
+    Loaded=1
+    Exploded=Str:explode(Enter)
+    for(I=1,Exploded:count()){
+        timer(Exploded[I,string]:explode(" ")[1,string],ceil(Exploded[I,string]:explode(" ")[3,string]:toNumber()))
+        }
+    }
+if(Loaded==1){
+for(I=1,Exploded:count()){
+    if(clk(Exploded[I,string]:explode(" ")[1,string])){
+        holoPos(1,entity():pos()+vec(Exploded[I,string]:explode(" ")[2,string]:toNumber(),0,0))
+        holoEntity(1):explosion()
+        }
+    }
+}

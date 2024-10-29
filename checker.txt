@@ -1,0 +1,18 @@
+@name Checker
+@inputs 
+@outputs 
+@persist Rang:ranger
+@strict
+runOnTick(1)
+for(I=1,80){
+    Rang=rangerOffset(entity():pos()+vec(0,0,50),entity():pos()+vec(0,0,50)+vec(100000,0,0):rotate(ang(0,I*4.5,0)))
+    if(first()){
+        holoCreate(I)
+    }
+    if(Rang:entity():isValid()&!Rang:entity():isPlayer()){
+    holoPos(I,Rang:pos())
+}
+    if(!Rang:entity():isValid()){
+    holoPos(I,Rang:pos())
+}
+    }

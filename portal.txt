@@ -1,0 +1,24 @@
+@name portal
+@inputs 
+@outputs 
+@persist A
+@strict
+runOnTick(1)
+if(first()){
+    entity():noDraw(1)
+   # holoCreate(1)
+  #  holoModel(1,"models/sprops/geometry/superthin/discs/fdisc_66.mdl")
+ #   holoScale(1,vec(300,300,300))
+  #  holoMaterial(1,"null")
+    }
+A=A+50
+if(owner():keyPressed("g")){
+particleGravity(vec(0,0,randint(-600,600)))
+#holoMaterial(1,"models/props_lab/warp_sheet")
+#holoPos(1,owner():aimPos())
+particle(1,5000000,5000000,"engine/lightsprite",vec(255,255,255),entity():pos()+vec(random(-1000,1000),random(-1000,1000),random(-100,100)),vec(0,0,0),1000,1)
+#particle(5,5000000,0,"engine/lightsprite",vec(255,255,255),owner():aimPos()+vec(sin(A+500)*1900,0,cos(A+500)*1900),vec(0,0,0),1000,1)
+}
+if(!owner():keyPressed("g")){
+#holoMaterial(1,"null")
+}
